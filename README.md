@@ -5,8 +5,26 @@ Uses JUCE to load VST3s and Audio Units
 
 This program is unfinished.
 
-Claude made almost all of the C++ part and the makefile, I made almost all of the Python parts.
+Claude made almost all of the C++ part and the makefile, I made almost all of the Python part.
 
+Features:
+- Load VST3 and AU
+- Route plugin graph
+- Schedule playback of MIDI notes, MIDI cc signals, effects parameters, and audio files to any plugins, or render directly to audio file in faster-than-real-time
+- Record audio, MIDI/MIDI-cc input or effects parameter changes while song is playing, with a midi controller, or with onscreen graphics
+- Scan plugin directories and get info on any plugin and its parameters and channels
+- Automatically saves a list of plugins that wouldn't load and avoids them in the future, so you don't have to spend forever waiting for popups asking you to register when it scans for plugins
+
+To do:
+  - Finish Note and Notes Python classes, add timestamps to notes in Notes class and Note object
+  - Add functionality for manipulating songs wrt their notes' timestamps
+  - Add ability to group Midi notes, midi-cc, effects parameter changes, and plugin routing in "tracks" that can themselves be grouped into other tracks and manipulated together
+  - Add ability to save songs to and load them from file (json? yaml would be more editable)
+  - Add minor scales to notes_manipulation.py
+  - Fix detection of special scales in note sequences
+  - Make detection of major keys and modes output in the same format that detection of special keys and minor keys and modes will
+  - Test it to see how much if it actually works
+  
 ------
 
 # CLAUDE.md
@@ -176,16 +194,4 @@ From code comments:
 - Add MPE MIDI support (no programmatic detection available)
 - Consider using alternative IPC instead of named pipes (investigate "Popsicle")
 - Fix screenWidth/screenHeight definition shadowing issues
-
------
-
-To do:
-  - Finish Note and Notes classes, add timestamps to notes in Notes class and Note object
-  - Add functionality for manipulating songs wrt their notes' timestamps
-  - Add ability to group Midi notes, midi-cc, effects paremeter changes, and plugin routing in "tracks" that can themselves be grouped into other tracks and manipulated together
-  - Add ability to save songs to and load them from file (json? yaml would be more editable)
-  - Add minor scales to notes_manipulation.py
-  - Fix detection of special scales in note sequences
-  - Make detection of major keys and modes output in the same format that detection of special keys and minor keys and modes will
-  
 
