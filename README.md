@@ -7,8 +7,6 @@ This program is unfinished.
 
 Claude made almost all of the C++ part and the makefile, I made almost all of the Python parts.
 
-Here's the contents of CLAUDE.md:
-
 ------
 
 # CLAUDE.md
