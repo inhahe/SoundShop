@@ -1,0 +1,440 @@
+compiled as 64-bit, so will only detect 64-bit plugins
+formats supported:
+using pipe: juceclientserver
+Initializing plugin formats...
+Added VST3 format
+creating pipe
+created pipe \\.\pipe\juceclientserver_commands
+created pipe \\.\pipe\juceclientserver_notifications
+startTimer(50)
+Test function called successfully
+Entering waitForConnection()
+Pipe created, waiting for connection in command thread...
+initialise: start, app=00000264CA6BA780
+initialise: creating thread, app=00000264CA6BA780
+initialise: thread created, app=00000264CA6BA780
+initialise: end, app=00000264CA6BA780
+Thread lambda: started, global app=00000264CA6BA780
+Thread: processCommands started
+Thread: Waiting for pipe connection...
+Waiting for notification pipe connection...
+Waiting for client to connect...
+Client connected
+Thread: Starting command loop
+Notification pipe connected
+scanning directory: C:\Program Files\Steinberg\VSTPlugins
+scanning directory: C:\Program Files\Common Files\VST3
+scanning directory: C:\Program Files\Vstplugins
+scanning directory: C:\Program Files (x86)\Steinberg\VSTPlugins
+directory doesn't exist: C:\Program Files (x86)\Steinberg\VSTPlugins
+scanning directory: C:\Program Files (x86)\VstPlugins
+directory doesn't exist: C:\Program Files (x86)\VstPlugins
+scanning directory: C:\VstPlugins
+directory doesn't exist: C:\VstPlugins
+scanning directory: d:\music creation\free vsts
+scanning directory: (C:\Users\inhah\AppData\Local\Orchestral Tools\SINE Player\Content
+directory doesn't exist: (C:\Users\inhah\AppData\Local\Orchestral Tools\SINE Player\Content
+num_found: 38
+badPaths.size()55
+load_plugin_by_index:
+index: 0 success: 1 name: SINE Player lpindex: 0 uid: 1 errmsg: 
+show plugin ui:
+success: 1 errmsg: 
+showPluginUI async callback executing for lpindex=0
+Node pointer: 00000264CC8B00A0
+Processor pointer: 00000264CD13A890
+Processor name: SINE Player
+Params vector address: 00000264CD13A9D0
+Params size: 2081
+lpindex: 0
+success: 1 originalNumParams: 2081 errmsg: 
+WRITEALL(resp.success, resp.validParams.size(), resp.errmsg);
+  Processor has editor, creating editor...
+  Editor created, creating PluginWindow...
+PluginWindow constructor called for lpindex=0, host=00000264CA6BA780
+  Processor: acceptsMidi=1, audioInputs=0, audioOutputs=32, isInstrument=1
+  Creating routing buttons for instrument...
+RoutingButton constructor: type=0, lpindex=0
+RoutingButton constructor: type=1, lpindex=0
+  Routing buttons created
+  Creating wrapper component with editor and buttons...
+EditorWithButtonsComponent constructor
+  Editor is opaque: 1
+  Forced editor to be non-opaque. Now editor is opaque: 0
+EditorWithButtonsComponent constructor completed
+EditorWithButtonsComponent::resized() - bounds: 0 0 1380 890
+  Setting editor bounds: 0 0 1380 840
+  Button strip area: 0 840 1380 50
+  Calculated button position: startX=647, buttonY=845
+  Setting midiKeyboardButton bounds: 647 845 40 40
+  Setting virtualKeyboardButton bounds: 692 845 40 40
+EditorWithButtonsComponent::resized() completed
+  Wrapper component created with size: 1380x890
+  Window dimensions: 1382x918
+  Window background colour: ff000000
+  Content component size: 1380x890
+  Window is visible: 1
+PluginWindow constructor completed for lpindex=0
+  PluginWindow created, setting visible...
+  Positioning window at x=10, y=10
+  Window visible, initializing routing indicators...
+PluginWindow::updateRoutingIndicators called for lpindex=0, activeMidi=-1, activeVirtual=-1
+  Indicators updated
+  Adding window to pluginWindows map...
+  showPluginUI async callback completed for lpindex=0
+load_plugin_by_index:
+index: 1 success: 1 name: kHs 3-Band EQ lpindex: 1 uid: 2 errmsg: 
+show plugin ui:
+success: 1 errmsg: 
+Node pointer: 00000264CC8AFE60
+Processor pointer: 00000264CF603870
+Processor name: kHs 3-Band EQ
+Params vector address: 00000264CF6039B0
+Params size: 2086
+lpindex: 1
+success: 1 originalNumParams: 2086 errmsg: 
+WRITEALL(resp.success, resp.validParams.size(), resp.errmsg);
+RoutingButton::paint called for lpindex=0, type=0, isActive=0
+RoutingButton::paint completed for lpindex=0
+RoutingButton::paint called for lpindex=0, type=1, isActive=0
+RoutingButton::paint completed for lpindex=0
+showPluginUI async callback executing for lpindex=1
+  Processor has editor, creating editor...
+  Editor created, creating PluginWindow...
+PluginWindow constructor called for lpindex=1, host=00000264CA6BA780
+  Processor: acceptsMidi=1, audioInputs=2, audioOutputs=2, isInstrument=0
+  Skipping routing buttons (not an instrument)
+  Creating wrapper component with editor and buttons...
+EditorWithButtonsComponent constructor
+  Editor is opaque: 1
+  Forced editor to be non-opaque. Now editor is opaque: 0
+EditorWithButtonsComponent constructor completed
+EditorWithButtonsComponent::resized() - bounds: 0 0 236 297
+  Setting editor bounds: 0 0 236 297
+EditorWithButtonsComponent::resized() completed
+  Wrapper component created with size: 236x297
+  Window dimensions: 238x325
+  Window background colour: ff000000
+  Content component size: 236x297
+  Window is visible: 1
+PluginWindow constructor completed for lpindex=1
+  PluginWindow created, setting visible...
+  Positioning window at x=1402, y=10
+  Window visible, initializing routing indicators...
+PluginWindow::updateRoutingIndicators called for lpindex=1, activeMidi=-1, activeVirtual=-1
+  ERROR: Button pointers are null!
+  Adding window to pluginWindows map...
+  showPluginUI async callback completed for lpindex=1
+load_plugin_by_index:
+index: 2 success: 1 name: kHs Bitcrush lpindex: 2 uid: 3 errmsg: 
+show plugin ui:
+success: 1 errmsg: 
+Node pointer: 00000264D8DCCA90
+Processor pointer: 00000264CF605580
+Processor name: kHs Bitcrush
+Params vector address: 00000264CF6056C0
+Params size: 2088
+lpindex: 2
+success: 1 originalNumParams: 2088 errmsg: 
+WRITEALL(resp.success, resp.validParams.size(), resp.errmsg);
+showPluginUI async callback executing for lpindex=2
+  Processor has editor, creating editor...
+  Editor created, creating PluginWindow...
+PluginWindow constructor called for lpindex=2, host=00000264CA6BA780
+  Processor: acceptsMidi=1, audioInputs=2, audioOutputs=2, isInstrument=0
+  Skipping routing buttons (not an instrument)
+  Creating wrapper component with editor and buttons...
+EditorWithButtonsComponent constructor
+  Editor is opaque: 1
+  Forced editor to be non-opaque. Now editor is opaque: 0
+EditorWithButtonsComponent constructor completed
+EditorWithButtonsComponent::resized() - bounds: 0 0 236 339
+  Setting editor bounds: 0 0 236 339
+EditorWithButtonsComponent::resized() completed
+  Wrapper component created with size: 236x339
+  Window dimensions: 238x367
+  Window background colour: ff000000
+  Content component size: 236x339
+  Window is visible: 1
+PluginWindow constructor completed for lpindex=2
+  PluginWindow created, setting visible...
+  Positioning window at x=1650, y=10
+  Window visible, initializing routing indicators...
+PluginWindow::updateRoutingIndicators called for lpindex=2, activeMidi=-1, activeVirtual=-1
+  ERROR: Button pointers are null!
+  Adding window to pluginWindows map...
+  showPluginUI async callback completed for lpindex=2
+load_plugin_by_index:
+index: 3 success: 1 name: kHs Channel Mixer lpindex: 3 uid: 4 errmsg: 
+show plugin ui:
+success: 1 errmsg: 
+Node pointer: 00000264CECE2E90
+Processor pointer: 00000264CF605B50
+Processor name: kHs Channel Mixer
+Params vector address: 00000264CF605C90
+Params size: 2085
+lpindex: 3
+success: 1 originalNumParams: 2085 errmsg: 
+WRITEALL(resp.success, resp.validParams.size(), resp.errmsg);
+showPluginUI async callback executing for lpindex=3
+  Processor has editor, creating editor...
+  Editor created, creating PluginWindow...
+PluginWindow constructor called for lpindex=3, host=00000264CA6BA780
+  Processor: acceptsMidi=1, audioInputs=2, audioOutputs=2, isInstrument=0
+  Skipping routing buttons (not an instrument)
+  Creating wrapper component with editor and buttons...
+EditorWithButtonsComponent constructor
+  Editor is opaque: 1
+  Forced editor to be non-opaque. Now editor is opaque: 0
+EditorWithButtonsComponent constructor completed
+EditorWithButtonsComponent::resized() - bounds: 0 0 236 176
+  Setting editor bounds: 0 0 236 176
+EditorWithButtonsComponent::resized() completed
+  Wrapper component created with size: 236x176
+  Window dimensions: 238x204
+  Window background colour: ff000000
+  Content component size: 236x176
+  Window is visible: 1
+PluginWindow constructor completed for lpindex=3
+  PluginWindow created, setting visible...
+  Positioning window at x=1898, y=10
+  Window visible, initializing routing indicators...
+PluginWindow::updateRoutingIndicators called for lpindex=3, activeMidi=-1, activeVirtual=-1
+  ERROR: Button pointers are null!
+  Adding window to pluginWindows map...
+  showPluginUI async callback completed for lpindex=3
+load_plugin_by_index:
+index: 4 success: 1 name: kHs Chorus lpindex: 4 uid: 5 errmsg: 
+show plugin ui:
+success: 1 errmsg: 
+Node pointer: 00000264CECE3010
+Processor pointer: 00000264CF602700
+Processor name: kHs Chorus
+Params vector address: 00000264CF602840
+Params size: 2087
+lpindex: 4
+success: 1 originalNumParams: 2087 errmsg: 
+WRITEALL(resp.success, resp.validParams.size(), resp.errmsg);
+showPluginUI async callback executing for lpindex=4
+  Processor has editor, creating editor...
+  Editor created, creating PluginWindow...
+PluginWindow constructor called for lpindex=4, host=00000264CA6BA780
+  Processor: acceptsMidi=1, audioInputs=2, audioOutputs=2, isInstrument=0
+  Skipping routing buttons (not an instrument)
+  Creating wrapper component with editor and buttons...
+EditorWithButtonsComponent constructor
+  Editor is opaque: 1
+  Forced editor to be non-opaque. Now editor is opaque: 0
+EditorWithButtonsComponent constructor completed
+EditorWithButtonsComponent::resized() - bounds: 0 0 236 264
+  Setting editor bounds: 0 0 236 264
+EditorWithButtonsComponent::resized() completed
+  Wrapper component created with size: 236x264
+  Window dimensions: 238x292
+  Window background colour: ff000000
+  Content component size: 236x264
+  Window is visible: 1
+PluginWindow constructor completed for lpindex=4
+  PluginWindow created, setting visible...
+  Positioning window at x=2146, y=10
+  Wrapping to next row
+  Window visible, initializing routing indicators...
+PluginWindow::updateRoutingIndicators called for lpindex=4, activeMidi=-1, activeVirtual=-1
+  ERROR: Button pointers are null!
+  Adding window to pluginWindows map...
+  showPluginUI async callback completed for lpindex=4
+load_plugin_by_index:
+index: 5 success: 1 name: kHs Comb Filter lpindex: 5 uid: 6 errmsg: 
+show plugin ui:
+success: 1 errmsg: 
+Node pointer: 00000264E02F9700
+Processor pointer: 00000264CF607290
+Processor name: kHs Comb Filter
+Params vector address: 00000264CF6073D0
+Params size: 2085
+lpindex: 5
+success: 1 originalNumParams: 2085 errmsg: 
+WRITEALL(resp.success, resp.validParams.size(), resp.errmsg);
+showPluginUI async callback executing for lpindex=5
+  Processor has editor, creating editor...
+  Editor created, creating PluginWindow...
+PluginWindow constructor called for lpindex=5, host=00000264CA6BA780
+  Processor: acceptsMidi=1, audioInputs=2, audioOutputs=2, isInstrument=0
+  Skipping routing buttons (not an instrument)
+  Creating wrapper component with editor and buttons...
+EditorWithButtonsComponent constructor
+  Editor is opaque: 1
+  Forced editor to be non-opaque. Now editor is opaque: 0
+EditorWithButtonsComponent constructor completed
+EditorWithButtonsComponent::resized() - bounds: 0 0 236 249
+  Setting editor bounds: 0 0 236 249
+EditorWithButtonsComponent::resized() completed
+  Wrapper component created with size: 236x249
+  Window dimensions: 238x277
+  Window background colour: ff000000
+  Content component size: 236x249
+  Window is visible: 1
+PluginWindow constructor completed for lpindex=5
+  PluginWindow created, setting visible...
+  Positioning window at x=10, y=938
+  Window visible, initializing routing indicators...
+PluginWindow::updateRoutingIndicators called for lpindex=5, activeMidi=-1, activeVirtual=-1
+  ERROR: Button pointers are null!
+  Adding window to pluginWindows map...
+  showPluginUI async callback completed for lpindex=5
+load_plugin_by_index:
+index: 6 success: 1 name: kHs Compressor lpindex: 6 uid: 7 errmsg: 
+show plugin ui:
+success: 1 errmsg: 
+Node pointer: 00000264E02F9AC0
+Processor pointer: 00000264CF606120
+Processor name: kHs Compressor
+Params vector address: 00000264CF606260
+Params size: 2087
+lpindex: 6
+success: 1 originalNumParams: 2087 errmsg: 
+WRITEALL(resp.success, resp.validParams.size(), resp.errmsg);
+showPluginUI async callback executing for lpindex=6
+  Processor has editor, creating editor...
+  Editor created, creating PluginWindow...
+PluginWindow constructor called for lpindex=6, host=00000264CA6BA780
+  Processor: acceptsMidi=1, audioInputs=4, audioOutputs=2, isInstrument=0
+  Skipping routing buttons (not an instrument)
+  Creating wrapper component with editor and buttons...
+EditorWithButtonsComponent constructor
+  Editor is opaque: 1
+  Forced editor to be non-opaque. Now editor is opaque: 0
+EditorWithButtonsComponent constructor completed
+EditorWithButtonsComponent::resized() - bounds: 0 0 236 423
+  Setting editor bounds: 0 0 236 423
+EditorWithButtonsComponent::resized() completed
+  Wrapper component created with size: 236x423
+  Window dimensions: 238x451
+  Window background colour: ff000000
+  Content component size: 236x423
+  Window is visible: 1
+PluginWindow constructor completed for lpindex=6
+  PluginWindow created, setting visible...
+  Positioning window at x=258, y=938
+  Window visible, initializing routing indicators...
+PluginWindow::updateRoutingIndicators called for lpindex=6, activeMidi=-1, activeVirtual=-1
+  ERROR: Button pointers are null!
+  Adding window to pluginWindows map...
+  showPluginUI async callback completed for lpindex=6
+load_plugin_by_index:
+index: 7 success: 1 name: kHs Delay lpindex: 7 uid: 8 errmsg: 
+show plugin ui:
+success: 1 errmsg: 
+Node pointer: 00000264E02F9180
+Processor pointer: 00000264CF606CC0
+Processor name: kHs Delay
+Params vector address: 00000264CF606E00
+Params size: 2091
+lpindex: 7
+success: 1 originalNumParams: 2091 errmsg: 
+WRITEALL(resp.success, resp.validParams.size(), resp.errmsg);
+showPluginUI async callback executing for lpindex=7
+  Processor has editor, creating editor...
+  Editor created, creating PluginWindow...
+PluginWindow constructor called for lpindex=7, host=00000264CA6BA780
+  Processor: acceptsMidi=1, audioInputs=2, audioOutputs=2, isInstrument=0
+  Skipping routing buttons (not an instrument)
+  Creating wrapper component with editor and buttons...
+EditorWithButtonsComponent constructor
+  Editor is opaque: 1
+  Forced editor to be non-opaque. Now editor is opaque: 0
+EditorWithButtonsComponent constructor completed
+EditorWithButtonsComponent::resized() - bounds: 0 0 236 375
+  Setting editor bounds: 0 0 236 375
+EditorWithButtonsComponent::resized() completed
+  Wrapper component created with size: 236x375
+  Window dimensions: 238x403
+  Window background colour: ff000000
+  Content component size: 236x375
+  Window is visible: 1
+PluginWindow constructor completed for lpindex=7
+  PluginWindow created, setting visible...
+  Positioning window at x=506, y=938
+  Window visible, initializing routing indicators...
+PluginWindow::updateRoutingIndicators called for lpindex=7, activeMidi=-1, activeVirtual=-1
+  ERROR: Button pointers are null!
+  Adding window to pluginWindows map...
+  showPluginUI async callback completed for lpindex=7
+load_plugin_by_index:
+index: 8 success: 1 name: kHs Distortion lpindex: 8 uid: 9 errmsg: 
+show plugin ui:
+success: 1 errmsg: 
+Node pointer: 00000264E02F9300
+Processor pointer: 00000264CF607860
+Processor name: kHs Distortion
+Params vector address: 00000264CF6079A0
+Params size: 2088
+lpindex: 8
+success: 1 originalNumParams: 2088 errmsg: 
+WRITEALL(resp.success, resp.validParams.size(), resp.errmsg);
+showPluginUI async callback executing for lpindex=8
+  Processor has editor, creating editor...
+  Editor created, creating PluginWindow...
+PluginWindow constructor called for lpindex=8, host=00000264CA6BA780
+  Processor: acceptsMidi=1, audioInputs=2, audioOutputs=2, isInstrument=0
+  Skipping routing buttons (not an instrument)
+  Creating wrapper component with editor and buttons...
+EditorWithButtonsComponent constructor
+  Editor is opaque: 1
+  Forced editor to be non-opaque. Now editor is opaque: 0
+EditorWithButtonsComponent constructor completed
+EditorWithButtonsComponent::resized() - bounds: 0 0 236 401
+  Setting editor bounds: 0 0 236 401
+EditorWithButtonsComponent::resized() completed
+  Wrapper component created with size: 236x401
+  Window dimensions: 238x429
+  Window background colour: ff000000
+  Content component size: 236x401
+  Window is visible: 1
+PluginWindow constructor completed for lpindex=8
+  PluginWindow created, setting visible...
+  Positioning window at x=754, y=938
+  Window visible, initializing routing indicators...
+PluginWindow::updateRoutingIndicators called for lpindex=8, activeMidi=-1, activeVirtual=-1
+  ERROR: Button pointers are null!
+  Adding window to pluginWindows map...
+  showPluginUI async callback completed for lpindex=8
+load_plugin_by_index:
+index: 9 success: 1 name: kHs Dual Delay lpindex: 9 uid: 10 errmsg: 
+show plugin ui:
+success: 1 errmsg: 
+Node pointer: 00000264E02F9440
+Processor pointer: 00000264E2C3EF80
+Processor name: kHs Dual Delay
+Params vector address: 00000264E2C3F0C0
+Params size: 2092
+lpindex: 9
+success: 1 originalNumParams: 2092 errmsg: 
+WRITEALL(resp.success, resp.validParams.size(), resp.errmsg);
+showPluginUI async callback executing for lpindex=9
+  Processor has editor, creating editor...
+  Editor created, creating PluginWindow...
+PluginWindow constructor called for lpindex=9, host=00000264CA6BA780
+  Processor: acceptsMidi=1, audioInputs=2, audioOutputs=2, isInstrument=0
+  Skipping routing buttons (not an instrument)
+  Creating wrapper component with editor and buttons...
+EditorWithButtonsComponent constructor
+  Editor is opaque: 1
+  Forced editor to be non-opaque. Now editor is opaque: 0
+EditorWithButtonsComponent constructor completed
+EditorWithButtonsComponent::resized() - bounds: 0 0 236 375
+  Setting editor bounds: 0 0 236 375
+EditorWithButtonsComponent::resized() completed
+  Wrapper component created with size: 236x375
+  Window dimensions: 238x403
+  Window background colour: ff000000
+  Content component size: 236x375
+  Window is visible: 1
+PluginWindow constructor completed for lpindex=9
+  PluginWindow created, setting visible...
+  Positioning window at x=1002, y=938
+  Window visible, initializing routing indicators...
+PluginWindow::updateRoutingIndicators called for lpindex=9, activeMidi=-1, activeVirtual=-1
+  ERROR: Button pointers are null!
+  Adding window to pluginWindows map...
+  showPluginUI async callback completed for lpindex=9

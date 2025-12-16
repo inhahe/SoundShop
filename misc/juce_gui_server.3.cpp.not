@@ -1,0 +1,510 @@
+// juce_gui_server.cpp - GUI server for JUCE plugin hosting with plugin discovery
+
+#include <juce_core/juce_core.h>
+#include <juce_events/juce_events.h>
+#include <juce_graphics/juce_graphics.h>
+#include <juce_gui_basics/juce_gui_basics.h>
+#include <juce_gui_extra/juce_gui_extra.h>
+#include <juce_audio_basics/juce_audio_basics.h>
+#include <juce_audio_devices/juce_audio_devices.h>
+#include <juce_audio_formats/juce_audio_formats.h>
+#include <juce_audio_processors/juce_audio_processors.h>
+#include <juce_audio_utils/juce_audio_utils.h>
+
+#include <iostream>
+#include <thread>
+#include <atomic>
+#include <queue>
+#include <mutex>
+#include <condition_variable>
+#include <string>
+#include <memory>
+#include <map>
+#include <vector>
+#include <algorithm>
+
+#ifdef _WIN32
+#include <windows.h>
+#include <fcntl.h>
+#include <io.h>
+#else
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <unistd.h>
+#include <errno.h>
+#endif
+
+using namespace std;
+
+// Forward declarations
+class CompletePluginHost;
+
+// Global variables
+CompletePluginHost* app = nullptr;
+int sampleRate = 44100;
+int blockSize = 64;
+bool isRecording = true;
+bool suppressNotifications = false;
+
+// Struct definitions (at global/namespace level)
+struct availablePlugin {
+  std::string path;
+  juce::PluginDescription desc;
+};
+
+struct availablePluginR {
+  bool isinstrument;
+  int uniqueid;
+  std::string name;
+  std::string descriptivename;
+  std::string pluginformatname;
+  std::string category;
+  std::string mfgname;
+  std::string version;
+  std::string id;
+  std::string timechanged;
+  std::string path;
+};
+
+struct listAvailablePluginsR {
+  int size;
+  std::vector<availablePluginR> plugins;
+};
+
+struct loadPluginR {
+  bool success;
+  std::string errmsg;
+  std::string name;
+  std::string uid;
+};
+
+struct showPluginUIR {
+  bool success;
+  std::string errmsg;
+};
+
+struct Response {
+  bool success = false;
+  std::string message;
+  std::map<std::string, std::string> data;
+};
+
+struct RecordedParameterChange {
+  int pluginId;
+  int parameterIndex;
+  float value;
+  uint64_t blockNumber;
+  std::chrono::steady_clock::time_point timestamp;
+};
+
+struct ScheduledParameterChange {
+  int pluginId;
+  int parameterIndex;
+  float value;
+  uint64_t targetBlockNumber;
+  bool executed = false;
+};
+
+// Utility classes
+class ParameterRecorder {
+private:
+  std::vector<RecordedParameterChange> recordedChanges;
+
+public:
+  void startRecording() {
+    recordedChanges.clear();
+    recordedChanges.reserve(1000000);
+    isRecording = true;
+  }
+
+  void recordParameterChange(int pluginId, int paramIndex, float value, uint64_t blockNum) {
+    if (isRecording && !suppressNotifications) {
+      if (recordedChanges.size() >= recordedChanges.capacity() - 100) {
+        recordedChanges.reserve(recordedChanges.capacity() * 2);
+        std::cout << "Expanded parameter buffer to " << recordedChanges.capacity() << std::endl;
+      }
+      recordedChanges.emplace_back(pluginId, paramIndex, value, blockNum, std::chrono::steady_clock::now());
+    }
+  }
+};
+
+class BlockLevelScheduler {
+private:
+  std::vector<ScheduledParameterChange> scheduledChanges;
+  uint64_t currentBlockNumber = 0;
+
+public:
+  void scheduleParameterChange(int pluginId, int paramIndex, float value, uint64_t atBlock) {
+    ScheduledParameterChange change;
+    change.pluginId = pluginId;
+    change.parameterIndex = paramIndex;
+    change.value = value;
+    change.targetBlockNumber = atBlock;
+
+    scheduledChanges.push_back(change);
+
+    std::sort(scheduledChanges.begin(), scheduledChanges.end(),
+      [](const auto& a, const auto& b) { return a.targetBlockNumber < b.targetBlockNumber; });
+  }
+
+  void processScheduledChanges(); // Forward declare - will define after CompletePluginHost
+  void incrementBlock() { currentBlockNumber++; }
+  uint64_t getCurrentBlock() const { return currentBlockNumber; }
+};
+
+// Parameter change listener
+class ParameterChangeListener : public juce::AudioProcessorListener {
+public:
+  void audioProcessorParameterChanged(juce::AudioProcessor* processor, int paramIndex, float value) override;
+  void audioProcessorChanged(juce::AudioProcessor* processor, const juce::AudioProcessorListener::ChangeDetails& details) override {}
+};
+
+// Main class
+class CompletePluginHost : public juce::Timer, public juce::MidiInputCallback {
+public:
+  enum cmd {
+    load_plugin, load_plugin_by_index, scan_plugins, list_plugins, get_plugin_info,
+    show_plugin_ui, hide_plugin_ui, set_parameter, get_parameter, connect_audio,
+    connect_midi, start_playback, stop_playback, cmd_shutdown
+  };
+
+  uint64_t currentBlock = 0;
+  ParameterRecorder paramRecorder;
+  BlockLevelScheduler scheduler;
+  ParameterChangeListener paramListener;
+
+  CompletePluginHost(const std::string& pipeName = "juce_audio_pipe")
+    : pipeName(pipeName), deviceManager(), formatManager(), knownPluginList(),
+    processorGraph(new juce::AudioProcessorGraph()), graphPlayer(), running(true) {
+
+    initializePipe();
+    initializeFormats();
+    initializeAudio();
+    startTimer(50);
+  }
+
+  ~CompletePluginHost() {
+    stopTimer();
+    shutdownAudio();
+    processorGraph = nullptr;
+    closePipe();
+  }
+
+  // Audio callback integration
+  void incrementBlock() {
+    currentBlock++;
+    scheduler.incrementBlock();
+  }
+
+  void setPluginParameter(int pluginId, int paramIndex, float value) {
+    // Find and set parameter - implementation depends on how you store plugin IDs
+    // This will be called by scheduler
+  }
+
+private:
+  void initializePipe() {
+#ifdef _WIN32
+    std::string pipePath = "\\\\.\\pipe\\" + pipeName;
+    hPipe = CreateNamedPipeA(pipePath.c_str(), PIPE_ACCESS_DUPLEX,
+      PIPE_TYPE_MESSAGE | PIPE_READMODE_MESSAGE | PIPE_WAIT,
+      PIPE_UNLIMITED_INSTANCES, 4096, 4096, 0, NULL);
+    if (hPipe == INVALID_HANDLE_VALUE) {
+      std::cerr << "Failed to create named pipe" << std::endl;
+      exit(1);
+    }
+#else
+    std::string pipePath = "/tmp/" + pipeName;
+    if (mkfifo(pipePath.c_str(), 0666) == -1 && errno != EEXIST) {
+      throw std::runtime_error("Failed to create FIFO");
+    }
+    pipe_fd = open(pipePath.c_str(), O_RDWR);
+#endif
+  }
+
+  void closePipe() {
+#ifdef _WIN32
+    CloseHandle(hPipe);
+#else
+    close(pipe_fd);
+    std::string pipePath = "/tmp/" + pipeName;
+    unlink(pipePath.c_str());
+#endif
+  }
+
+  void initializeFormats() {
+    std::cout << "Initializing plugin formats..." << std::endl;
+    formatManager.addFormat(new juce::VST3PluginFormat());
+    std::cout << "Added VST3 format" << std::endl;
+
+#if JUCE_PLUGINHOST_AU && (JUCE_MAC || JUCE_IOS)
+    formatManager.addFormat(new juce::AudioUnitPluginFormat());
+#endif
+    formatManager.addDefaultFormats();
+
+    std::cout << "Total formats: " << formatManager.getNumFormats() << std::endl;
+  }
+
+  void initializeAudio() {
+    auto setup = deviceManager.getAudioDeviceSetup();
+    setup.sampleRate = 48000;
+    setup.bufferSize = 512;
+
+    juce::String error = deviceManager.initialise(2, 2, nullptr, true, {}, &setup);
+    if (error.isNotEmpty()) {
+      std::cerr << "Audio error: " << error.toStdString() << std::endl;
+    }
+
+    graphPlayer.setProcessor(processorGraph.get());
+    deviceManager.addAudioCallback(&graphPlayer);
+  }
+
+  void shutdownAudio() {
+    deviceManager.removeAudioCallback(&graphPlayer);
+    deviceManager.closeAudioDevice();
+    graphPlayer.setProcessor(nullptr);
+  }
+
+  // Write functions
+  int write4(void* buff, int n) {
+#ifdef _WIN32
+    DWORD bytesWritten;
+    return WriteFile(hPipe, buff, n, &bytesWritten, NULL) ? bytesWritten : -1;
+#else
+    return write(pipe_fd, buff, n);
+#endif
+  }
+
+  void write2_string(const std::string& s) {
+    int l1 = static_cast<int>(s.length());
+    int l2 = 4 + l1;
+    char* buff = new char[l2];
+    std::memcpy(buff, &l1, 4);
+    std::memcpy(buff + 4, s.c_str(), l1);
+
+    char* current_pos = buff;
+    int tosend = l2;
+    while (tosend > 0) {
+      int byteswritten = write4(current_pos, tosend);
+      if (byteswritten > 0) {
+        tosend -= byteswritten;
+        current_pos += byteswritten;
+      }
+      else {
+        break;
+      }
+    }
+    delete[] buff;
+  }
+
+  template<typename T>
+  void write2_binary(T n) {
+    int tosend = sizeof(T);
+    char* current_pos = reinterpret_cast<char*>(&n);
+    while (tosend > 0) {
+      int byteswritten = write4(current_pos, tosend);
+      if (byteswritten > 0) {
+        tosend -= byteswritten;
+        current_pos += byteswritten;
+      }
+      else {
+        break;
+      }
+    }
+  }
+
+  inline void write2(const std::string& s) { write2_string(s); }
+  template<typename T> inline void write2(T n) { write2_binary(n); }
+
+#define WRITE_ALL(...) do { \
+    auto dummy = {(write2(__VA_ARGS__), 0)...}; \ 
+    (void)dummy; \
+} while(0)
+
+  // Plugin scanning methods
+  void scanPluginDirectory(const juce::File& directory) {
+    juce::Array<juce::File> pluginFiles;
+
+#ifdef _WIN32
+    pluginFiles.addArray(directory.findChildFiles(juce::File::findFiles, false, "*.dll"));
+    pluginFiles.addArray(directory.findChildFiles(juce::File::findDirectories, false, "*.vst3"));
+    pluginFiles.addArray(directory.findChildFiles(juce::File::findFiles, false, "*.vst"));
+#elif defined(__APPLE__)
+    pluginFiles.addArray(directory.findChildFiles(juce::File::findDirectories, false, "*.vst"));
+    pluginFiles.addArray(directory.findChildFiles(juce::File::findDirectories, false, "*.vst3"));
+    pluginFiles.addArray(directory.findChildFiles(juce::File::findDirectories, false, "*.component"));
+    pluginFiles.addArray(directory.findChildFiles(juce::File::findFiles, false, "*.dylib"));
+#elif defined(__linux__)
+    pluginFiles.addArray(directory.findChildFiles(juce::File::findFiles, false, "*.so"));
+    pluginFiles.addArray(directory.findChildFiles(juce::File::findDirectories, false, "*.vst3"));
+    pluginFiles.addArray(directory.findChildFiles(juce::File::findFiles, false, "*.vst"));
+    pluginFiles.addArray(directory.findChildFiles(juce::File::findDirectories, false, "*.lv2"));
+#endif
+
+    for (const auto& pluginFile : pluginFiles) {
+      for (auto* format : formatManager.getFormats()) {
+        if (format->fileMightContainThisPluginType(pluginFile.getFullPathName())) {
+          juce::OwnedArray<juce::PluginDescription> descriptions;
+          format->findAllTypesForFile(descriptions, pluginFile.getFullPathName());
+
+          for (auto* desc : descriptions) {
+            bool alreadyExists = false;
+            for (const availablePlugin& existing : availablePlugins) {
+              if (existing.desc.fileOrIdentifier == desc->fileOrIdentifier &&
+                existing.desc.name == desc->name) {
+                alreadyExists = true;
+                break;
+              }
+            }
+
+            if (!alreadyExists) {
+              availablePlugin plugin;
+              plugin.desc = *desc;
+              plugin.path = pluginFile.getFullPathName().toStdString();
+              availablePlugins.push_back(plugin);
+            }
+          }
+          break;
+        }
+      }
+    }
+  }
+
+  listAvailablePluginsR listAvailablePlugins() 
+  {
+    listAvailablePluginsR resp;
+    resp.size = static_cast<int>(availablePlugins.size());
+
+    for (size_t i = 0; i < availablePlugins.size(); ++i) 
+    {
+      const availablePlugin& plugin = availablePlugins[i];
+
+      availablePluginR pluginResp;
+      pluginResp.isinstrument = plugin.desc.isInstrument;
+      pluginResp.uniqueid = plugin.desc.uniqueId;
+      pluginResp.name = plugin.desc.name.toStdString();
+      pluginResp.descriptivename = plugin.desc.descriptiveName.toStdString();
+      pluginResp.pluginformatname = plugin.desc.pluginFormatName.toStdString();
+      pluginResp.category = plugin.desc.category.toStdString();
+      pluginResp.mfgname = plugin.desc.manufacturerName.toStdString();
+      pluginResp.version = plugin.desc.version.toStdString();
+      pluginResp.id = plugin.desc.fileOrIdentifier.toStdString();
+      pluginResp.timechanged = plugin.desc.lastFileModTime.toString(true, true).toStdString();
+      pluginResp.path = plugin.path;
+
+      resp.plugins.push_back(pluginResp);
+    }
+    return resp;
+  }
+
+  void timerCallback() override {
+    // Update plugin UIs
+    for (auto it = pluginWindows.begin(); it != pluginWindows.end();) {
+      if (!it->second || !it->second->isVisible()) {
+        it = pluginWindows.erase(it);
+      }
+      else {
+        ++it;
+      }
+    }
+  }
+
+  void handleIncomingMidiMessage(juce::MidiInput* source, const juce::MidiMessage& message) override {
+    if (midiCollector)
+      midiCollector->addMessageToQueue(message);
+  }
+
+  // Plugin window class
+  class PluginWindow : public juce::DocumentWindow {
+  public:
+    PluginWindow(const juce::String& name, juce::AudioProcessorEditor* editor, juce::AudioProcessor* processor)
+      : DocumentWindow(name, juce::Desktop::getInstance().getDefaultLookAndFeel()
+        .findColour(juce::ResizableWindow::backgroundColourId), DocumentWindow::allButtons),
+      processor(processor) {
+      setUsingNativeTitleBar(true);
+      setContentOwned(editor, true);
+      setResizable(editor->isResizable(), false);
+      centreWithSize(getWidth(), getHeight());
+    }
+
+    void closeButtonPressed() override {
+      setVisible(false);
+    }
+
+  private:
+    juce::AudioProcessor* processor;
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(PluginWindow)
+  };
+
+private:
+  // Core components
+#ifdef _WIN32
+  HANDLE hPipe;
+#else
+  int pipe_fd;
+#endif
+
+  std::string pipeName;
+  juce::AudioDeviceManager deviceManager;
+  juce::AudioPluginFormatManager formatManager;
+  juce::KnownPluginList knownPluginList;
+  std::unique_ptr<juce::AudioProcessorGraph> processorGraph;
+  juce::AudioProcessorPlayer graphPlayer;
+  std::unique_ptr<juce::MidiMessageCollector> midiCollector;
+
+  // Plugin management
+  std::map<std::string, juce::AudioProcessorGraph::NodeID> loadedPlugins;
+  std::map<std::string, std::unique_ptr<PluginWindow>> pluginWindows;
+  std::vector<availablePlugin> availablePlugins;
+
+  // Threading
+  std::thread commandThread;
+  std::atomic<bool> running;
+  std::mutex commandMutex;
+  std::condition_variable commandCv;
+
+  JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(CompletePluginHost)
+};
+
+// Global instances
+ParameterRecorder paramRecorder;
+BlockLevelScheduler scheduler;
+
+// Implement deferred functions
+void BlockLevelScheduler::processScheduledChanges() {
+  for (auto& change : scheduledChanges) {
+    if (!change.executed && currentBlockNumber >= change.targetBlockNumber) {
+      if (app) {
+        app->setPluginParameter(change.pluginId, change.parameterIndex, change.value);
+      }
+      change.executed = true;
+    }
+  }
+}
+
+void ParameterChangeListener::audioProcessorParameterChanged(juce::AudioProcessor* processor, int paramIndex, float value) {
+  if (!suppressNotifications && app) {
+    // Find plugin ID and record the change
+    int pluginId = 0; // You'll need to implement findPluginId()
+    paramRecorder.recordParameterChange(pluginId, paramIndex, value, app->currentBlock);
+  }
+}
+
+// Entry point
+int main(int argc, char* argv[]) {
+  juce::initialiseJuce_GUI();
+
+  std::string pipeName = "juce_audio_pipe";
+  if (argc > 1) {
+    pipeName = argv[1];
+  }
+
+  app = new CompletePluginHost(pipeName);
+
+  juce::MessageManager::getInstance()->runDispatchLoop();
+
+  delete app;
+  app = nullptr;
+  juce::shutdownJuce_GUI();
+
+  return 0;
+}

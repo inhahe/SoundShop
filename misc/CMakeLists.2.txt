@@ -1,0 +1,164 @@
+cmake_minimum_required(VERSION 3.15)
+project(juce_audio_bindings)
+
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+# Find Python
+find_package(Python COMPONENTS Interpreter Development REQUIRED)
+
+# Add JUCE
+add_subdirectory(JUCE)
+
+# Find pybind11
+find_package(pybind11 REQUIRED)
+
+# Create the Python module
+pybind11_add_module(juce_audio 
+    juce_audio_bindings.cpp
+)
+
+# JUCE libraries we need
+target_link_libraries(juce_audio PRIVATE
+    juce::juce_audio_basics
+    juce::juce_audio_devices
+    juce::juce_audio_formats
+    juce::juce_audio_plugin_client
+    juce::juce_audio_processors
+    juce::juce_audio_utils
+    juce::juce_core
+    juce::juce_data_structures
+    juce::juce_events
+    juce::juce_graphics
+    juce::juce_gui_basics
+    juce::juce_gui_extra
+)
+
+# Platform-specific settings
+if(WIN32)
+    target_compile_definitions(juce_audio PRIVATE
+        JUCE_WINDOWS=1
+        JUCE_WASAPI=1
+        JUCE_DIRECTSOUND=1
+    )
+    
+    # Windows-specific libraries
+    target_link_libraries(juce_audio PRIVATE
+        winmm
+        ole32
+        oleaut32
+        imm32
+        comdlg32
+        shlwapi
+        rpcrt4
+        wininet
+        version
+        ws2_32
+    )
+    
+elseif(APPLE)
+    target_compile_definitions(juce_audio PRIVATE
+        JUCE_MAC=1
+        JUCE_COREAUDIO=1
+        JUCE_COREIMAGE_AVAILABLE=1
+    )
+    
+    # macOS-specific frameworks
+    find_library(ACCELERATE_FRAMEWORK Accelerate)
+    find_library(AUDIO_TOOLBOX_FRAMEWORK AudioToolbox)
+    find_library(AUDIO_UNIT_FRAMEWORK AudioUnit)
+    find_library(CORE_AUDIO_FRAMEWORK CoreAudio)
+    find_library(CORE_AUDIO_KIT_FRAMEWORK CoreAudioKit)
+    find_library(CORE_MIDI_FRAMEWORK CoreMIDI)
+    find_library(COCOA_FRAMEWORK Cocoa)
+    find_library(CARBON_FRAMEWORK Carbon)
+    find_library(QUARTZ_CORE_FRAMEWORK QuartzCore)
+    find_library(IO_KIT_FRAMEWORK IOKit)
+    find_library(CORE_FOUNDATION_FRAMEWORK CoreFoundation)
+    
+    target_link_libraries(juce_audio PRIVATE
+        ${ACCELERATE_FRAMEWORK}
+        ${AUDIO_TOOLBOX_FRAMEWORK}
+        ${AUDIO_UNIT_FRAMEWORK}
+        ${CORE_AUDIO_FRAMEWORK}
+        ${CORE_AUDIO_KIT_FRAMEWORK}
+        ${CORE_MIDI_FRAMEWORK}
+        ${COCOA_FRAMEWORK}
+        ${CARBON_FRAMEWORK}
+        ${QUARTZ_CORE_FRAMEWORK}
+        ${IO_KIT_FRAMEWORK}
+        ${CORE_FOUNDATION_FRAMEWORK}
+    )
+    
+elseif(UNIX)
+    target_compile_definitions(juce_audio PRIVATE
+        JUCE_LINUX=1
+        JUCE_ALSA=1
+        JUCE_JACK=1
+    )
+    
+    # Linux-specific libraries
+    find_package(PkgConfig REQUIRED)
+    pkg_check_modules(ALSA REQUIRED alsa)
+    pkg_check_modules(FREETYPE REQUIRED freetype2)
+    pkg_check_modules(X11 REQUIRED x11)
+    pkg_check_modules(XEXT REQUIRED xext)
+    pkg_check_modules(XINERAMA REQUIRED xinerama)
+    pkg_check_modules(XRANDR REQUIRED xrandr)
+    pkg_check_modules(XCURSOR REQUIRED xcursor)
+    
+    target_link_libraries(juce_audio PRIVATE
+        ${ALSA_LIBRARIES}
+        ${FREETYPE_LIBRARIES}
+        ${X11_LIBRARIES}
+        ${XEXT_LIBRARIES}
+        ${XINERAMA_LIBRARIES}
+        ${XRANDR_LIBRARIES}
+        ${XCURSOR_LIBRARIES}
+        pthread
+        dl
+    )
+    
+    target_include_directories(juce_audio PRIVATE
+        ${ALSA_INCLUDE_DIRS}
+        ${FREETYPE_INCLUDE_DIRS}
+        ${X11_INCLUDE_DIRS}
+    )
+endif()
+
+# Compiler-specific options
+target_compile_definitions(juce_audio PRIVATE
+    JUCE_WEB_BROWSER=0
+    JUCE_USE_CURL=0
+    JUCE_APPLICATION_NAME_STRING="JUCE Audio Python"
+    JUCE_APPLICATION_VERSION_STRING="1.0.0"
+    JUCE_REPORT_APP_USAGE=0
+    JUCE_DISPLAY_SPLASH_SCREEN=0
+    JUCE_USE_DARK_SPLASH_SCREEN=0
+)
+
+# Set the output name to match Python module conventions
+if(WIN32)
+    set_target_properties(juce_audio PROPERTIES
+        SUFFIX ".pyd"
+        OUTPUT_NAME "juce_audio"
+    )
+endif()
+
+# Enable optimizations for release builds
+if(CMAKE_BUILD_TYPE STREQUAL "Release")
+    if(MSVC)
+        target_compile_options(juce_audio PRIVATE /O2)
+    else()
+        target_compile_options(juce_audio PRIVATE -O3)
+    endif()
+endif()
+
+# Enable debug symbols for debug builds
+if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+    if(MSVC)
+        target_compile_options(juce_audio PRIVATE /Zi)
+    else()
+        target_compile_options(juce_audio PRIVATE -g)
+    endif()
+endif()

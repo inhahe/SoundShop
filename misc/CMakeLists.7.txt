@@ -1,0 +1,54 @@
+cmake_minimum_required(VERSION 3.15)
+project(juce_audio_bindings)
+
+# C++ standard
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+# Find Python and pybind11
+find_package(Python COMPONENTS Interpreter Development REQUIRED)
+find_package(pybind11 REQUIRED)
+
+# Don't build JUCE examples/extras
+set(JUCE_BUILD_EXAMPLES OFF CACHE BOOL "")
+set(JUCE_BUILD_EXTRAS OFF CACHE BOOL "")
+
+# Add JUCE - let it handle its own setup
+add_subdirectory(JUCE)
+
+# Create a simple JUCE console app first (this sets up JUCE properly)
+juce_add_console_app(JuceAudioHost)
+
+target_sources(JuceAudioHost PRIVATE simple_host.cpp)
+
+target_link_libraries(JuceAudioHost PRIVATE
+    juce::juce_audio_basics
+    juce::juce_audio_devices
+    juce::juce_core
+)
+
+target_compile_definitions(JuceAudioHost PRIVATE
+    JUCE_WEB_BROWSER=0
+    JUCE_USE_CURL=0
+    JUCE_APPLICATION_NAME_STRING="JuceAudioHost"
+)
+
+# Now create Python module that links to the same libraries
+pybind11_add_module(juce_audio python_bindings.cpp)
+
+target_link_libraries(juce_audio PRIVATE
+    juce::juce_audio_basics
+    juce::juce_audio_devices  
+    juce::juce_core
+)
+
+target_compile_definitions(juce_audio PRIVATE
+    JUCE_WEB_BROWSER=0
+    JUCE_USE_CURL=0
+    JUCE_APPLICATION_NAME_STRING="JuceAudio"
+)
+
+# Windows-specific
+if(WIN32)
+    set_target_properties(juce_audio PROPERTIES SUFFIX ".pyd")
+endif()

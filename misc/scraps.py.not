@@ -1,0 +1,55 @@
+class Song:
+  def __init__(self, filePath=None, midiSchedules=None, midiCcSchedules=None, audioTracks=None, processorGraph=None, paramChanges=None):
+    self.filePath = filePath
+    self.midiSchedules = midiSchedules or []
+    self.midiCcSchedules = midiCcSchedules or []
+    self.audioTracks = audioTracks or []
+    self.processorGraph = processorGraph or ProcessorGraph()
+    self.paramChanges = paramChanges or []
+
+def add_to_song(songName, *items):
+  for item in items:
+    if type(item) is ParamChanges:
+      songs[songName].paramChanges.append(item)
+    elif type(item) is MidiSchedule:
+      songs[songName].midiSchedules.append(item)
+    elif type(item) is Notes:
+      songs[songName].midiSchedules.append(MidiSchedule(item))
+    elif type(item) is AudioTrack:
+      songs[songName].audioTracks.append(item)
+    elif type(item) is ProcessorGraph:
+      songs[songName].processorGraph = item
+
+def del_from_song(songName, *items):
+  for item in items:
+    if type(item) is ParamChanges:
+      songs[songName].paramChanges.remove(item)
+    elif type(item) is MidiSchedule:
+      songs[songName].midiSchedules.remove(item)
+    #elif type(item) is Notes:
+    elif type(item) is AudioTrack:
+      songs[songName].audioTracks.remove(item)
+    elif type(item) is ProcessorGraph:
+      songs[songName].processorGraph = None
+
+def save_song(songName, filePath=None):
+  if filePath==None:
+    filePath=songs[songName].filePath
+  if filePath==None:
+    filePath=songName
+  if os.path.exists(filePath):
+    x = 0
+    while 1:
+      x += 1
+      filePath2 = filePath+str(x)
+      if not os.path.exists(filePath2):
+        filePath = filePath2
+        break
+   json.dump({songName: songName, ParamChanges
+
+
+class ProcessorGraph(dict):
+  def __init__(self, arg=None):
+    if type(arg) is dict or type(arg) is ProcessorGraph:
+      super().__init__(arg)
+    elif type(arg) is Processor:

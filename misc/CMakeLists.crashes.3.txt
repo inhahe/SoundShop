@@ -1,0 +1,101 @@
+cmake_minimum_required(VERSION 3.15)
+project(juce_audio_bindings VERSION 1.0.0)
+
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+# Force consistent runtime library linking
+if(WIN32)
+    set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreadedDLL")
+    set(CMAKE_CXX_FLAGS_RELEASE "/MD")
+    set(CMAKE_CXX_FLAGS_DEBUG "/MDd")
+endif()
+
+# Find Python - force stable ABI
+find_package(Python COMPONENTS Interpreter Development REQUIRED)
+
+# Find pybind11
+find_package(pybind11 REQUIRED)
+
+# JUCE settings
+set(JUCE_BUILD_EXAMPLES OFF CACHE BOOL "")
+set(JUCE_BUILD_EXTRAS OFF CACHE BOOL "")
+
+# Add JUCE
+add_subdirectory(JUCE)
+
+# Create Python module with explicit Python target
+pybind11_add_module(juce_audio python_bindings.cpp)
+
+# Force release runtime for all configurations
+set_target_properties(juce_audio PROPERTIES
+    MSVC_RUNTIME_LIBRARY "MultiThreadedDLL"
+)
+
+# Also force JUCE targets to use the same runtime
+set_target_properties(juce_core PROPERTIES
+    MSVC_RUNTIME_LIBRARY "MultiThreadedDLL"
+)
+set_target_properties(juce_audio_basics PROPERTIES
+    MSVC_RUNTIME_LIBRARY "MultiThreadedDLL"
+)
+set_target_properties(juce_audio_devices PROPERTIES
+    MSVC_RUNTIME_LIBRARY "MultiThreadedDLL"
+)
+
+# Fix Python linking issue - use the standard Python library
+if(WIN32)
+    # Get Python library directory
+    get_target_property(PYTHON_INCLUDE_DIR Python::Python INTERFACE_INCLUDE_DIRECTORIES)
+    get_filename_component(PYTHON_ROOT ${PYTHON_INCLUDE_DIR} DIRECTORY)
+    
+    # Find the correct Python library
+    find_library(PYTHON_LIBRARY 
+        NAMES python313t python313 python3.13 python
+        PATHS ${PYTHON_ROOT}/libs
+        NO_DEFAULT_PATH
+    )
+    
+    if(PYTHON_LIBRARY)
+        target_link_libraries(juce_audio PRIVATE ${PYTHON_LIBRARY})
+    else()
+        target_link_libraries(juce_audio PRIVATE Python::Python)
+    endif()
+else()
+    target_link_libraries(juce_audio PRIVATE Python::Python)
+endif()
+
+# Link JUCE libraries
+target_link_libraries(juce_audio PRIVATE
+    juce::juce_core
+    juce::juce_events
+    juce::juce_audio_devices
+)
+
+# JUCE compile definitions
+target_compile_definitions(juce_audio PRIVATE
+    JUCE_WEB_BROWSER=0
+    JUCE_USE_CURL=0
+    JUCE_APPLICATION_NAME_STRING="JuceAudio"
+    JUCE_APPLICATION_VERSION_STRING="1.0.0"
+    JUCE_REPORT_APP_USAGE=0
+    JUCE_DISPLAY_SPLASH_SCREEN=0
+    JUCE_MODULE_AVAILABLE_juce_core=1
+    JUCE_MODULE_AVAILABLE_juce_events=1
+    JUCE_MODULE_AVAILABLE_juce_audio_devices=1
+    JUCE_GLOBAL_MODULE_SETTINGS_INCLUDED=1
+)
+
+# Windows specific
+if(WIN32)
+    target_compile_definitions(juce_audio PRIVATE
+        JUCE_WINDOWS=1
+        JUCE_WIN32=1
+    )
+    set_target_properties(juce_audio PROPERTIES SUFFIX ".pyd")
+endif()
+
+# Compiler flags
+if(MSVC)
+    target_compile_options(juce_audio PRIVATE /bigobj /EHsc)
+endif()
