@@ -179,10 +179,13 @@ From code comments:
 
 -----
 
-Todo:
+To do:
   - Finish Note and Notes classes, add timestamps to notes in Notes class and Note object
   - Add functionality for manipulating songs wrt their notes' timestamps
   - Add ability to group Midi notes, midi-cc, effects paremeter changes, and plugin routing in "tracks" that can themselves be grouped into other tracks and manipulated together
   - Add ability to save songs to and load them from file (json? yaml would be more editable)
-  - 
+  - Add minor scales to notes_manipulation.py
+  - Fix detection of special scales in note sequences
+  - Make detection of major keys and modes output in the same format that detection of special keys and minor keys and modes will
+  
 
