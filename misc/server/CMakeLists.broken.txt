@@ -1,0 +1,62 @@
+cmake_minimum_required(VERSION 3.15)
+project(juce_gui_server VERSION 1.0.0)
+
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+# Force release runtime for stability
+if(WIN32)
+    set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreadedDLL")
+endif()
+
+# JUCE settings
+set(JUCE_BUILD_EXAMPLES OFF CACHE BOOL "")
+set(JUCE_BUILD_EXTRAS OFF CACHE BOOL "")
+
+# Add JUCE
+add_subdirectory(JUCE)
+
+# Create the GUI server executable
+juce_add_gui_app(juce_gui_server
+    VERSION 1.0.0
+    COMPANY_NAME "Your Company"  
+    PRODUCT_NAME "JUCE GUI Server"
+)
+
+target_sources(juce_gui_server PRIVATE juce_gui_server.cpp)
+
+# Link required JUCE modules
+target_link_libraries(juce_gui_server PRIVATE
+    juce::juce_core
+    juce::juce_events
+    juce::juce_graphics
+    juce::juce_gui_basics
+    juce::juce_gui_extra
+    juce::juce_audio_basics
+    juce::juce_audio_devices
+    juce::juce_audio_formats
+    juce::juce_audio_processors
+    juce::juce_audio_utils
+)
+
+# Windows-specific settings
+if(WIN32)
+    target_compile_definitions(juce_gui_server PRIVATE
+        JUCE_WINDOWS=1
+        JUCE_WIN32=1
+        JUCE_WEB_BROWSER=0
+        JUCE_USE_CURL=0
+        JUCE_REPORT_APP_USAGE=0
+        JUCE_DISPLAY_SPLASH_SCREEN=0
+    )
+    
+    # Force release runtime
+    set_target_properties(juce_gui_server PROPERTIES
+        MSVC_RUNTIME_LIBRARY "MultiThreadedDLL"
+    )
+endif()
+
+# Compiler flags
+if(MSVC)
+    target_compile_options(juce_gui_server PRIVATE /bigobj /EHsc)
+endif()

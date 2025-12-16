@@ -1,0 +1,119 @@
+cmake_minimum_required(VERSION 3.15)
+project(juce_audio_bindings)
+
+# Set C++ standard
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+# Windows-specific settings
+if(WIN32)
+    set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>DLL")
+    add_compile_definitions(
+        WIN32_LEAN_AND_MEAN
+        NOMINMAX
+        _WIN32_WINNT=0x0601
+    )
+endif()
+
+# Find Python
+find_package(Python COMPONENTS Interpreter Development REQUIRED)
+
+# Add JUCE with minimal configuration
+set(JUCE_BUILD_EXAMPLES OFF CACHE BOOL "Don't build JUCE examples")
+set(JUCE_BUILD_EXTRAS OFF CACHE BOOL "Don't build JUCE extras")
+add_subdirectory(JUCE)
+
+# Find pybind11
+find_package(pybind11 REQUIRED)
+
+# Create the Python module
+pybind11_add_module(juce_audio juce_audio_bindings.cpp)
+
+# Set compile features
+target_compile_features(juce_audio PRIVATE cxx_std_17)
+
+# JUCE modules needed
+target_link_libraries(juce_audio PRIVATE
+    juce::juce_audio_basics
+    juce::juce_audio_devices
+    juce::juce_audio_formats
+    juce::juce_audio_processors
+    juce::juce_audio_utils
+    juce::juce_core
+    juce::juce_data_structures
+    juce::juce_events
+    juce::juce_graphics
+    juce::juce_gui_basics
+    juce::juce_gui_extra
+)
+
+# Windows-specific definitions and libraries
+if(WIN32)
+    target_compile_definitions(juce_audio PRIVATE
+        JUCE_WINDOWS=1
+        JUCE_WASAPI=1
+        JUCE_DIRECTSOUND=1
+        JUCE_WEB_BROWSER=0
+        JUCE_USE_CURL=0
+        JUCE_REPORT_APP_USAGE=0
+        JUCE_DISPLAY_SPLASH_SCREEN=0
+    )
+    
+    # System libraries
+    target_link_libraries(juce_audio PRIVATE
+        winmm
+        ole32
+        oleaut32
+        imm32
+        comdlg32
+        shlwapi
+        rpcrt4
+        wininet
+        version
+        ws2_32
+        kernel32
+        user32
+        gdi32
+        winspool
+        shell32
+        uuid
+        odbc32
+        odbccp32
+    )
+endif()
+
+# Set output properties
+if(WIN32)
+    set_target_properties(juce_audio PROPERTIES
+        SUFFIX ".pyd"
+        DEBUG_POSTFIX ""
+    )
+endif()
+
+# Compiler-specific settings
+if(MSVC)
+    target_compile_options(juce_audio PRIVATE
+        /W3
+        /bigobj
+        /permissive-
+        /EHsc
+    )
+    
+    # Release optimizations
+    target_compile_options(juce_audio PRIVATE
+        $<$<CONFIG:Release>:/O2>
+        $<$<CONFIG:Release>:/Oi>
+        $<$<CONFIG:Release>:/GL>
+    )
+    
+    # Debug settings
+    target_compile_options(juce_audio PRIVATE
+        $<$<CONFIG:Debug>:/Od>
+        $<$<CONFIG:Debug>:/Zi>
+    )
+    
+    # Link-time optimizations for release
+    set_target_properties(juce_audio PROPERTIES
+        LINK_FLAGS_RELEASE "/LTCG /OPT:REF /OPT:ICF"
+    )
+endif()

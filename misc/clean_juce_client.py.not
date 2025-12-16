@@ -1,0 +1,544 @@
+#!/usr/bin/env python3
+"""
+Clean JUCE Audio Client - minimal version to avoid import issues
+"""
+
+from dataclasses import dataclass
+import time, struct, platform
+
+class cmd:
+  load_plugin, load_plugin_by_index, scan_plugins, list_plugins, get_plugin_info, show_plugin_ui, hide_plugin_ui, set_parameter, get_parameter,  \
+  connect_audio, connect_midi, start_playback, stop_playback, cmd_shutdown, remove_plugin = range(15)
+
+pipe_name = "juceclientserver"
+
+if platform.system() == "Windows": #VST3 only
+  defaultDirs = ( 
+      "C:\\Program Files\\Steinberg\\VstPlugins",
+      "C:\\Program Files\\Common Files\\VST3",
+      "C:\\Program Files\\Vstplugins",
+      "C:\\Program Files (x86)\\Steinberg\\VstPlugins",
+      "C:\\Program Files (x86)\\VstPlugins",
+      "C:\\VstPlugins"
+      )
+elif platform.system() == "Linux":
+  defaultDirs = (
+    "/usr/lib/vst", "/usr/local/lib/vst", "~/.vst",
+    "/usr/lib/vst3", "/usr/local/lib/vst3", "~/.vst3",
+    "/usr/lib/ladspa", "/usr/local/lib/ladspa", "~/.ladspa",
+    "/usr/lib/lv2", "/usr/local/lib/lv2", "~/.lv2"
+  )
+elif platform.system() == "Darwin":
+  defaultDirs = (
+    "/Library/Audio/Plug-Ins/VST",
+    "/Library/Audio/Plug-Ins/VST3",
+    "/Library/Audio/Plug-Ins/Components",
+    "~/Library/Audio/Plug-Ins/VST",
+    "~/Library/Audio/Plug-Ins/VST3"
+  )
+
+class plugininfo:
+  pass
+
+class JuceAudioClient:
+    def __init__(self):
+        self.pipe_path = f"\\\\.\\pipe\\{pipe_name}"
+        self.pipe_handle = None
+        self.connected = False
+    
+    def connect(self):
+        """Connect to the JUCE server"""
+        try:
+            print(f"Connecting to {self.pipe_path}...")
+            self.pipe_handle = open(self.pipe_path, 'w+b', buffering=0)
+            self.connected = True
+            print("✓ Connected to JUCE server!")
+            return True
+        except Exception as e:
+            print(f"Connection failed: {e}")
+            return False
+    
+    def disconnect(self):
+        """Disconnect from the server"""
+        if self.connected and self.pipe_handle:
+            try:
+                self.pipe_handle.close()
+                print("✓ Disconnected")
+            except:
+                pass
+            self.connected = False
+    
+    def sendinfo(self, pattern, *args):
+      if not self.connected:
+        raise IOError
+      else:
+        self.pipe_handle.write(struct.pack("<"+pattern, *args))
+
+    def readinfo(self, pattern):
+      if not self.connected:
+        raise IOError
+      else:
+        return struct.unpack("<"+pattern, self.pipe_handle.read(struct.calcsize("<"+pattern)))
+
+    def readstr(self):
+      if not self.connected:
+        raise IOError
+      else:
+        size = self.readinfo("I")
+        return self.pipe_handle.read(size).decode("utf-8")
+
+    def readstrs(self, num):
+      t = []
+      for n in range(num):
+        t.append(self.readstr())
+      return t
+
+    def sendstr(self, s):
+      if not self.connected:
+        raise IOError
+      else:
+        self.pipe_handle.write(struct.pack("I", len(s)) + s)
+
+    def sendstrs(self, ss):
+      for s in ss:
+        self.sendstr(s)
+        
+    def sendcmd(self, command):
+      self.sendinfo("B", command)
+        
+    def loadpluginbyindex(self, index):
+      self.sendcmd(cmd.load_plugin_by_index)
+      self.sendinfo("I", index)
+      self.pipe_handle.flush()
+
+    def scanplugins(self, directories):
+      self.sendcmd(cmd.scan_plugins)
+      self.sendinfo("I", len(directories))
+      self.sendstrs(directories)
+      self.pipe_handle.flush()
+
+    def listplugins(self):
+      self.sendcmd(cmd.list_plugins)
+      self.pipe_hardle.flush()
+      size = self.readinfo("I")
+      plugins = []
+      for x in range(size):
+        p = plugininfo()
+        p.isInstrument, p.uniqueId, p.numInputChannels, p.numOutputChannels = self.readinfo("III")
+        p.name, p.descriptiveName, p.pluginFormatName, p.category, p.manufacturerName, p.version, p.fileOrIdentifier, p.lastFileModTime, p.path = self.readstrs(9)
+        plugins.append(p)
+      return plugins
+        
+    def showpluginui(self, id):
+      self.sendcmd(cmd.show_plugin_ui)
+      self.sendinfo("I", id)
+    
+
+
+def server_plugin_browser():
+    """Plugin browser using server-side scanning"""
+    print("SERVER-SIDE PLUGIN BROWSER")
+    print("=" * 40)
+    
+    client = JuceAudioClient("audiopipe")
+    
+    if not client.connect():
+        print("Failed to connect. Make sure server is running:")
+        print('"JUCE GUI Server.exe" audiopipe')
+        return
+    
+    try:
+        while True:
+            print("\n--- Server Plugin Browser ---")
+            print("1. Scan plugins (server-side)")
+            print("2. List available plugins")
+            print("3. Get plugin info")
+            print("4. Load plugin by index")
+            print("5. Show plugin UI")
+            print("6. Test playback")
+            print("7. Quit")
+            
+            choice = input("\nEnter choice (1-7): ").strip()
+            
+            if choice == "1":
+                directory = input("Enter directory to scan (or press Enter for default): ").strip()
+                print("Scanning plugins...")
+                success, message, data = client.scan_plugins(directory)
+                print(f"Scan result: {success} - {message}")
+                if data and "plugins_found" in data:
+                    print(f"Found {data['plugins_found']} plugins")
+            
+            elif choice == "2":
+                print("Getting plugin list from server...")
+
+                response = client.list_plugins()
+
+                success, message, plugins = response
+
+                print(f"{response=}") #debug
+                
+                if success and plugins:
+                    print(f"\nFound {len(plugins)} plugins:")
+                    print("-" * 60)
+                    for plugin in plugins:
+                        print(f"{plugin['index']:2d}. {plugin['name']}")
+                        print(f"    Path: {plugin['path']}")
+                    print("-" * 60)
+                else:
+                    print("No plugins found or failed to get list")
+                    print(f"Result: {success} - {message}")
+            
+            elif choice == "3":
+                index = input("Enter plugin index: ").strip()
+                if index.isdigit():
+                    success, message, data = client.get_plugin_info(index)
+                    print(f"Plugin info: {success} - {message}")
+                    if success and data:
+                        for key, value in data.items():
+                            print(f"  {key}: {value}")
+                else:
+                    print("Please enter a valid number")
+            
+            elif choice == "4":
+                index = input("Enter plugin index to load: ").strip()
+                plugin_id = input("Enter plugin ID: ").strip()
+                
+                if index.isdigit() and plugin_id:
+                    print(f"Loading plugin {index} as '{plugin_id}'...")
+                    success, message = client.load_plugin_by_index(index, plugin_id)
+                    print(f"Load result: {success} - {message}")
+                    
+                    if success:
+                        show_ui = input("Show plugin UI? (y/n): ").strip().lower()
+                        if show_ui == 'y':
+                            success, message = client.show_plugin_ui(plugin_id)
+                            print(f"Show UI: {success} - {message}")
+                else:
+                    print("Please enter valid values")
+            
+            elif choice == "5":
+                plugin_id = input("Enter plugin ID to show UI: ").strip()
+                if plugin_id:
+                    success, message = client.show_plugin_ui(plugin_id)
+                    print(f"Show UI: {success} - {message}")
+            
+            elif choice == "6":
+                print("Testing playback...")
+                success, message = client.start_playback()
+                print(f"Start: {success} - {message}")
+                
+                input("Press Enter to stop playback...")
+                
+                success, message = client.stop_playback()
+                print(f"Stop: {success} - {message}")
+            
+            elif choice == "7":
+                break
+            
+            else:
+                print("Invalid choice!")
+    
+    except KeyboardInterrupt:
+        print("\nInterrupted")
+    finally:
+        client.disconnect()
+    """Interactive plugin browser"""
+    print("JUCE PLUGIN BROWSER")
+    print("=" * 30)
+    
+    client = JuceAudioClient("audiopipe")
+    
+    if not client.connect():
+        print("Failed to connect. Make sure server is running:")
+        print('"JUCE GUI Server.exe" audiopipe')
+        return
+    
+    try:
+        while True:
+            print("\n--- Plugin Browser Menu ---")
+            print("1. Scan for plugins in a directory")
+            print("2. Scan common plugin directories")
+            print("3. List available plugins")
+            print("4. Load a plugin")
+            print("5. Show loaded plugin UI")
+            print("6. Test playback")
+            print("7. Quit")
+            
+            choice = input("\nEnter choice (1-7): ").strip()
+            
+            if choice == "1":
+                directory = input("Enter plugin directory path: ").strip()
+                if directory:
+                    print(f"Scanning {directory}...")
+                    success, message = client.scan_plugins(directory)
+                    print(f"Scan result: {success} - {message}")
+            
+            elif choice == "2":
+                print("Scanning common plugin directories...")
+                common_dirs = [
+                    r"C:\Program Files\Steinberg\VstPlugins",
+                    r"C:\Program Files\Common Files\VST2",
+                    r"C:\Program Files\Common Files\VST3",
+                    r"C:\Program Files (x86)\Steinberg\VstPlugins",
+                    r"C:\Program Files (x86)\VstPlugins"
+                ]
+                
+                for directory in common_dirs:
+                    print(f"  Scanning {directory}...")
+                    success, message = client.scan_plugins(directory)
+                    print(f"    Result: {success} - {message}")
+            
+            elif choice == "3":
+                print("Listing available plugins...")
+                success, message = client.list_plugins()
+                print(f"Plugin list: {success} - {message}")
+            
+            elif choice == "4":
+                plugin_path = input("Enter full path to plugin file: ").strip()
+                plugin_id = input("Enter ID for this plugin instance: ").strip()
+                
+                if plugin_path and plugin_id:
+                    print(f"Loading {plugin_path} as '{plugin_id}'...")
+                    success, message = client.load_plugin(plugin_path, plugin_id)
+                    print(f"Load result: {success} - {message}")
+                    
+                    if success:
+                        show_ui = input("Show plugin UI? (y/n): ").strip().lower()
+                        if show_ui == 'y':
+                            success, message = client.show_plugin_ui(plugin_id)
+                            print(f"Show UI: {success} - {message}")
+            
+            elif choice == "5":
+                plugin_id = input("Enter plugin ID to show UI: ").strip()
+                if plugin_id:
+                    success, message = client.show_plugin_ui(plugin_id)
+                    print(f"Show UI: {success} - {message}")
+            
+            elif choice == "6":
+                print("Testing playback...")
+                success, message = client.start_playback()
+                print(f"Start: {success} - {message}")
+                
+                input("Press Enter to stop playback...")
+                
+                success, message = client.stop_playback()
+                print(f"Stop: {success} - {message}")
+            
+            elif choice == "7":
+                break
+            
+            else:
+                print("Invalid choice!")
+    
+    except KeyboardInterrupt:
+        print("\nInterrupted")
+    finally:
+        client.disconnect()
+
+
+def main():
+    """Basic test function"""
+    print("BASIC JUCE CLIENT TEST")
+    print("=" * 30)
+    
+    client = JuceAudioClient("audiopipe")
+    
+    if client.connect():
+        try:
+            # Test basic commands
+            print("Testing basic playback...")
+            success, message = client.start_playback()
+            print(f"Start playback: {success} - {message}")
+            
+            time.sleep(1)
+            
+            success, message = client.stop_playback()
+            print(f"Stop playback: {success} - {message}")
+            
+            print("Basic test completed!")
+            
+        except KeyboardInterrupt:
+            print("\nInterrupted")
+        finally:
+            client.disconnect()
+    else:
+        print("Failed to connect. Make sure server is running:")
+        print('"JUCE GUI Server.exe" audiopipe')
+    """Simple plugin loader for common scenarios"""
+    import os
+    
+    print("SIMPLE PLUGIN LOADER")
+    print("=" * 30)
+    
+    # Common plugin directories to check
+    plugin_dirs = [
+        r"C:\Program Files\Steinberg\VstPlugins",
+        r"C:\Program Files\Common Files\VST3", 
+        r"C:\Program Files (x86)\Steinberg\VstPlugins",
+        r"C:\VstPlugins"
+    ]
+    
+    # Find VST files
+    plugins_found = []
+    for plugin_dir in plugin_dirs:
+        if os.path.exists(plugin_dir):
+            print(f"Scanning {plugin_dir}...")
+            try:
+                for file in os.listdir(plugin_dir):
+                    if file.lower().endswith(('.dll', '.vst3', '.vst')):
+                        full_path = os.path.join(plugin_dir, file)
+                        plugins_found.append((file, full_path))
+                        print(f"  Found: {file}")
+            except PermissionError:
+                print(f"  Permission denied accessing {plugin_dir}")
+    
+    if not plugins_found:
+        print("No plugins found in common directories!")
+        print("You can manually specify a plugin path in the interactive browser.")
+        return
+    
+    print(f"\nFound {len(plugins_found)} plugins:")
+    for i, (name, path) in enumerate(plugins_found):
+        print(f"{i+1}. {name}")
+    
+    try:
+        choice = input(f"\nSelect plugin (1-{len(plugins_found)}) or 'q' to quit: ").strip()
+        if choice.lower() == 'q':
+            return
+            
+        plugin_index = int(choice) - 1
+        if 0 <= plugin_index < len(plugins_found):
+            plugin_name, plugin_path = plugins_found[plugin_index]
+            
+            print(f"\nSelected: {plugin_name}")
+            print(f"Path: {plugin_path}")
+            
+            # Connect and load
+            client = JuceAudioClient("audiopipe")
+            if client.connect():
+                plugin_id = f"plugin_{plugin_index}"
+                print(f"Loading as '{plugin_id}'...")
+                
+                success, message = client.load_plugin(plugin_path, plugin_id)
+                print(f"Load result: {success} - {message}")
+                
+                if success:
+                    print("Plugin loaded successfully!")
+                    
+                    show_ui = input("Show plugin UI? (y/n): ").strip().lower()
+                    if show_ui == 'y':
+                        success, message = client.show_plugin_ui(plugin_id)
+                        print(f"UI result: {success} - {message}")
+                        
+                        input("Press Enter when done with plugin...")
+                
+                client.disconnect()
+            else:
+                print("Failed to connect to JUCE server!")
+        else:
+            print("Invalid selection!")
+            
+    except ValueError:
+        print("Invalid input!")
+    except KeyboardInterrupt:
+        print("\nInterrupted")
+
+
+if __name__ == "__main__":
+    import sys
+    
+    if len(sys.argv) > 1:
+        if sys.argv[1] == "--browse":
+            server_plugin_browser()
+        elif sys.argv[1] == "--simple":
+            simple_plugin_loader()
+        elif sys.argv[1] == "--local":
+            interactive_plugin_browser()
+        else:
+            print("Usage:")
+            print("  python clean_juce_client.py --browse    # Server-side plugin browser")
+            print("  python clean_juce_client.py --simple    # Simple local plugin loader") 
+            print("  python clean_juce_client.py --local     # Local plugin browser")
+            print("  python clean_juce_client.py             # Interactive menu")
+    else:
+        # Ask user what they want to do
+        print("JUCE Client Options:")
+        print("1. Server-side plugin browser (recommended)")
+        print("2. Simple local plugin loader")
+        print("3. Local plugin browser")
+        print("4. Run basic tests")
+        
+        choice = input("\nSelect option (1-4): ").strip()
+        
+        if choice == "1":
+            server_plugin_browser()
+        elif choice == "2":
+            simple_plugin_loader()
+        elif choice == "3":
+            interactive_plugin_browser()
+        elif choice == "4":
+            main()
+        else:
+            print("Invalid choice!")
+
+---
+
+
+    void scanPluginDirectories(std::vector<std::string> directories)
+    {
+        // First, let's see what files are actually in the directory
+        for (const auto& strdirectory : directories)
+        {
+            auto directory = juce::File(strdirectory);
+            juce::Array<juce::File> allFiles = directory.findChildFiles(juce::File::findFiles, false);
+        
+            // Look for plugin files by extension
+            juce::Array<juce::File> potentialPlugins;
+        
+            for (const auto& file : allFiles)
+            {
+                juce::String extension = file.getFileExtension().toLowerCase();
+                std::cout << "Checking file: " << file.getFileName() << " (ext: " << extension << ")" << std::endl;
+            
+                if (extension == ".dll" || extension == ".vst" || extension == ".vst3")
+                {
+                    potentialPlugins.add(file);
+                }
+            }
+        
+            // Also check for .vst3 directories
+            juce::Array<juce::File> vst3Dirs = directory.findChildFiles(juce::File::findDirectories, false, "*.vst3");
+            potentialPlugins.addArray(vst3Dirs);
+            // Try to load each potential plugin
+            for (const auto& pluginFile : potentialPlugins)
+            {
+                bool foundPlugin = false;
+                for (auto* format : formatManager.getFormats())
+                {
+                  if (format->fileMightContainThisPluginType(pluginFile.getFullPathName()))
+                  {
+                    juce::OwnedArray<juce::PluginDescription> descriptions;
+                    format->findAllTypesForFile(descriptions, pluginFile.getFullPathName());
+                    for (auto* desc : descriptions)
+                    {
+                      // Check for duplicates
+                      bool alreadyExists = false;
+                      for (auto* existing : availablePlugins)
+                      {
+                        if (existing->fileOrIdentifier == desc->fileOrIdentifier &&
+                          existing->name == desc->name)
+                        {
+                          alreadyExists = true;
+                          break;
+                        }
+                      }
+
+                      if (!alreadyExists)
+                      {
+                        availablePlugins.add(new juce::PluginDescription(*desc));
+                      }
+                    }
+                  }
+                }
+            }
+      }

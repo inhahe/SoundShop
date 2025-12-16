@@ -1,0 +1,145 @@
+cmake_minimum_required(VERSION 3.15)
+project(juce_audio_bindings)
+
+# Set C++ standard
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+# Windows-specific settings
+if(WIN32)
+    set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>DLL")
+    add_compile_definitions(
+        WIN32_LEAN_AND_MEAN
+        NOMINMAX
+        _WIN32_WINNT=0x0601
+    )
+endif()
+
+# Find Python
+find_package(Python COMPONENTS Interpreter Development REQUIRED)
+
+# JUCE Configuration - IMPORTANT: Set these BEFORE adding JUCE subdirectory
+set(JUCE_BUILD_EXAMPLES OFF CACHE BOOL "Don't build JUCE examples")
+set(JUCE_BUILD_EXTRAS OFF CACHE BOOL "Don't build JUCE extras")
+
+# Enable the modules we need
+set(JUCE_MODULES_ONLY ON CACHE BOOL "Only build JUCE modules")
+
+# Add JUCE
+add_subdirectory(JUCE)
+
+# Find pybind11
+find_package(pybind11 REQUIRED)
+
+# Create a JUCE application target first (required for some JUCE functionality)
+juce_add_console_app(juce_audio_app
+    PRODUCT_NAME "JUCE Audio App"
+    COMPANY_NAME "Your Company"
+    VERSION "1.0.0"
+)
+
+# Add source to the app
+target_sources(juce_audio_app PRIVATE
+    juce_audio_bindings.cpp
+)
+
+# Link JUCE modules to the app
+target_link_libraries(juce_audio_app PRIVATE
+    juce::juce_audio_basics
+    juce::juce_audio_devices
+    juce::juce_audio_formats
+    juce::juce_audio_processors
+    juce::juce_audio_utils
+    juce::juce_core
+    juce::juce_data_structures
+    juce::juce_events
+    juce::juce_graphics
+    juce::juce_gui_basics
+    juce::juce_gui_extra
+)
+
+# Create the Python module
+pybind11_add_module(juce_audio juce_audio_bindings.cpp)
+
+# Set compile features
+target_compile_features(juce_audio PRIVATE cxx_std_17)
+
+# Link the same JUCE libraries to the Python module
+target_link_libraries(juce_audio PRIVATE
+    juce::juce_audio_basics
+    juce::juce_audio_devices
+    juce::juce_audio_formats
+    juce::juce_audio_processors
+    juce::juce_audio_utils
+    juce::juce_core
+    juce::juce_data_structures
+    juce::juce_events
+    juce::juce_graphics
+    juce::juce_gui_basics
+    juce::juce_gui_extra
+)
+
+# Windows-specific definitions
+if(WIN32)
+    target_compile_definitions(juce_audio PRIVATE
+        JUCE_WINDOWS=1
+        JUCE_WASAPI=1
+        JUCE_DIRECTSOUND=1
+        JUCE_WEB_BROWSER=0
+        JUCE_USE_CURL=0
+        JUCE_REPORT_APP_USAGE=0
+        JUCE_DISPLAY_SPLASH_SCREEN=0
+        JUCE_USE_DARK_SPLASH_SCREEN=0
+        JUCE_APPLICATION_NAME_STRING="JUCE Audio Python"
+        JUCE_APPLICATION_VERSION_STRING="1.0.0"
+    )
+    
+    # Also apply to the app
+    target_compile_definitions(juce_audio_app PRIVATE
+        JUCE_WINDOWS=1
+        JUCE_WASAPI=1
+        JUCE_DIRECTSOUND=1
+        JUCE_WEB_BROWSER=0
+        JUCE_USE_CURL=0
+        JUCE_REPORT_APP_USAGE=0
+        JUCE_DISPLAY_SPLASH_SCREEN=0
+        JUCE_USE_DARK_SPLASH_SCREEN=0
+    )
+endif()
+
+# Set output properties for the Python module
+if(WIN32)
+    set_target_properties(juce_audio PROPERTIES
+        SUFFIX ".pyd"
+        DEBUG_POSTFIX ""
+    )
+endif()
+
+# Compiler-specific settings
+if(MSVC)
+    target_compile_options(juce_audio PRIVATE
+        /W3
+        /bigobj
+        /permissive-
+        /EHsc
+    )
+    
+    target_compile_options(juce_audio_app PRIVATE
+        /W3
+        /bigobj
+        /permissive-
+        /EHsc
+    )
+    
+    # Release optimizations
+    target_compile_options(juce_audio PRIVATE
+        $<$<CONFIG:Release>:/O2>
+        $<$<CONFIG:Release>:/Oi>
+    )
+    
+    # Debug settings
+    target_compile_options(juce_audio PRIVATE
+        $<$<CONFIG:Debug>:/Od>
+        $<$<CONFIG:Debug>:/Zi>
+    )
+endif()

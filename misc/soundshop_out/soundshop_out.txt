@@ -1,0 +1,4388 @@
+connecting to juceclientserver...
+connected
+scanning directories
+numfound: 38
+bad paths loaded from file: 55
+bad paths found: ['C:\\Program Files\\Common Files\\VST3\\Harrison\\Harrison_32Bus\\Harrison_32Bus.vst3', 'C:\\Program Files\\Common Files\\VST3\\Harrison\\Harrison_32ClassicChannelStrip\\Harrison_32ClassicChannelStrip.vst3', 'C:\\Program Files\\Common Files\\VST3\\Harrison\\Harrison_BassFlow\\Harrison_BassFlow.vst3', 'C:\\Program Files\\Common Files\\VST3\\Harrison\\Harrison_De-Esser\\Harrison_De-Esser.vst3', 'C:\\Program Files\\Common Files\\VST3\\Harrison\\Harrison_DrumFlow\\Harrison_DrumFlow.vst3', 'C:\\Program Files\\Common Files\\VST3\\Harrison\\Harrison_FasTrack\\Harrison_FasTrack.vst3', 'C:\\Program Files\\Common Files\\VST3\\Harrison\\Harrison_LegacyEQ\\Harrison_LegacyEQ.vst3', 'C:\\Program Files\\Common Files\\VST3\\Harrison\\Harrison_MPCChannelStrip\\Harrison_MPCChannelStrip.vst3', 'C:\\Program Files\\Common Files\\VST3\\Harrison\\Harrison_MPCCompressor\\Harrison_MPCCompressor.vst3', 'C:\\Program Files\\Common Files\\VST3\\Harrison\\Harrison_MPCSpectralCompressor\\Harrison_MPCSpectralCompressor.vst3', 'C:\\Program Files\\Common Files\\VST3\\Harrison\\Harrison_MasteringEQ\\Harrison_MasteringEQ.vst3', 'C:\\Program Files\\Common Files\\VST3\\Harrison\\Harrison_MicroGlide\\Harrison_MicroGlide.vst3', 'C:\\Program Files\\Common Files\\VST3\\Harrison\\Harrison_MultiBandCompressor\\Harrison_MultiBandCompressor.vst3', 'C:\\Program Files\\Common Files\\VST3\\Harrison\\Harrison_TremoloPanner\\Harrison_TremoloPanner.vst3', 'C:\\Program Files\\Common Files\\VST3\\Harrison\\Harrison_VocalFlow\\Harrison_VocalFlow.vst3', 'C:\\Program Files\\Common Files\\VST3\\Harrison\\Harrison_VocalIntensityProcessor\\Harrison_VocalIntensityProcessor.vst3', 'C:\\Program Files\\Common Files\\VST3\\SSL 4K B.vst3', 'C:\\Program Files\\Common Files\\VST3\\SSL 4K E.vst3', 'C:\\Program Files\\Common Files\\VST3\\SSL Blitzer.vst3', 'C:\\Program Files\\Common Files\\VST3\\SSL DeEss.vst3', 'C:\\Program Files\\Common Files\\VST3\\SSL Fusion HF Compressor.vst3', 'C:\\Program Files\\Common Files\\VST3\\SSL Fusion Stereo Image.vst3', 'C:\\Program Files\\Common Files\\VST3\\SSL Fusion Transformer.vst3', 'C:\\Program Files\\Common Files\\VST3\\SSL Fusion Vintage Drive.vst3', 'C:\\Program Files\\Common Files\\VST3\\SSL Fusion Violet EQ.vst3', 'C:\\Program Files\\Common Files\\VST3\\SSL G3 MultiBusComp.vst3', 'C:\\Program Files\\Common Files\\VST3\\SSL Guitarstrip.vst3', 'C:\\Program Files\\Common Files\\VST3\\SSL LMC+.vst3', 'C:\\Program Files\\Common Files\\VST3\\SSL Meter.vst3', 'C:\\Program Files\\Common Files\\VST3\\SSL Module8.vst3', 'C:\\Program Files\\Common Files\\VST3\\SSL Native Bus Compressor 2.vst3', 'C:\\Program Files\\Common Files\\VST3\\SSL Native Channel Strip 2.vst3', 'C:\\Program Files\\Common Files\\VST3\\SSL Native Drumstrip v6.vst3', 'C:\\Program Files\\Common Files\\VST3\\SSL Native FlexVerb.vst3', 'C:\\Program Files\\Common Files\\VST3\\SSL Native FlexVerb.vst3\\Contents\\x86_64-win\\SSL Native FlexVerb.vst3', 'C:\\Program Files\\Common Files\\VST3\\SSL Native Vocalstrip 2.vst3', 'C:\\Program Files\\Common Files\\VST3\\SSL Native X-Comp v6.vst3', 'C:\\Program Files\\Common Files\\VST3\\SSL Native X-Comp v6.vst3\\Contents\\x86_64-win\\SSL Native X-Comp v6.vst3', 'C:\\Program Files\\Common Files\\VST3\\SSL Native X-Echo.vst3', 'C:\\Program Files\\Common Files\\VST3\\SSL Native X-Echo.vst3\\Contents\\x86_64-win\\SSL Native X-Echo.vst3', 'C:\\Program Files\\Common Files\\VST3\\SSL Native X-Phase v6.vst3', 'C:\\Program Files\\Common Files\\VST3\\SSL Native X-Phase v6.vst3\\Contents\\x86_64-win\\SSL Native X-Phase v6.vst3', 'C:\\Program Files\\Common Files\\VST3\\SSL Native X-Saturator v6.vst3', 'C:\\Program Files\\Common Files\\VST3\\SSL Native X-Saturator v6.vst3\\Contents\\x86_64-win\\SSL Native X-Saturator v6.vst3', 'C:\\Program Files\\Common Files\\VST3\\SSL Native X-ValveComp v6.vst3', 'C:\\Program Files\\Common Files\\VST3\\SSL Native X-ValveComp v6.vst3\\Contents\\x86_64-win\\SSL Native X-ValveComp v6.vst3', 'C:\\Program Files\\Common Files\\VST3\\SSL PlateVerb.vst3', 'C:\\Program Files\\Common Files\\VST3\\SSL Sourcerer.vst3', 'C:\\Program Files\\Common Files\\VST3\\SSL SubGen.vst3', 'C:\\Program Files\\Common Files\\VST3\\SSL X-Delay.vst3', 'C:\\Program Files\\Common Files\\VST3\\SSL X-Delay.vst3\\Contents\\x86_64-win\\SSL X-Delay.vst3', 'C:\\Program Files\\Common Files\\VST3\\SSL X-DynEQ.vst3', 'C:\\Program Files\\Common Files\\VST3\\SSL X-Gate.vst3', 'C:\\Program Files\\Common Files\\VST3\\SSL X-Limit.vst3', 'C:\\Program Files\\Common Files\\VST3\\Slate Digital\\Submerge.vst3']
+plugins found: 38
+plugin 0 info:
+  isInstrument: 1
+  uniqueId: 984409619
+  numInputChannels: 0
+  numOutputChannels: 0
+  name: SINE Player
+  descriptiveName: SINE Player
+  pluginFormatName: VST3
+  category: Instrument
+  manufacturerName: Orchestral Tools
+  version: 0.1.0
+  fileOrIdentifier: C:\Program Files\Common Files\VST3\SINE Player.vst3
+  lastFileModTime: 13 Sep 2025 12:58:22am
+  path: C:\Program Files\Common Files\VST3\SINE Player.vst3
+plugin 1 info:
+  isInstrument: 0
+  uniqueId: 3139498247
+  numInputChannels: 2
+  numOutputChannels: 2
+  name: kHs 3-Band EQ
+  descriptiveName: kHs 3-Band EQ
+  pluginFormatName: VST3
+  category: Fx|EQ
+  manufacturerName: Kilohearts
+  version: 2.2.4
+  fileOrIdentifier: C:\Program Files\Common Files\VST3\Kilohearts\kHs 3-Band EQ.vst3
+  lastFileModTime: 22 Jul 2024 7:05:19am
+  path: C:\Program Files\Common Files\VST3\Kilohearts\kHs 3-Band EQ.vst3
+plugin 2 info:
+  isInstrument: 0
+  uniqueId: 1882468375
+  numInputChannels: 2
+  numOutputChannels: 2
+  name: kHs Bitcrush
+  descriptiveName: kHs Bitcrush
+  pluginFormatName: VST3
+  category: Fx|Distortion
+  manufacturerName: Kilohearts
+  version: 2.2.4
+  fileOrIdentifier: C:\Program Files\Common Files\VST3\Kilohearts\kHs Bitcrush.vst3
+  lastFileModTime: 22 Jul 2024 7:05:07am
+  path: C:\Program Files\Common Files\VST3\Kilohearts\kHs Bitcrush.vst3
+plugin 3 info:
+  isInstrument: 0
+  uniqueId: 1216928221
+  numInputChannels: 2
+  numOutputChannels: 2
+  name: kHs Channel Mixer
+  descriptiveName: kHs Channel Mixer
+  pluginFormatName: VST3
+  category: Fx|Tools
+  manufacturerName: Kilohearts
+  version: 2.2.4
+  fileOrIdentifier: C:\Program Files\Common Files\VST3\Kilohearts\kHs Channel Mixer.vst3
+  lastFileModTime: 22 Jul 2024 7:05:15am
+  path: C:\Program Files\Common Files\VST3\Kilohearts\kHs Channel Mixer.vst3
+plugin 4 info:
+  isInstrument: 0
+  uniqueId: 652575196
+  numInputChannels: 2
+  numOutputChannels: 2
+  name: kHs Chorus
+  descriptiveName: kHs Chorus
+  pluginFormatName: VST3
+  category: Fx|Modulation
+  manufacturerName: Kilohearts
+  version: 2.2.4
+  fileOrIdentifier: C:\Program Files\Common Files\VST3\Kilohearts\kHs Chorus.vst3
+  lastFileModTime: 22 Jul 2024 7:05:06am
+  path: C:\Program Files\Common Files\VST3\Kilohearts\kHs Chorus.vst3
+plugin 5 info:
+  isInstrument: 0
+  uniqueId: 3254951282
+  numInputChannels: 2
+  numOutputChannels: 2
+  name: kHs Comb Filter
+  descriptiveName: kHs Comb Filter
+  pluginFormatName: VST3
+  category: Fx|Filter
+  manufacturerName: Kilohearts
+  version: 2.2.4
+  fileOrIdentifier: C:\Program Files\Common Files\VST3\Kilohearts\kHs Comb Filter.vst3
+  lastFileModTime: 22 Jul 2024 7:05:05am
+  path: C:\Program Files\Common Files\VST3\Kilohearts\kHs Comb Filter.vst3
+plugin 6 info:
+  isInstrument: 0
+  uniqueId: 3563689455
+  numInputChannels: 4
+  numOutputChannels: 2
+  name: kHs Compressor
+  descriptiveName: kHs Compressor
+  pluginFormatName: VST3
+  category: Fx|Dynamics
+  manufacturerName: Kilohearts
+  version: 2.2.4
+  fileOrIdentifier: C:\Program Files\Common Files\VST3\Kilohearts\kHs Compressor.vst3
+  lastFileModTime: 22 Jul 2024 7:05:06am
+  path: C:\Program Files\Common Files\VST3\Kilohearts\kHs Compressor.vst3
+plugin 7 info:
+  isInstrument: 0
+  uniqueId: 2363068637
+  numInputChannels: 2
+  numOutputChannels: 2
+  name: kHs Delay
+  descriptiveName: kHs Delay
+  pluginFormatName: VST3
+  category: Fx|Spatial
+  manufacturerName: Kilohearts
+  version: 2.2.4
+  fileOrIdentifier: C:\Program Files\Common Files\VST3\Kilohearts\kHs Delay.vst3
+  lastFileModTime: 22 Jul 2024 7:05:05am
+  path: C:\Program Files\Common Files\VST3\Kilohearts\kHs Delay.vst3
+plugin 8 info:
+  isInstrument: 0
+  uniqueId: 1886342336
+  numInputChannels: 2
+  numOutputChannels: 2
+  name: kHs Distortion
+  descriptiveName: kHs Distortion
+  pluginFormatName: VST3
+  category: Fx|Distortion
+  manufacturerName: Kilohearts
+  version: 2.2.4
+  fileOrIdentifier: C:\Program Files\Common Files\VST3\Kilohearts\kHs Distortion.vst3
+  lastFileModTime: 22 Jul 2024 7:05:08am
+  path: C:\Program Files\Common Files\VST3\Kilohearts\kHs Distortion.vst3
+plugin 9 info:
+  isInstrument: 0
+  uniqueId: 1417574137
+  numInputChannels: 2
+  numOutputChannels: 2
+  name: kHs Dual Delay
+  descriptiveName: kHs Dual Delay
+  pluginFormatName: VST3
+  category: Fx|Spatial
+  manufacturerName: Kilohearts
+  version: 2.2.4
+  fileOrIdentifier: C:\Program Files\Common Files\VST3\Kilohearts\kHs Dual Delay.vst3
+  lastFileModTime: 22 Jul 2024 7:05:13am
+  path: C:\Program Files\Common Files\VST3\Kilohearts\kHs Dual Delay.vst3
+plugin 10 info:
+  isInstrument: 0
+  uniqueId: 134162169
+  numInputChannels: 2
+  numOutputChannels: 2
+  name: kHs Dynamics
+  descriptiveName: kHs Dynamics
+  pluginFormatName: VST3
+  category: Fx|Dynamics
+  manufacturerName: Kilohearts
+  version: 2.2.4
+  fileOrIdentifier: C:\Program Files\Common Files\VST3\Kilohearts\kHs Dynamics.vst3
+  lastFileModTime: 22 Jul 2024 7:05:20am
+  path: C:\Program Files\Common Files\VST3\Kilohearts\kHs Dynamics.vst3
+plugin 11 info:
+  isInstrument: 0
+  uniqueId: 601118491
+  numInputChannels: 2
+  numOutputChannels: 2
+  name: kHs Ensemble
+  descriptiveName: kHs Ensemble
+  pluginFormatName: VST3
+  category: Fx|Modulation
+  manufacturerName: Kilohearts
+  version: 2.2.4
+  fileOrIdentifier: C:\Program Files\Common Files\VST3\Kilohearts\kHs Ensemble.vst3
+  lastFileModTime: 22 Jul 2024 7:05:22am
+  path: C:\Program Files\Common Files\VST3\Kilohearts\kHs Ensemble.vst3
+plugin 12 info:
+  isInstrument: 0
+  uniqueId: 4138492368
+  numInputChannels: 2
+  numOutputChannels: 2
+  name: kHs Filter
+  descriptiveName: kHs Filter
+  pluginFormatName: VST3
+  category: Fx|Filter
+  manufacturerName: Kilohearts
+  version: 2.2.4
+  fileOrIdentifier: C:\Program Files\Common Files\VST3\Kilohearts\kHs Filter.vst3
+  lastFileModTime: 22 Jul 2024 7:05:11am
+  path: C:\Program Files\Common Files\VST3\Kilohearts\kHs Filter.vst3
+plugin 13 info:
+  isInstrument: 0
+  uniqueId: 3030916668
+  numInputChannels: 2
+  numOutputChannels: 2
+  name: kHs Flanger
+  descriptiveName: kHs Flanger
+  pluginFormatName: VST3
+  category: Fx|Modulation
+  manufacturerName: Kilohearts
+  version: 2.2.4
+  fileOrIdentifier: C:\Program Files\Common Files\VST3\Kilohearts\kHs Flanger.vst3
+  lastFileModTime: 22 Jul 2024 7:05:19am
+  path: C:\Program Files\Common Files\VST3\Kilohearts\kHs Flanger.vst3
+plugin 14 info:
+  isInstrument: 0
+  uniqueId: 2760147537
+  numInputChannels: 2
+  numOutputChannels: 2
+  name: kHs Formant Filter
+  descriptiveName: kHs Formant Filter
+  pluginFormatName: VST3
+  category: Fx|Filter
+  manufacturerName: Kilohearts
+  version: 2.2.4
+  fileOrIdentifier: C:\Program Files\Common Files\VST3\Kilohearts\kHs Formant Filter.vst3
+  lastFileModTime: 22 Jul 2024 7:05:22am
+  path: C:\Program Files\Common Files\VST3\Kilohearts\kHs Formant Filter.vst3
+plugin 15 info:
+  isInstrument: 0
+  uniqueId: 2004129751
+  numInputChannels: 2
+  numOutputChannels: 2
+  name: kHs Frequency Shifter
+  descriptiveName: kHs Frequency Shifter
+  pluginFormatName: VST3
+  category: Fx|Pitch Shift
+  manufacturerName: Kilohearts
+  version: 2.2.4
+  fileOrIdentifier: C:\Program Files\Common Files\VST3\Kilohearts\kHs Frequency Shifter.vst3
+  lastFileModTime: 22 Jul 2024 7:05:14am
+  path: C:\Program Files\Common Files\VST3\Kilohearts\kHs Frequency Shifter.vst3
+plugin 16 info:
+  isInstrument: 0
+  uniqueId: 2274015335
+  numInputChannels: 2
+  numOutputChannels: 2
+  name: kHs Gain
+  descriptiveName: kHs Gain
+  pluginFormatName: VST3
+  category: Fx|Tools
+  manufacturerName: Kilohearts
+  version: 2.2.4
+  fileOrIdentifier: C:\Program Files\Common Files\VST3\Kilohearts\kHs Gain.vst3
+  lastFileModTime: 22 Jul 2024 7:05:21am
+  path: C:\Program Files\Common Files\VST3\Kilohearts\kHs Gain.vst3
+plugin 17 info:
+  isInstrument: 0
+  uniqueId: 2694540149
+  numInputChannels: 4
+  numOutputChannels: 2
+  name: kHs Gate
+  descriptiveName: kHs Gate
+  pluginFormatName: VST3
+  category: Fx|Tools
+  manufacturerName: Kilohearts
+  version: 2.2.4
+  fileOrIdentifier: C:\Program Files\Common Files\VST3\Kilohearts\kHs Gate.vst3
+  lastFileModTime: 22 Jul 2024 7:05:21am
+  path: C:\Program Files\Common Files\VST3\Kilohearts\kHs Gate.vst3
+plugin 18 info:
+  isInstrument: 0
+  uniqueId: 1175631766
+  numInputChannels: 2
+  numOutputChannels: 2
+  name: kHs Haas
+  descriptiveName: kHs Haas
+  pluginFormatName: VST3
+  category: Fx|Spatial
+  manufacturerName: Kilohearts
+  version: 2.2.4
+  fileOrIdentifier: C:\Program Files\Common Files\VST3\Kilohearts\kHs Haas.vst3
+  lastFileModTime: 22 Jul 2024 7:05:13am
+  path: C:\Program Files\Common Files\VST3\Kilohearts\kHs Haas.vst3
+plugin 19 info:
+  isInstrument: 0
+  uniqueId: 4083090245
+  numInputChannels: 2
+  numOutputChannels: 2
+  name: kHs Ladder Filter
+  descriptiveName: kHs Ladder Filter
+  pluginFormatName: VST3
+  category: Fx|Filter
+  manufacturerName: Kilohearts
+  version: 2.2.4
+  fileOrIdentifier: C:\Program Files\Common Files\VST3\Kilohearts\kHs Ladder Filter.vst3
+  lastFileModTime: 22 Jul 2024 7:05:12am
+  path: C:\Program Files\Common Files\VST3\Kilohearts\kHs Ladder Filter.vst3
+plugin 20 info:
+  isInstrument: 0
+  uniqueId: 962153747
+  numInputChannels: 2
+  numOutputChannels: 2
+  name: kHs Limiter
+  descriptiveName: kHs Limiter
+  pluginFormatName: VST3
+  category: Fx|Dynamics
+  manufacturerName: Kilohearts
+  version: 2.2.4
+  fileOrIdentifier: C:\Program Files\Common Files\VST3\Kilohearts\kHs Limiter.vst3
+  lastFileModTime: 22 Jul 2024 7:05:21am
+  path: C:\Program Files\Common Files\VST3\Kilohearts\kHs Limiter.vst3
+plugin 21 info:
+  isInstrument: 0
+  uniqueId: 2463279959
+  numInputChannels: 2
+  numOutputChannels: 2
+  name: kHs Nonlinear Filter
+  descriptiveName: kHs Nonlinear Filter
+  pluginFormatName: VST3
+  category: Fx|Filter
+  manufacturerName: Kilohearts
+  version: 2.2.4
+  fileOrIdentifier: C:\Program Files\Common Files\VST3\Kilohearts\kHs Nonlinear Filter.vst3
+  lastFileModTime: 22 Jul 2024 7:05:05am
+  path: C:\Program Files\Common Files\VST3\Kilohearts\kHs Nonlinear Filter.vst3
+plugin 22 info:
+  isInstrument: 0
+  uniqueId: 1631891512
+  numInputChannels: 4
+  numOutputChannels: 2
+  name: kHs Phase Distortion
+  descriptiveName: kHs Phase Distortion
+  pluginFormatName: VST3
+  category: Fx|Distortion
+  manufacturerName: Kilohearts
+  version: 2.2.4
+  fileOrIdentifier: C:\Program Files\Common Files\VST3\Kilohearts\kHs Phase Distortion.vst3
+  lastFileModTime: 22 Jul 2024 7:05:13am
+  path: C:\Program Files\Common Files\VST3\Kilohearts\kHs Phase Distortion.vst3
+plugin 23 info:
+  isInstrument: 0
+  uniqueId: 3696040040
+  numInputChannels: 2
+  numOutputChannels: 2
+  name: kHs Phaser
+  descriptiveName: kHs Phaser
+  pluginFormatName: VST3
+  category: Fx|Modulation
+  manufacturerName: Kilohearts
+  version: 2.2.4
+  fileOrIdentifier: C:\Program Files\Common Files\VST3\Kilohearts\kHs Phaser.vst3
+  lastFileModTime: 22 Jul 2024 7:05:12am
+  path: C:\Program Files\Common Files\VST3\Kilohearts\kHs Phaser.vst3
+plugin 24 info:
+  isInstrument: 0
+  uniqueId: 3041995182
+  numInputChannels: 2
+  numOutputChannels: 2
+  name: kHs Pitch Shifter
+  descriptiveName: kHs Pitch Shifter
+  pluginFormatName: VST3
+  category: Fx|Pitch Shift
+  manufacturerName: Kilohearts
+  version: 2.2.4
+  fileOrIdentifier: C:\Program Files\Common Files\VST3\Kilohearts\kHs Pitch Shifter.vst3
+  lastFileModTime: 22 Jul 2024 7:05:19am
+  path: C:\Program Files\Common Files\VST3\Kilohearts\kHs Pitch Shifter.vst3
+plugin 25 info:
+  isInstrument: 0
+  uniqueId: 3680190385
+  numInputChannels: 2
+  numOutputChannels: 2
+  name: kHs Resonator
+  descriptiveName: kHs Resonator
+  pluginFormatName: VST3
+  category: Fx|Spatial
+  manufacturerName: Kilohearts
+  version: 2.2.4
+  fileOrIdentifier: C:\Program Files\Common Files\VST3\Kilohearts\kHs Resonator.vst3
+  lastFileModTime: 22 Jul 2024 7:05:20am
+  path: C:\Program Files\Common Files\VST3\Kilohearts\kHs Resonator.vst3
+plugin 26 info:
+  isInstrument: 0
+  uniqueId: 897369927
+  numInputChannels: 2
+  numOutputChannels: 2
+  name: kHs Reverb
+  descriptiveName: kHs Reverb
+  pluginFormatName: VST3
+  category: Fx|Spatial
+  manufacturerName: Kilohearts
+  version: 2.2.4
+  fileOrIdentifier: C:\Program Files\Common Files\VST3\Kilohearts\kHs Reverb.vst3
+  lastFileModTime: 22 Jul 2024 7:05:14am
+  path: C:\Program Files\Common Files\VST3\Kilohearts\kHs Reverb.vst3
+plugin 27 info:
+  isInstrument: 0
+  uniqueId: 918203455
+  numInputChannels: 2
+  numOutputChannels: 2
+  name: kHs Reverser
+  descriptiveName: kHs Reverser
+  pluginFormatName: VST3
+  category: Fx
+  manufacturerName: Kilohearts
+  version: 2.2.4
+  fileOrIdentifier: C:\Program Files\Common Files\VST3\Kilohearts\kHs Reverser.vst3
+  lastFileModTime: 22 Jul 2024 7:05:20am
+  path: C:\Program Files\Common Files\VST3\Kilohearts\kHs Reverser.vst3
+plugin 28 info:
+  isInstrument: 0
+  uniqueId: 3959322180
+  numInputChannels: 4
+  numOutputChannels: 2
+  name: kHs Ring Mod
+  descriptiveName: kHs Ring Mod
+  pluginFormatName: VST3
+  category: Fx|Modulation
+  manufacturerName: Kilohearts
+  version: 2.2.4
+  fileOrIdentifier: C:\Program Files\Common Files\VST3\Kilohearts\kHs Ring Mod.vst3
+  lastFileModTime: 22 Jul 2024 7:05:15am
+  path: C:\Program Files\Common Files\VST3\Kilohearts\kHs Ring Mod.vst3
+plugin 29 info:
+  isInstrument: 0
+  uniqueId: 624695588
+  numInputChannels: 2
+  numOutputChannels: 2
+  name: kHs Shaper
+  descriptiveName: kHs Shaper
+  pluginFormatName: VST3
+  category: Fx|Distortion
+  manufacturerName: Kilohearts
+  version: 2.2.4
+  fileOrIdentifier: C:\Program Files\Common Files\VST3\Kilohearts\kHs Shaper.vst3
+  lastFileModTime: 22 Jul 2024 7:05:18am
+  path: C:\Program Files\Common Files\VST3\Kilohearts\kHs Shaper.vst3
+plugin 30 info:
+  isInstrument: 0
+  uniqueId: 285799613
+  numInputChannels: 2
+  numOutputChannels: 2
+  name: kHs Stereo
+  descriptiveName: kHs Stereo
+  pluginFormatName: VST3
+  category: Fx|Tools
+  manufacturerName: Kilohearts
+  version: 2.2.4
+  fileOrIdentifier: C:\Program Files\Common Files\VST3\Kilohearts\kHs Stereo.vst3
+  lastFileModTime: 22 Jul 2024 7:05:07am
+  path: C:\Program Files\Common Files\VST3\Kilohearts\kHs Stereo.vst3
+plugin 31 info:
+  isInstrument: 0
+  uniqueId: 2909332372
+  numInputChannels: 2
+  numOutputChannels: 2
+  name: kHs Tape Stop
+  descriptiveName: kHs Tape Stop
+  pluginFormatName: VST3
+  category: Fx
+  manufacturerName: Kilohearts
+  version: 2.2.4
+  fileOrIdentifier: C:\Program Files\Common Files\VST3\Kilohearts\kHs Tape Stop.vst3
+  lastFileModTime: 22 Jul 2024 7:05:07am
+  path: C:\Program Files\Common Files\VST3\Kilohearts\kHs Tape Stop.vst3
+plugin 32 info:
+  isInstrument: 0
+  uniqueId: 4133776377
+  numInputChannels: 2
+  numOutputChannels: 2
+  name: kHs Trance Gate
+  descriptiveName: kHs Trance Gate
+  pluginFormatName: VST3
+  category: Fx
+  manufacturerName: Kilohearts
+  version: 2.2.4
+  fileOrIdentifier: C:\Program Files\Common Files\VST3\Kilohearts\kHs Trance Gate.vst3
+  lastFileModTime: 22 Jul 2024 7:05:23am
+  path: C:\Program Files\Common Files\VST3\Kilohearts\kHs Trance Gate.vst3
+plugin 33 info:
+  isInstrument: 0
+  uniqueId: 1669554673
+  numInputChannels: 4
+  numOutputChannels: 2
+  name: kHs Transient Shaper
+  descriptiveName: kHs Transient Shaper
+  pluginFormatName: VST3
+  category: Fx|Dynamics
+  manufacturerName: Kilohearts
+  version: 2.2.4
+  fileOrIdentifier: C:\Program Files\Common Files\VST3\Kilohearts\kHs Transient Shaper.vst3
+  lastFileModTime: 22 Jul 2024 7:05:22am
+  path: C:\Program Files\Common Files\VST3\Kilohearts\kHs Transient Shaper.vst3
+plugin 34 info:
+  isInstrument: 1
+  uniqueId: 984409619
+  numInputChannels: 0
+  numOutputChannels: 32
+  name: SINE Player
+  descriptiveName: SINE Player
+  pluginFormatName: VST3
+  category: Instrument
+  manufacturerName: Orchestral Tools
+  version: 0.1.0
+  fileOrIdentifier: C:\Program Files\Common Files\VST3\SINE Player.vst3\Contents\x86_64-win\SINE Player.vst3
+  lastFileModTime: 17 Jul 2025 2:46:56pm
+  path: C:\Program Files\Common Files\VST3\SINE Player.vst3\Contents\x86_64-win\SINE Player.vst3
+plugin 35 info:
+  isInstrument: 1
+  uniqueId: 3167842259
+  numInputChannels: 0
+  numOutputChannels: 48
+  name: SSDSampler5
+  descriptiveName: SSDSampler5
+  pluginFormatName: VST3
+  category: Instrument|Synth
+  manufacturerName: Steven Slate
+  version: 1.2.7
+  fileOrIdentifier: C:\Program Files\Common Files\VST3\SSDSampler5.vst3
+  lastFileModTime: 12 Jul 2023 12:57:26pm
+  path: C:\Program Files\Common Files\VST3\SSDSampler5.vst3
+plugin 36 info:
+  isInstrument: 0
+  uniqueId: 1722441017
+  numInputChannels: 4
+  numOutputChannels: 2
+  name: SSL 360 Link
+  descriptiveName: SSL 360 Link
+  pluginFormatName: VST3
+  category: Fx
+  manufacturerName: SSL
+  version: 1.0.33
+  fileOrIdentifier: C:\Program Files\Common Files\VST3\SSL 360 Link.vst3
+  lastFileModTime: 15 Feb 2024 9:40:56am
+  path: C:\Program Files\Common Files\VST3\SSL 360 Link.vst3
+plugin 37 info:
+  isInstrument: 0
+  uniqueId: 3184554704
+  numInputChannels: 2
+  numOutputChannels: 2
+  name: Trigger 2
+  descriptiveName: Trigger 2
+  pluginFormatName: VST3
+  category: Fx
+  manufacturerName: Steven Slate
+  version: 2.1.9
+  fileOrIdentifier: C:\Program Files\Common Files\VST3\Trigger_2.vst3
+  lastFileModTime: 12 Jul 2023 12:56:40pm
+  path: C:\Program Files\Common Files\VST3\Trigger_2.vst3
+loading plugin 0:
+success=1 name='SINE Player' lpindex=0 uid=1 errmsg=''
+success=1 name='SINE Player' lpindex=0 uid=1 errmsg=''
+loading plugin 1:
+success=1 name='kHs 3-Band EQ' lpindex=1 uid=2 errmsg=''
+success=1 name='kHs 3-Band EQ' lpindex=1 uid=2 errmsg=''
+loading plugin 2:
+success=1 name='kHs Bitcrush' lpindex=2 uid=3 errmsg=''
+success=1 name='kHs Bitcrush' lpindex=2 uid=3 errmsg=''
+loading plugin 3:
+success=1 name='kHs Channel Mixer' lpindex=3 uid=4 errmsg=''
+success=1 name='kHs Channel Mixer' lpindex=3 uid=4 errmsg=''
+loading plugin 4:
+success=1 name='kHs Chorus' lpindex=4 uid=5 errmsg=''
+success=1 name='kHs Chorus' lpindex=4 uid=5 errmsg=''
+loading plugin 5:
+success=1 name='kHs Comb Filter' lpindex=5 uid=6 errmsg=''
+success=1 name='kHs Comb Filter' lpindex=5 uid=6 errmsg=''
+loading plugin 6:
+success=1 name='kHs Compressor' lpindex=6 uid=7 errmsg=''
+success=1 name='kHs Compressor' lpindex=6 uid=7 errmsg=''
+loading plugin 7:
+success=1 name='kHs Delay' lpindex=7 uid=8 errmsg=''
+success=1 name='kHs Delay' lpindex=7 uid=8 errmsg=''
+loading plugin 8:
+success=1 name='kHs Distortion' lpindex=8 uid=9 errmsg=''
+success=1 name='kHs Distortion' lpindex=8 uid=9 errmsg=''
+loading plugin 9:
+success=1 name='kHs Dual Delay' lpindex=9 uid=10 errmsg=''
+success=1 name='kHs Dual Delay' lpindex=9 uid=10 errmsg=''
+loading plugin 10:
+success=1 name='kHs Dynamics' lpindex=10 uid=11 errmsg=''
+success=1 name='kHs Dynamics' lpindex=10 uid=11 errmsg=''
+loading plugin 11:
+success=1 name='kHs Ensemble' lpindex=11 uid=12 errmsg=''
+success=1 name='kHs Ensemble' lpindex=11 uid=12 errmsg=''
+loading plugin 12:
+success=1 name='kHs Filter' lpindex=12 uid=13 errmsg=''
+success=1 name='kHs Filter' lpindex=12 uid=13 errmsg=''
+loading plugin 13:
+success=1 name='kHs Flanger' lpindex=13 uid=14 errmsg=''
+success=1 name='kHs Flanger' lpindex=13 uid=14 errmsg=''
+loading plugin 14:
+success=1 name='kHs Formant Filter' lpindex=14 uid=15 errmsg=''
+success=1 name='kHs Formant Filter' lpindex=14 uid=15 errmsg=''
+loading plugin 15:
+success=1 name='kHs Frequency Shifter' lpindex=15 uid=16 errmsg=''
+success=1 name='kHs Frequency Shifter' lpindex=15 uid=16 errmsg=''
+loading plugin 16:
+success=1 name='kHs Gain' lpindex=16 uid=17 errmsg=''
+success=1 name='kHs Gain' lpindex=16 uid=17 errmsg=''
+loading plugin 17:
+success=1 name='kHs Gate' lpindex=17 uid=18 errmsg=''
+success=1 name='kHs Gate' lpindex=17 uid=18 errmsg=''
+loading plugin 18:
+success=1 name='kHs Haas' lpindex=18 uid=19 errmsg=''
+success=1 name='kHs Haas' lpindex=18 uid=19 errmsg=''
+loading plugin 19:
+success=1 name='kHs Ladder Filter' lpindex=19 uid=20 errmsg=''
+success=1 name='kHs Ladder Filter' lpindex=19 uid=20 errmsg=''
+loading plugin 20:
+success=1 name='kHs Limiter' lpindex=20 uid=21 errmsg=''
+success=1 name='kHs Limiter' lpindex=20 uid=21 errmsg=''
+loading plugin 21:
+success=1 name='kHs Nonlinear Filter' lpindex=21 uid=22 errmsg=''
+success=1 name='kHs Nonlinear Filter' lpindex=21 uid=22 errmsg=''
+loading plugin 22:
+success=1 name='kHs Phase Distortion' lpindex=22 uid=23 errmsg=''
+success=1 name='kHs Phase Distortion' lpindex=22 uid=23 errmsg=''
+loading plugin 23:
+success=1 name='kHs Phaser' lpindex=23 uid=24 errmsg=''
+success=1 name='kHs Phaser' lpindex=23 uid=24 errmsg=''
+loading plugin 24:
+success=1 name='kHs Pitch Shifter' lpindex=24 uid=25 errmsg=''
+success=1 name='kHs Pitch Shifter' lpindex=24 uid=25 errmsg=''
+loading plugin 25:
+success=1 name='kHs Resonator' lpindex=25 uid=26 errmsg=''
+success=1 name='kHs Resonator' lpindex=25 uid=26 errmsg=''
+loading plugin 26:
+success=1 name='kHs Reverb' lpindex=26 uid=27 errmsg=''
+success=1 name='kHs Reverb' lpindex=26 uid=27 errmsg=''
+loading plugin 27:
+success=1 name='kHs Reverser' lpindex=27 uid=28 errmsg=''
+success=1 name='kHs Reverser' lpindex=27 uid=28 errmsg=''
+loading plugin 28:
+success=1 name='kHs Ring Mod' lpindex=28 uid=29 errmsg=''
+success=1 name='kHs Ring Mod' lpindex=28 uid=29 errmsg=''
+loading plugin 29:
+success=1 name='kHs Shaper' lpindex=29 uid=30 errmsg=''
+success=1 name='kHs Shaper' lpindex=29 uid=30 errmsg=''
+loading plugin 30:
+success=1 name='kHs Stereo' lpindex=30 uid=31 errmsg=''
+success=1 name='kHs Stereo' lpindex=30 uid=31 errmsg=''
+loading plugin 31:
+success=1 name='kHs Tape Stop' lpindex=31 uid=32 errmsg=''
+success=1 name='kHs Tape Stop' lpindex=31 uid=32 errmsg=''
+loading plugin 32:
+success=1 name='kHs Trance Gate' lpindex=32 uid=33 errmsg=''
+success=1 name='kHs Trance Gate' lpindex=32 uid=33 errmsg=''
+loading plugin 33:
+success=1 name='kHs Transient Shaper' lpindex=33 uid=34 errmsg=''
+success=1 name='kHs Transient Shaper' lpindex=33 uid=34 errmsg=''
+loading plugin 34:
+success=1 name='SINE Player' lpindex=34 uid=35 errmsg=''
+success=1 name='SINE Player' lpindex=34 uid=35 errmsg=''
+loading plugin 35:
+success=1 name='SSDSampler5' lpindex=35 uid=36 errmsg=''
+success=1 name='SSDSampler5' lpindex=35 uid=36 errmsg=''
+loading plugin 36:
+success=1 name='SSL 360 Link' lpindex=36 uid=37 errmsg=''
+success=1 name='SSL 360 Link' lpindex=36 uid=37 errmsg=''
+loading plugin 37:
+success=1 name='Trigger 2' lpindex=37 uid=38 errmsg=''
+success=1 name='Trigger 2' lpindex=37 uid=38 errmsg=''
+showing plugin ui lpindex = 0
+  success=1 errmsg=''
+  parameters info:
+showing plugin ui lpindex = 1
+  success=1 errmsg=''
+  parameters info:
+showing plugin ui lpindex = 2
+  success=1 errmsg=''
+  parameters info:
+showing plugin ui lpindex = 3
+  success=1 errmsg=''
+  parameters info:
+showing plugin ui lpindex = 4
+  success=1 errmsg=''
+  parameters info:
+  lpindex 0
+  success=1 numParams=0 errmsg=''
+  lpindex 1
+    name: Bypass
+    minValue: 5.739718509874451e-42
+    maxValue: 0.0
+    interval: -1.7291007819335598e+18
+    skewFactor: 2.2420775429197073e-44
+    value: 0.0
+    numSteps: 2
+    isDiscrete: 1
+    isBoolean: 0
+    isOrientationInverted: 0
+    isAutomatable: 1
+    isMetaParameter: 0
+parameters data:
+i s M e t a P a r a m e t e r 
+  success=1 numParams=1 errmsg=''
+    parameter 0:
+      name: Bypass
+      originalIndex: 5
+      minValue: 5.739718509874451e-42
+      maxValue: 0.0
+      interval: -1.7291007819335598e+18
+      skewFactor: 2.2420775429197073e-44
+      value: 0.0
+      numSteps: 2
+      isDiscrete: 1
+      isBoolean: 0
+      isOrientationInverted: 0
+      isAutomatable: 1
+      isMetaParameter: 0
+  lpindex 2
+    name: Bypass
+    minValue: -3.482782638675186e-13
+    maxValue: 4.591634678053128e-41
+    interval: -2.0336134777679153e-36
+    skewFactor: 5.009501880114789e-41
+    value: 0.0
+    numSteps: 2
+    isDiscrete: 1
+    isBoolean: 0
+    isOrientationInverted: 0
+    isAutomatable: 1
+    isMetaParameter: 0
+parameters data:
+i s M e t a P a r a m e t e r 
+  success=1 numParams=1 errmsg=''
+    parameter 0:
+      name: Bypass
+      originalIndex: 0
+      minValue: -3.482782638675186e-13
+      maxValue: 4.591634678053128e-41
+      interval: -2.0336134777679153e-36
+      skewFactor: 5.009501880114789e-41
+      value: 0.0
+      numSteps: 2
+      isDiscrete: 1
+      isBoolean: 0
+      isOrientationInverted: 0
+      isAutomatable: 1
+      isMetaParameter: 0
+  lpindex 3
+    name: Bypass
+    minValue: -3.482782638675186e-13
+    maxValue: 4.591634678053128e-41
+    interval: -2.0336134777679153e-36
+    skewFactor: 5.009501880114789e-41
+    value: 0.0
+    numSteps: 2
+    isDiscrete: 1
+    isBoolean: 0
+    isOrientationInverted: 0
+    isAutomatable: 1
+    isMetaParameter: 0
+parameters data:
+i s M e t a P a r a m e t e r 
+  success=1 numParams=1 errmsg=''
+    parameter 0:
+      name: Bypass
+      originalIndex: 4
+      minValue: -3.482782638675186e-13
+      maxValue: 4.591634678053128e-41
+      interval: -2.0336134777679153e-36
+      skewFactor: 5.009501880114789e-41
+      value: 0.0
+      numSteps: 2
+      isDiscrete: 1
+      isBoolean: 0
+      isOrientationInverted: 0
+      isAutomatable: 1
+      isMetaParameter: 0
+  lpindex 4
+    name: Bypass
+    minValue: -3.482782638675186e-13
+    maxValue: 4.591634678053128e-41
+    interval: -2.0336134777679153e-36
+    skewFactor: 5.009501880114789e-41
+    value: 0.0
+    numSteps: 2
+    isDiscrete: 1
+    isBoolean: 0
+    isOrientationInverted: 0
+    isAutomatable: 1
+    isMetaParameter: 0
+parameters data:
+i s M e t a P a r a m e t e r 
+    name: Taps
+    minValue: -3.482782638675186e-13
+    maxValue: 4.591634678053128e-41
+    interval: -2.0336134777679153e-36
+    skewFactor: 5.009501880114789e-41
+    value: 0.0
+    numSteps: 2
+    isDiscrete: 1
+    isBoolean: 0
+    isOrientationInverted: 0
+    isAutomatable: 1
+    isMetaParameter: 0
+parameters data:
+i s M e t a P a r a m e t e r 
+  success=1 numParams=2 errmsg=''
+    parameter 0:
+      name: Bypass
+      originalIndex: 0
+      minValue: -3.482782638675186e-13
+      maxValue: 4.591634678053128e-41
+      interval: -2.0336134777679153e-36
+      skewFactor: 5.009501880114789e-41
+      value: 0.0
+      numSteps: 2
+      isDiscrete: 1
+      isBoolean: 0
+      isOrientationInverted: 0
+      isAutomatable: 1
+      isMetaParameter: 0
+    parameter 1:
+      name: Taps
+      originalIndex: 6
+      minValue: -3.482782638675186e-13
+      maxValue: 4.591634678053128e-41
+      interval: -2.0336134777679153e-36
+      skewFactor: 5.009501880114789e-41
+      value: 0.0
+      numSteps: 2
+      isDiscrete: 1
+      isBoolean: 0
+      isOrientationInverted: 0
+      isAutomatable: 1
+      isMetaParameter: 0
+  lpindex 5
+    name: Bypass
+    minValue: -3.482782638675186e-13
+    maxValue: 4.591634678053128e-41
+    interval: -2.0336134777679153e-36
+    skewFactor: 5.009501880114789e-41
+    value: 0.0
+    numSteps: 2
+    isDiscrete: 1
+    isBoolean: 0
+    isOrientationInverted: 0
+    isAutomatable: 1
+    isMetaParameter: 0
+parameters data:
+i s M e t a P a r a m e t e r 
+    name: Polarity
+    minValue: -3.482782638675186e-13
+    maxValue: 4.591634678053128e-41
+    interval: -2.0336134777679153e-36
+    skewFactor: 5.009501880114789e-41
+    value: 0.0
+    numSteps: 2
+    isDiscrete: 1
+    isBoolean: 0
+    isOrientationInverted: 0
+    isAutomatable: 1
+    isMetaParameter: 0
+parameters data:
+i s M e t a P a r a m e t e r 
+    name: Stereo
+    minValue: -3.482782638675186e-13
+    maxValue: 4.591634678053128e-41
+    interval: -2.0336134777679153e-36
+    skewFactor: 5.009501880114789e-41
+    value: 0.0
+    numSteps: 2
+    isDiscrete: 1
+    isBoolean: 0
+    isOrientationInverted: 0
+    isAutomatable: 1
+    isMetaParameter: 0
+parameters data:
+i s M e t a P a r a m e t e r 
+  success=1 numParams=3 errmsg=''
+    parameter 0:
+      name: Bypass
+      originalIndex: 0
+      minValue: -3.482782638675186e-13
+      maxValue: 4.591634678053128e-41
+      interval: -2.0336134777679153e-36
+      skewFactor: 5.009501880114789e-41
+      value: 0.0
+      numSteps: 2
+      isDiscrete: 1
+      isBoolean: 0
+      isOrientationInverted: 0
+      isAutomatable: 1
+      isMetaParameter: 0
+    parameter 1:
+      name: Polarity
+      originalIndex: 3
+      minValue: -3.482782638675186e-13
+      maxValue: 4.591634678053128e-41
+      interval: -2.0336134777679153e-36
+      skewFactor: 5.009501880114789e-41
+      value: 0.0
+      numSteps: 2
+      isDiscrete: 1
+      isBoolean: 0
+      isOrientationInverted: 0
+      isAutomatable: 1
+      isMetaParameter: 0
+    parameter 2:
+      name: Stereo
+      originalIndex: 4
+      minValue: -3.482782638675186e-13
+      maxValue: 4.591634678053128e-41
+      interval: -2.0336134777679153e-36
+      skewFactor: 5.009501880114789e-41
+      value: 0.0
+      numSteps: 2
+      isDiscrete: 1
+      isBoolean: 0
+      isOrientationInverted: 0
+      isAutomatable: 1
+      isMetaParameter: 0
+  lpindex 6
+    name: Bypass
+    minValue: -3.482782638675186e-13
+    maxValue: 4.591634678053128e-41
+    interval: -2.0336134777679153e-36
+    skewFactor: 5.009501880114789e-41
+    value: 0.0
+    numSteps: 2
+    isDiscrete: 1
+    isBoolean: 0
+    isOrientationInverted: 0
+    isAutomatable: 1
+    isMetaParameter: 0
+parameters data:
+i s M e t a P a r a m e t e r 
+    name: Mode
+    minValue: -3.482782638675186e-13
+    maxValue: 4.591634678053128e-41
+    interval: -2.0336134777679153e-36
+    skewFactor: 5.009501880114789e-41
+    value: 0.5
+    numSteps: 3
+    isDiscrete: 1
+    isBoolean: 0
+    isOrientationInverted: 0
+    isAutomatable: 1
+    isMetaParameter: 0
+parameters data:
+i s M e t a P a r a m e t e r 
+  success=1 numParams=2 errmsg=''
+    parameter 0:
+      name: Bypass
+      originalIndex: 0
+      minValue: -3.482782638675186e-13
+      maxValue: 4.591634678053128e-41
+      interval: -2.0336134777679153e-36
+      skewFactor: 5.009501880114789e-41
+      value: 0.0
+      numSteps: 2
+      isDiscrete: 1
+      isBoolean: 0
+      isOrientationInverted: 0
+      isAutomatable: 1
+      isMetaParameter: 0
+    parameter 1:
+      name: Mode
+      originalIndex: 3
+      minValue: -3.482782638675186e-13
+      maxValue: 4.591634678053128e-41
+      interval: -2.0336134777679153e-36
+      skewFactor: 5.009501880114789e-41
+      value: 0.5
+      numSteps: 3
+      isDiscrete: 1
+      isBoolean: 0
+      isOrientationInverted: 0
+      isAutomatable: 1
+      isMetaParameter: 0
+  lpindex 7
+    name: Bypass
+    minValue: -3.482782638675186e-13
+    maxValue: 4.591634678053128e-41
+    interval: -2.0336134777679153e-36
+    skewFactor: 5.009501880114789e-41
+    value: 0.0
+    numSteps: 2
+    isDiscrete: 1
+    isBoolean: 0
+    isOrientationInverted: 0
+    isAutomatable: 1
+    isMetaParameter: 0
+parameters data:
+i s M e t a P a r a m e t e r 
+    name: Delay Time (steps)
+    minValue: -3.482782638675186e-13
+    maxValue: 4.591634678053128e-41
+    interval: -2.0336134777679153e-36
+    skewFactor: 5.009501880114789e-41
+    value: 0.0317460335791111
+    numSteps: 64
+    isDiscrete: 1
+    isBoolean: 0
+    isOrientationInverted: 0
+    isAutomatable: 1
+    isMetaParameter: 0
+parameters data:
+i s M e t a P a r a m e t e r 
+    name: Delay Denominator
+    minValue: -3.482782638675186e-13
+    maxValue: 4.591634678053128e-41
+    interval: -2.0336134777679153e-36
+    skewFactor: 5.009501880114789e-41
+    value: 0.6666666865348816
+    numSteps: 7
+    isDiscrete: 1
+    isBoolean: 0
+    isOrientationInverted: 0
+    isAutomatable: 1
+    isMetaParameter: 0
+parameters data:
+i s M e t a P a r a m e t e r 
+    name: Sync Mode
+    minValue: -3.482782638675186e-13
+    maxValue: 4.591634678053128e-41
+    interval: -2.0336134777679153e-36
+    skewFactor: 5.009501880114789e-41
+    value: 0.0
+    numSteps: 2
+    isDiscrete: 1
+    isBoolean: 0
+    isOrientationInverted: 0
+    isAutomatable: 1
+    isMetaParameter: 0
+parameters data:
+i s M e t a P a r a m e t e r 
+    name: Bounce
+    minValue: -3.482782638675186e-13
+    maxValue: 4.591634678053128e-41
+    interval: -2.0336134777679153e-36
+    skewFactor: 5.009501880114789e-41
+    value: 0.0
+    numSteps: 2
+    isDiscrete: 1
+    isBoolean: 0
+    isOrientationInverted: 0
+    isAutomatable: 1
+    isMetaParameter: 0
+parameters data:
+i s M e t a P a r a m e t e r 
+  success=1 numParams=5 errmsg=''
+    parameter 0:
+      name: Bypass
+      originalIndex: 0
+      minValue: -3.482782638675186e-13
+      maxValue: 4.591634678053128e-41
+      interval: -2.0336134777679153e-36
+      skewFactor: 5.009501880114789e-41
+      value: 0.0
+      numSteps: 2
+      isDiscrete: 1
+      isBoolean: 0
+      isOrientationInverted: 0
+      isAutomatable: 1
+      isMetaParameter: 0
+    parameter 1:
+      name: Delay Time (steps)
+      originalIndex: 2
+      minValue: -3.482782638675186e-13
+      maxValue: 4.591634678053128e-41
+      interval: -2.0336134777679153e-36
+      skewFactor: 5.009501880114789e-41
+      value: 0.0317460335791111
+      numSteps: 64
+      isDiscrete: 1
+      isBoolean: 0
+      isOrientationInverted: 0
+      isAutomatable: 1
+      isMetaParameter: 0
+    parameter 2:
+      name: Delay Denominator
+      originalIndex: 3
+      minValue: -3.482782638675186e-13
+      maxValue: 4.591634678053128e-41
+      interval: -2.0336134777679153e-36
+      skewFactor: 5.009501880114789e-41
+      value: 0.6666666865348816
+      numSteps: 7
+      isDiscrete: 1
+      isBoolean: 0
+      isOrientationInverted: 0
+      isAutomatable: 1
+      isMetaParameter: 0
+    parameter 3:
+      name: Sync Mode
+      originalIndex: 4
+      minValue: -3.482782638675186e-13
+      maxValue: 4.591634678053128e-41
+      interval: -2.0336134777679153e-36
+      skewFactor: 5.009501880114789e-41
+      value: 0.0
+      numSteps: 2
+      isDiscrete: 1
+      isBoolean: 0
+      isOrientationInverted: 0
+      isAutomatable: 1
+      isMetaParameter: 0
+    parameter 4:
+      name: Bounce
+      originalIndex: 7
+      minValue: -3.482782638675186e-13
+      maxValue: 4.591634678053128e-41
+      interval: -2.0336134777679153e-36
+      skewFactor: 5.009501880114789e-41
+      value: 0.0
+      numSteps: 2
+      isDiscrete: 1
+      isBoolean: 0
+      isOrientationInverted: 0
+      isAutomatable: 1
+      isMetaParameter: 0
+  lpindex 8
+    name: Bypass
+    minValue: -3.482782638675186e-13
+    maxValue: 4.591634678053128e-41
+    interval: -2.0336134777679153e-36
+    skewFactor: 5.009501880114789e-41
+    value: 0.0
+    numSteps: 2
+    isDiscrete: 1
+    isBoolean: 0
+    isOrientationInverted: 0
+    isAutomatable: 1
+    isMetaParameter: 0
+parameters data:
+i s M e t a P a r a m e t e r 
+    name: Type
+    minValue: -3.482782638675186e-13
+    maxValue: 4.591634678053128e-41
+    interval: -2.0336134777679153e-36
+    skewFactor: 5.009501880114789e-41
+    value: 0.0
+    numSteps: 6
+    isDiscrete: 1
+    isBoolean: 0
+    isOrientationInverted: 0
+    isAutomatable: 1
+    isMetaParameter: 0
+parameters data:
+i s M e t a P a r a m e t e r 
+    name: DC Filter
+    minValue: -3.482782638675186e-13
+    maxValue: 4.591634678053128e-41
+    interval: -2.0336134777679153e-36
+    skewFactor: 5.009501880114789e-41
+    value: 1.0
+    numSteps: 2
+    isDiscrete: 1
+    isBoolean: 0
+    isOrientationInverted: 0
+    isAutomatable: 1
+    isMetaParameter: 0
+parameters data:
+i s M e t a P a r a m e t e r 
+  success=1 numParams=3 errmsg=''
+    parameter 0:
+      name: Bypass
+      originalIndex: 0
+      minValue: -3.482782638675186e-13
+      maxValue: 4.591634678053128e-41
+      interval: -2.0336134777679153e-36
+      skewFactor: 5.009501880114789e-41
+      value: 0.0
+      numSteps: 2
+      isDiscrete: 1
+      isBoolean: 0
+      isOrientationInverted: 0
+      isAutomatable: 1
+      isMetaParameter: 0
+    parameter 1:
+      name: Type
+      originalIndex: 4
+      minValue: -3.482782638675186e-13
+      maxValue: 4.591634678053128e-41
+      interval: -2.0336134777679153e-36
+      skewFactor: 5.009501880114789e-41
+      value: 0.0
+      numSteps: 6
+      isDiscrete: 1
+      isBoolean: 0
+      isOrientationInverted: 0
+      isAutomatable: 1
+      isMetaParameter: 0
+    parameter 2:
+      name: DC Filter
+      originalIndex: 7
+      minValue: -3.482782638675186e-13
+      maxValue: 4.591634678053128e-41
+      interval: -2.0336134777679153e-36
+      skewFactor: 5.009501880114789e-41
+      value: 1.0
+      numSteps: 2
+      isDiscrete: 1
+      isBoolean: 0
+      isOrientationInverted: 0
+      isAutomatable: 1
+      isMetaParameter: 0
+  lpindex 9
+    name: Bypass
+    minValue: -3.482782638675186e-13
+    maxValue: 4.591634678053128e-41
+    interval: -2.0336134777679153e-36
+    skewFactor: 5.009501880114789e-41
+    value: 0.0
+    numSteps: 2
+    isDiscrete: 1
+    isBoolean: 0
+    isOrientationInverted: 0
+    isAutomatable: 1
+    isMetaParameter: 0
+parameters data:
+i s M e t a P a r a m e t e r 
+    name: Delay Time (steps)
+    minValue: -3.482782638675186e-13
+    maxValue: 4.591634678053128e-41
+    interval: -2.0336134777679153e-36
+    skewFactor: 5.009501880114789e-41
+    value: 0.0317460335791111
+    numSteps: 64
+    isDiscrete: 1
+    isBoolean: 0
+    isOrientationInverted: 0
+    isAutomatable: 1
+    isMetaParameter: 0
+parameters data:
+i s M e t a P a r a m e t e r 
+    name: Delay Denominator
+    minValue: -3.482782638675186e-13
+    maxValue: 4.591634678053128e-41
+    interval: -2.0336134777679153e-36
+    skewFactor: 5.009501880114789e-41
+    value: 0.6666666865348816
+    numSteps: 7
+    isDiscrete: 1
+    isBoolean: 0
+    isOrientationInverted: 0
+    isAutomatable: 1
+    isMetaParameter: 0
+parameters data:
+i s M e t a P a r a m e t e r 
+    name: Sync Mode
+    minValue: -3.482782638675186e-13
+    maxValue: 4.591634678053128e-41
+    interval: -2.0336134777679153e-36
+    skewFactor: 5.009501880114789e-41
+    value: 0.0
+    numSteps: 2
+    isDiscrete: 1
+    isBoolean: 0
+    isOrientationInverted: 0
+    isAutomatable: 1
+    isMetaParameter: 0
+parameters data:
+i s M e t a P a r a m e t e r 
+  success=1 numParams=4 errmsg=''
+    parameter 0:
+      name: Bypass
+      originalIndex: 7
+      minValue: -3.482782638675186e-13
+      maxValue: 4.591634678053128e-41
+      interval: -2.0336134777679153e-36
+      skewFactor: 5.009501880114789e-41
+      value: 0.0
+      numSteps: 2
+      isDiscrete: 1
+      isBoolean: 0
+      isOrientationInverted: 0
+      isAutomatable: 1
+      isMetaParameter: 0
+    parameter 1:
+      name: Delay Time (steps)
+      originalIndex: 8
+      minValue: -3.482782638675186e-13
+      maxValue: 4.591634678053128e-41
+      interval: -2.0336134777679153e-36
+      skewFactor: 5.009501880114789e-41
+      value: 0.0317460335791111
+      numSteps: 64
+      isDiscrete: 1
+      isBoolean: 0
+      isOrientationInverted: 0
+      isAutomatable: 1
+      isMetaParameter: 0
+    parameter 2:
+      name: Delay Denominator
+      originalIndex: 9
+      minValue: -3.482782638675186e-13
+      maxValue: 4.591634678053128e-41
+      interval: -2.0336134777679153e-36
+      skewFactor: 5.009501880114789e-41
+      value: 0.6666666865348816
+      numSteps: 7
+      isDiscrete: 1
+      isBoolean: 0
+      isOrientationInverted: 0
+      isAutomatable: 1
+      isMetaParameter: 0
+    parameter 3:
+      name: Sync Mode
+      originalIndex: 10
+      minValue: -3.482782638675186e-13
+      maxValue: 4.591634678053128e-41
+      interval: -2.0336134777679153e-36
+      skewFactor: 5.009501880114789e-41
+      value: 0.0
+      numSteps: 2
+      isDiscrete: 1
+      isBoolean: 0
+      isOrientationInverted: 0
+      isAutomatable: 1
+      isMetaParameter: 0
+  lpindex 10
+    name: Bypass
+    minValue: -3.482782638675186e-13
+    maxValue: 4.591634678053128e-41
+    interval: -2.0336134777679153e-36
+    skewFactor: 5.009501880114789e-41
+    value: 0.0
+    numSteps: 2
+    isDiscrete: 1
+    isBoolean: 0
+    isOrientationInverted: 0
+    isAutomatable: 1
+    isMetaParameter: 0
+parameters data:
+i s M e t a P a r a m e t e r 
+  success=1 numParams=1 errmsg=''
+    parameter 0:
+      name: Bypass
+      originalIndex: 8
+      minValue: -3.482782638675186e-13
+      maxValue: 4.591634678053128e-41
+      interval: -2.0336134777679153e-36
+      skewFactor: 5.009501880114789e-41
+      value: 0.0
+      numSteps: 2
+      isDiscrete: 1
+      isBoolean: 0
+      isOrientationInverted: 0
+      isAutomatable: 1
+      isMetaParameter: 0
+  lpindex 11
+    name: Voices
+    minValue: -3.482782638675186e-13
+    maxValue: 4.591634678053128e-41
+    interval: -2.0336134777679153e-36
+    skewFactor: 5.009501880114789e-41
+    value: 0.2857142984867096
+    numSteps: 15
+    isDiscrete: 1
+    isBoolean: 0
+    isOrientationInverted: 0
+    isAutomatable: 1
+    isMetaParameter: 0
+parameters data:
+i s M e t a P a r a m e t e r 
+    name: Bypass
+    minValue: -3.482782638675186e-13
+    maxValue: 4.591634678053128e-41
+    interval: -2.0336134777679153e-36
+    skewFactor: 5.009501880114789e-41
+    value: 0.0
+    numSteps: 2
+    isDiscrete: 1
+    isBoolean: 0
+    isOrientationInverted: 0
+    isAutomatable: 1
+    isMetaParameter: 0
+parameters data:
+i s M e t a P a r a m e t e r 
+    name: Motion
+    minValue: -3.482782638675186e-13
+    maxValue: 4.591634678053128e-41
+    interval: -2.0336134777679153e-36
+    skewFactor: 5.009501880114789e-41
+    value: 0.5
+    numSteps: 3
+    isDiscrete: 1
+    isBoolean: 0
+    isOrientationInverted: 0
+    isAutomatable: 1
+    isMetaParameter: 0
+parameters data:
+i s M e t a P a r a m e t e r 
+  success=1 numParams=3 errmsg=''
+    parameter 0:
+      name: Voices
+      originalIndex: 0
+      minValue: -3.482782638675186e-13
+      maxValue: 4.591634678053128e-41
+      interval: -2.0336134777679153e-36
+      skewFactor: 5.009501880114789e-41
+      value: 0.2857142984867096
+      numSteps: 15
+      isDiscrete: 1
+      isBoolean: 0
+      isOrientationInverted: 0
+      isAutomatable: 1
+      isMetaParameter: 0
+    parameter 1:
+      name: Bypass
+      originalIndex: 4
+      minValue: -3.482782638675186e-13
+      maxValue: 4.591634678053128e-41
+      interval: -2.0336134777679153e-36
+      skewFactor: 5.009501880114789e-41
+      value: 0.0
+      numSteps: 2
+      isDiscrete: 1
+      isBoolean: 0
+      isOrientationInverted: 0
+      isAutomatable: 1
+      isMetaParameter: 0
+    parameter 2:
+      name: Motion
+      originalIndex: 5
+      minValue: -3.482782638675186e-13
+      maxValue: 4.591634678053128e-41
+      interval: -2.0336134777679153e-36
+      skewFactor: 5.009501880114789e-41
+      value: 0.5
+      numSteps: 3
+      isDiscrete: 1
+      isBoolean: 0
+      isOrientationInverted: 0
+      isAutomatable: 1
+      isMetaParameter: 0
+  lpindex 12
+    name: Bypass
+    minValue: -3.482782638675186e-13
+    maxValue: 4.591634678053128e-41
+    interval: -2.0336134777679153e-36
+    skewFactor: 5.009501880114789e-41
+    value: 0.0
+    numSteps: 2
+    isDiscrete: 1
+    isBoolean: 0
+    isOrientationInverted: 0
+    isAutomatable: 1
+    isMetaParameter: 0
+parameters data:
+i s M e t a P a r a m e t e r 
+    name: Type
+    minValue: -3.482782638675186e-13
+    maxValue: 4.591634678053128e-41
+    interval: -2.0336134777679153e-36
+    skewFactor: 5.009501880114789e-41
+    value: 0.0
+    numSteps: 7
+    isDiscrete: 1
+    isBoolean: 0
+    isOrientationInverted: 0
+    isAutomatable: 1
+    isMetaParameter: 0
+parameters data:
+i s M e t a P a r a m e t e r 
+    name: Slope
+    minValue: -3.482782638675186e-13
+    maxValue: 4.591634678053128e-41
+    interval: -2.0336134777679153e-36
+    skewFactor: 5.009501880114789e-41
+    value: 0.0
+    numSteps: 6
+    isDiscrete: 1
+    isBoolean: 0
+    isOrientationInverted: 0
+    isAutomatable: 1
+    isMetaParameter: 0
+parameters data:
+i s M e t a P a r a m e t e r 
+  success=1 numParams=3 errmsg=''
+    parameter 0:
+      name: Bypass
+      originalIndex: 0
+      minValue: -3.482782638675186e-13
+      maxValue: 4.591634678053128e-41
+      interval: -2.0336134777679153e-36
+      skewFactor: 5.009501880114789e-41
+      value: 0.0
+      numSteps: 2
+      isDiscrete: 1
+      isBoolean: 0
+      isOrientationInverted: 0
+      isAutomatable: 1
+      isMetaParameter: 0
+    parameter 1:
+      name: Type
+      originalIndex: 1
+      minValue: -3.482782638675186e-13
+      maxValue: 4.591634678053128e-41
+      interval: -2.0336134777679153e-36
+      skewFactor: 5.009501880114789e-41
+      value: 0.0
+      numSteps: 7
+      isDiscrete: 1
+      isBoolean: 0
+      isOrientationInverted: 0
+      isAutomatable: 1
+      isMetaParameter: 0
+    parameter 2:
+      name: Slope
+      originalIndex: 5
+      minValue: -3.482782638675186e-13
+      maxValue: 4.591634678053128e-41
+      interval: -2.0336134777679153e-36
+      skewFactor: 5.009501880114789e-41
+      value: 0.0
+      numSteps: 6
+      isDiscrete: 1
+      isBoolean: 0
+      isOrientationInverted: 0
+      isAutomatable: 1
+      isMetaParameter: 0
+  lpindex 13
+    name: Scroll
+    minValue: -3.482782638675186e-13
+    maxValue: 4.591634678053128e-41
+    interval: -2.0336134777679153e-36
+    skewFactor: 5.009501880114789e-41
+    value: 0.0
+    numSteps: 2
+    isDiscrete: 1
+    isBoolean: 0
+    isOrientationInverted: 0
+    isAutomatable: 1
+    isMetaParameter: 0
+parameters data:
+i s M e t a P a r a m e t e r 
+    name: Bypass
+    minValue: -3.482782638675186e-13
+    maxValue: 4.591634678053128e-41
+    interval: -2.0336134777679153e-36
+    skewFactor: 5.009501880114789e-41
+    value: 0.0
+    numSteps: 2
+    isDiscrete: 1
+    isBoolean: 0
+    isOrientationInverted: 0
+    isAutomatable: 1
+    isMetaParameter: 0
+parameters data:
+i s M e t a P a r a m e t e r 
+  success=1 numParams=2 errmsg=''
+    parameter 0:
+      name: Scroll
+      originalIndex: 8
+      minValue: -3.482782638675186e-13
+      maxValue: 4.591634678053128e-41
+      interval: -2.0336134777679153e-36
+      skewFactor: 5.009501880114789e-41
+      value: 0.0
+      numSteps: 2
+      isDiscrete: 1
+      isBoolean: 0
+      isOrientationInverted: 0
+      isAutomatable: 1
+      isMetaParameter: 0
+    parameter 1:
+      name: Bypass
+      originalIndex: 9
+      minValue: -3.482782638675186e-13
+      maxValue: 4.591634678053128e-41
+      interval: -2.0336134777679153e-36
+      skewFactor: 5.009501880114789e-41
+      value: 0.0
+      numSteps: 2
+      isDiscrete: 1
+      isBoolean: 0
+      isOrientationInverted: 0
+      isAutomatable: 1
+      isMetaParameter: 0
+  lpindex 14
+    name: Bypass
+    minValue: -3.482782638675186e-13
+    maxValue: 4.591634678053128e-41
+    interval: -2.0336134777679153e-36
+    skewFactor: 5.009501880114789e-41
+    value: 0.0
+    numSteps: 2
+    isDiscrete: 1
+    isBoolean: 0
+    isOrientationInverted: 0
+    isAutomatable: 1
+    isMetaParameter: 0
+parameters data:
+i s M e t a P a r a m e t e r 
+    name: Lows
+    minValue: -3.482782638675186e-13
+    maxValue: 4.591634678053128e-41
+    interval: -2.0336134777679153e-36
+    skewFactor: 5.009501880114789e-41
+    value: 1.0
+    numSteps: 2
+    isDiscrete: 1
+    isBoolean: 0
+    isOrientationInverted: 0
+    isAutomatable: 1
+    isMetaParameter: 0
+parameters data:
+i s M e t a P a r a m e t e r 
+    name: Highs
+    minValue: -3.482782638675186e-13
+    maxValue: 4.591634678053128e-41
+    interval: -2.0336134777679153e-36
+    skewFactor: 5.009501880114789e-41
+    value: 1.0
+    numSteps: 2
+    isDiscrete: 1
+    isBoolean: 0
+    isOrientationInverted: 0
+    isAutomatable: 1
+    isMetaParameter: 0
+parameters data:
+i s M e t a P a r a m e t e r 
+  success=1 numParams=3 errmsg=''
+    parameter 0:
+      name: Bypass
+      originalIndex: 0
+      minValue: -3.482782638675186e-13
+      maxValue: 4.591634678053128e-41
+      interval: -2.0336134777679153e-36
+      skewFactor: 5.009501880114789e-41
+      value: 0.0
+      numSteps: 2
+      isDiscrete: 1
+      isBoolean: 0
+      isOrientationInverted: 0
+      isAutomatable: 1
+      isMetaParameter: 0
+    parameter 1:
+      name: Lows
+      originalIndex: 4
+      minValue: -3.482782638675186e-13
+      maxValue: 4.591634678053128e-41
+      interval: -2.0336134777679153e-36
+      skewFactor: 5.009501880114789e-41
+      value: 1.0
+      numSteps: 2
+      isDiscrete: 1
+      isBoolean: 0
+      isOrientationInverted: 0
+      isAutomatable: 1
+      isMetaParameter: 0
+    parameter 2:
+      name: Highs
+      originalIndex: 5
+      minValue: -3.482782638675186e-13
+      maxValue: 4.591634678053128e-41
+      interval: -2.0336134777679153e-36
+      skewFactor: 5.009501880114789e-41
+      value: 1.0
+      numSteps: 2
+      isDiscrete: 1
+      isBoolean: 0
+      isOrientationInverted: 0
+      isAutomatable: 1
+      isMetaParameter: 0
+  lpindex 15
+    name: Bypass
+    minValue: -3.482782638675186e-13
+    maxValue: 4.591634678053128e-41
+    interval: -2.0336134777679153e-36
+    skewFactor: 5.009501880114789e-41
+    value: 0.0
+    numSteps: 2
+    isDiscrete: 1
+    isBoolean: 0
+    isOrientationInverted: 0
+    isAutomatable: 1
+    isMetaParameter: 0
+parameters data:
+i s M e t a P a r a m e t e r 
+  success=1 numParams=1 errmsg=''
+    parameter 0:
+      name: Bypass
+      originalIndex: 0
+      minValue: -3.482782638675186e-13
+      maxValue: 4.591634678053128e-41
+      interval: -2.0336134777679153e-36
+      skewFactor: 5.009501880114789e-41
+      value: 0.0
+      numSteps: 2
+      isDiscrete: 1
+      isBoolean: 0
+      isOrientationInverted: 0
+      isAutomatable: 1
+      isMetaParameter: 0
+  lpindex 16
+    name: Bypass
+    minValue: -3.482782638675186e-13
+    maxValue: 4.591634678053128e-41
+    interval: -2.0336134777679153e-36
+    skewFactor: 5.009501880114789e-41
+    value: 0.0
+    numSteps: 2
+    isDiscrete: 1
+    isBoolean: 0
+    isOrientationInverted: 0
+    isAutomatable: 1
+    isMetaParameter: 0
+parameters data:
+i s M e t a P a r a m e t e r 
+    name: mode
+    minValue: -3.482782638675186e-13
+    maxValue: 4.591634678053128e-41
+    interval: -2.0336134777679153e-36
+    skewFactor: 5.009501880114789e-41
+    value: 0.0
+    numSteps: 2
+    isDiscrete: 1
+    isBoolean: 0
+    isOrientationInverted: 0
+    isAutomatable: 1
+    isMetaParameter: 0
+parameters data:
+i s M e t a P a r a m e t e r 
+  success=1 numParams=2 errmsg=''
+    parameter 0:
+      name: Bypass
+      originalIndex: 0
+      minValue: -3.482782638675186e-13
+      maxValue: 4.591634678053128e-41
+      interval: -2.0336134777679153e-36
+      skewFactor: 5.009501880114789e-41
+      value: 0.0
+      numSteps: 2
+      isDiscrete: 1
+      isBoolean: 0
+      isOrientationInverted: 0
+      isAutomatable: 1
+      isMetaParameter: 0
+    parameter 1:
+      name: mode
+      originalIndex: 2
+      minValue: -3.482782638675186e-13
+      maxValue: 4.591634678053128e-41
+      interval: -2.0336134777679153e-36
+      skewFactor: 5.009501880114789e-41
+      value: 0.0
+      numSteps: 2
+      isDiscrete: 1
+      isBoolean: 0
+      isOrientationInverted: 0
+      isAutomatable: 1
+      isMetaParameter: 0
+  lpindex 17
+    name: Look-ahead
+    minValue: -3.482782638675186e-13
+    maxValue: 4.591634678053128e-41
+    interval: -2.0336134777679153e-36
+    skewFactor: 5.009501880114789e-41
+    value: 1.0
+    numSteps: 2
+    isDiscrete: 1
+    isBoolean: 0
+    isOrientationInverted: 0
+    isAutomatable: 1
+    isMetaParameter: 0
+parameters data:
+i s M e t a P a r a m e t e r 
+    name: Flip
+    minValue: -3.482782638675186e-13
+    maxValue: 4.591634678053128e-41
+    interval: -2.0336134777679153e-36
+    skewFactor: 5.009501880114789e-41
+    value: 0.0
+    numSteps: 2
+    isDiscrete: 1
+    isBoolean: 0
+    isOrientationInverted: 0
+    isAutomatable: 1
+    isMetaParameter: 0
+parameters data:
+i s M e t a P a r a m e t e r 
+    name: Bypass
+    minValue: -3.482782638675186e-13
+    maxValue: 4.591634678053128e-41
+    interval: -2.0336134777679153e-36
+    skewFactor: 5.009501880114789e-41
+    value: 0.0
+    numSteps: 2
+    isDiscrete: 1
+    isBoolean: 0
+    isOrientationInverted: 0
+    isAutomatable: 1
+    isMetaParameter: 0
+parameters data:
+i s M e t a P a r a m e t e r 
+  success=1 numParams=3 errmsg=''
+    parameter 0:
+      name: Look-ahead
+      originalIndex: 6
+      minValue: -3.482782638675186e-13
+      maxValue: 4.591634678053128e-41
+      interval: -2.0336134777679153e-36
+      skewFactor: 5.009501880114789e-41
+      value: 1.0
+      numSteps: 2
+      isDiscrete: 1
+      isBoolean: 0
+      isOrientationInverted: 0
+      isAutomatable: 1
+      isMetaParameter: 0
+    parameter 1:
+      name: Flip
+      originalIndex: 7
+      minValue: -3.482782638675186e-13
+      maxValue: 4.591634678053128e-41
+      interval: -2.0336134777679153e-36
+      skewFactor: 5.009501880114789e-41
+      value: 0.0
+      numSteps: 2
+      isDiscrete: 1
+      isBoolean: 0
+      isOrientationInverted: 0
+      isAutomatable: 1
+      isMetaParameter: 0
+    parameter 2:
+      name: Bypass
+      originalIndex: 8
+      minValue: -3.482782638675186e-13
+      maxValue: 4.591634678053128e-41
+      interval: -2.0336134777679153e-36
+      skewFactor: 5.009501880114789e-41
+      value: 0.0
+      numSteps: 2
+      isDiscrete: 1
+      isBoolean: 0
+      isOrientationInverted: 0
+      isAutomatable: 1
+      isMetaParameter: 0
+  lpindex 18
+    name: Bypass
+    minValue: -3.482782638675186e-13
+    maxValue: 4.591634678053128e-41
+    interval: -2.0336134777679153e-36
+    skewFactor: 5.009501880114789e-41
+    value: 0.0
+    numSteps: 2
+    isDiscrete: 1
+    isBoolean: 0
+    isOrientationInverted: 0
+    isAutomatable: 1
+    isMetaParameter: 0
+parameters data:
+i s M e t a P a r a m e t e r 
+    name: Channel
+    minValue: -3.482782638675186e-13
+    maxValue: 4.591634678053128e-41
+    interval: -2.0336134777679153e-36
+    skewFactor: 5.009501880114789e-41
+    value: 1.0
+    numSteps: 2
+    isDiscrete: 1
+    isBoolean: 0
+    isOrientationInverted: 0
+    isAutomatable: 1
+    isMetaParameter: 0
+parameters data:
+i s M e t a P a r a m e t e r 
+  success=1 numParams=2 errmsg=''
+    parameter 0:
+      name: Bypass
+      originalIndex: 0
+      minValue: -3.482782638675186e-13
+      maxValue: 4.591634678053128e-41
+      interval: -2.0336134777679153e-36
+      skewFactor: 5.009501880114789e-41
+      value: 0.0
+      numSteps: 2
+      isDiscrete: 1
+      isBoolean: 0
+      isOrientationInverted: 0
+      isAutomatable: 1
+      isMetaParameter: 0
+    parameter 1:
+      name: Channel
+      originalIndex: 1
+      minValue: -3.482782638675186e-13
+      maxValue: 4.591634678053128e-41
+      interval: -2.0336134777679153e-36
+      skewFactor: 5.009501880114789e-41
+      value: 1.0
+      numSteps: 2
+      isDiscrete: 1
+      isBoolean: 0
+      isOrientationInverted: 0
+      isAutomatable: 1
+      isMetaParameter: 0
+  lpindex 19
+    name: Topology
+    minValue: -3.482782638675186e-13
+    maxValue: 4.591634678053128e-41
+    interval: -2.0336134777679153e-36
+    skewFactor: 5.009501880114789e-41
+    value: 0.0
+    numSteps: 2
+    isDiscrete: 1
+    isBoolean: 0
+    isOrientationInverted: 0
+    isAutomatable: 1
+    isMetaParameter: 0
+parameters data:
+i s M e t a P a r a m e t e r 
+    name: Saturate
+    minValue: -3.482782638675186e-13
+    maxValue: 4.591634678053128e-41
+    interval: -2.0336134777679153e-36
+    skewFactor: 5.009501880114789e-41
+    value: 0.0
+    numSteps: 2
+    isDiscrete: 1
+    isBoolean: 0
+    isOrientationInverted: 0
+    isAutomatable: 1
+    isMetaParameter: 0
+parameters data:
+i s M e t a P a r a m e t e r 
+    name: Bypass
+    minValue: -3.482782638675186e-13
+    maxValue: 4.591634678053128e-41
+    interval: -2.0336134777679153e-36
+    skewFactor: 5.009501880114789e-41
+    value: 0.0
+    numSteps: 2
+    isDiscrete: 1
+    isBoolean: 0
+    isOrientationInverted: 0
+    isAutomatable: 1
+    isMetaParameter: 0
+parameters data:
+i s M e t a P a r a m e t e r 
+  success=1 numParams=3 errmsg=''
+    parameter 0:
+      name: Topology
+      originalIndex: 4
+      minValue: -3.482782638675186e-13
+      maxValue: 4.591634678053128e-41
+      interval: -2.0336134777679153e-36
+      skewFactor: 5.009501880114789e-41
+      value: 0.0
+      numSteps: 2
+      isDiscrete: 1
+      isBoolean: 0
+      isOrientationInverted: 0
+      isAutomatable: 1
+      isMetaParameter: 0
+    parameter 1:
+      name: Saturate
+      originalIndex: 5
+      minValue: -3.482782638675186e-13
+      maxValue: 4.591634678053128e-41
+      interval: -2.0336134777679153e-36
+      skewFactor: 5.009501880114789e-41
+      value: 0.0
+      numSteps: 2
+      isDiscrete: 1
+      isBoolean: 0
+      isOrientationInverted: 0
+      isAutomatable: 1
+      isMetaParameter: 0
+    parameter 2:
+      name: Bypass
+      originalIndex: 6
+      minValue: -3.482782638675186e-13
+      maxValue: 4.591634678053128e-41
+      interval: -2.0336134777679153e-36
+      skewFactor: 5.009501880114789e-41
+      value: 0.0
+      numSteps: 2
+      isDiscrete: 1
+      isBoolean: 0
+      isOrientationInverted: 0
+      isAutomatable: 1
+      isMetaParameter: 0
+  lpindex 20
+    name: Bypass
+    minValue: -3.482782638675186e-13
+    maxValue: 4.591634678053128e-41
+    interval: -2.0336134777679153e-36
+    skewFactor: 5.009501880114789e-41
+    value: 0.0
+    numSteps: 2
+    isDiscrete: 1
+    isBoolean: 0
+    isOrientationInverted: 0
+    isAutomatable: 1
+    isMetaParameter: 0
+parameters data:
+i s M e t a P a r a m e t e r 
+  success=1 numParams=1 errmsg=''
+    parameter 0:
+      name: Bypass
+      originalIndex: 0
+      minValue: -3.482782638675186e-13
+      maxValue: 4.591634678053128e-41
+      interval: -2.0336134777679153e-36
+      skewFactor: 5.009501880114789e-41
+      value: 0.0
+      numSteps: 2
+      isDiscrete: 1
+      isBoolean: 0
+      isOrientationInverted: 0
+      isAutomatable: 1
+      isMetaParameter: 0
+  lpindex 21
+    name: Filter Type
+    minValue: -3.482782638675186e-13
+    maxValue: 4.591634678053128e-41
+    interval: -2.0336134777679153e-36
+    skewFactor: 5.009501880114789e-41
+    value: 0.0
+    numSteps: 5
+    isDiscrete: 1
+    isBoolean: 0
+    isOrientationInverted: 0
+    isAutomatable: 1
+    isMetaParameter: 0
+parameters data:
+i s M e t a P a r a m e t e r 
+    name: Mode
+    minValue: -3.482782638675186e-13
+    maxValue: 4.591634678053128e-41
+    interval: -2.0336134777679153e-36
+    skewFactor: 5.009501880114789e-41
+    value: 0.125
+    numSteps: 9
+    isDiscrete: 1
+    isBoolean: 0
+    isOrientationInverted: 0
+    isAutomatable: 1
+    isMetaParameter: 0
+parameters data:
+i s M e t a P a r a m e t e r 
+    name: Bypass
+    minValue: -3.482782638675186e-13
+    maxValue: 4.591634678053128e-41
+    interval: -2.0336134777679153e-36
+    skewFactor: 5.009501880114789e-41
+    value: 0.0
+    numSteps: 2
+    isDiscrete: 1
+    isBoolean: 0
+    isOrientationInverted: 0
+    isAutomatable: 1
+    isMetaParameter: 0
+parameters data:
+i s M e t a P a r a m e t e r 
+  success=1 numParams=3 errmsg=''
+    parameter 0:
+      name: Filter Type
+      originalIndex: 0
+      minValue: -3.482782638675186e-13
+      maxValue: 4.591634678053128e-41
+      interval: -2.0336134777679153e-36
+      skewFactor: 5.009501880114789e-41
+      value: 0.0
+      numSteps: 5
+      isDiscrete: 1
+      isBoolean: 0
+      isOrientationInverted: 0
+      isAutomatable: 1
+      isMetaParameter: 0
+    parameter 1:
+      name: Mode
+      originalIndex: 1
+      minValue: -3.482782638675186e-13
+      maxValue: 4.591634678053128e-41
+      interval: -2.0336134777679153e-36
+      skewFactor: 5.009501880114789e-41
+      value: 0.125
+      numSteps: 9
+      isDiscrete: 1
+      isBoolean: 0
+      isOrientationInverted: 0
+      isAutomatable: 1
+      isMetaParameter: 0
+    parameter 2:
+      name: Bypass
+      originalIndex: 5
+      minValue: -3.482782638675186e-13
+      maxValue: 4.591634678053128e-41
+      interval: -2.0336134777679153e-36
+      skewFactor: 5.009501880114789e-41
+      value: 0.0
+      numSteps: 2
+      isDiscrete: 1
+      isBoolean: 0
+      isOrientationInverted: 0
+      isAutomatable: 1
+      isMetaParameter: 0
+  lpindex 22
+    name: Bypass
+    minValue: -3.482782638675186e-13
+    maxValue: 4.591634678053128e-41
+    interval: -2.0336134777679153e-36
+    skewFactor: 5.009501880114789e-41
+    value: 0.0
+    numSteps: 2
+    isDiscrete: 1
+    isBoolean: 0
+    isOrientationInverted: 0
+    isAutomatable: 1
+    isMetaParameter: 0
+parameters data:
+i s M e t a P a r a m e t e r 
+  success=1 numParams=1 errmsg=''
+    parameter 0:
+      name: Bypass
+      originalIndex: 6
+      minValue: -3.482782638675186e-13
+      maxValue: 4.591634678053128e-41
+      interval: -2.0336134777679153e-36
+      skewFactor: 5.009501880114789e-41
+      value: 0.0
+      numSteps: 2
+      isDiscrete: 1
+      isBoolean: 0
+      isOrientationInverted: 0
+      isAutomatable: 1
+      isMetaParameter: 0
+  lpindex 23
+    name: Bypass
+    minValue: -3.482782638675186e-13
+    maxValue: 4.591634678053128e-41
+    interval: -2.0336134777679153e-36
+    skewFactor: 5.009501880114789e-41
+    value: 0.0
+    numSteps: 2
+    isDiscrete: 1
+    isBoolean: 0
+    isOrientationInverted: 0
+    isAutomatable: 1
+    isMetaParameter: 0
+parameters data:
+i s M e t a P a r a m e t e r 
+    name: Order
+    minValue: -3.482782638675186e-13
+    maxValue: 4.591634678053128e-41
+    interval: -2.0336134777679153e-36
+    skewFactor: 5.009501880114789e-41
+    value: 0.3333333432674408
+    numSteps: 7
+    isDiscrete: 1
+    isBoolean: 0
+    isOrientationInverted: 0
+    isAutomatable: 1
+    isMetaParameter: 0
+parameters data:
+i s M e t a P a r a m e t e r 
+  success=1 numParams=2 errmsg=''
+    parameter 0:
+      name: Bypass
+      originalIndex: 0
+      minValue: -3.482782638675186e-13
+      maxValue: 4.591634678053128e-41
+      interval: -2.0336134777679153e-36
+      skewFactor: 5.009501880114789e-41
+      value: 0.0
+      numSteps: 2
+      isDiscrete: 1
+      isBoolean: 0
+      isOrientationInverted: 0
+      isAutomatable: 1
+      isMetaParameter: 0
+    parameter 1:
+      name: Order
+      originalIndex: 1
+      minValue: -3.482782638675186e-13
+      maxValue: 4.591634678053128e-41
+      interval: -2.0336134777679153e-36
+      skewFactor: 5.009501880114789e-41
+      value: 0.3333333432674408
+      numSteps: 7
+      isDiscrete: 1
+      isBoolean: 0
+      isOrientationInverted: 0
+      isAutomatable: 1
+      isMetaParameter: 0
+  lpindex 24
+    name: Bypass
+    minValue: -3.482782638675186e-13
+    maxValue: 4.591634678053128e-41
+    interval: -2.0336134777679153e-36
+    skewFactor: 5.009501880114789e-41
+    value: 0.0
+    numSteps: 2
+    isDiscrete: 1
+    isBoolean: 0
+    isOrientationInverted: 0
+    isAutomatable: 1
+    isMetaParameter: 0
+parameters data:
+i s M e t a P a r a m e t e r 
+    name: Algorithm
+    minValue: -3.482782638675186e-13
+    maxValue: 4.591634678053128e-41
+    interval: -2.0336134777679153e-36
+    skewFactor: 5.009501880114789e-41
+    value: 1.0
+    numSteps: 2
+    isDiscrete: 1
+    isBoolean: 0
+    isOrientationInverted: 0
+    isAutomatable: 1
+    isMetaParameter: 0
+parameters data:
+i s M e t a P a r a m e t e r 
+    name: Latency Compensation
+    minValue: -3.482782638675186e-13
+    maxValue: 4.591634678053128e-41
+    interval: -2.0336134777679153e-36
+    skewFactor: 5.009501880114789e-41
+    value: 0.5
+    numSteps: 3
+    isDiscrete: 1
+    isBoolean: 0
+    isOrientationInverted: 0
+    isAutomatable: 1
+    isMetaParameter: 0
+parameters data:
+i s M e t a P a r a m e t e r 
+  success=1 numParams=3 errmsg=''
+    parameter 0:
+      name: Bypass
+      originalIndex: 0
+      minValue: -3.482782638675186e-13
+      maxValue: 4.591634678053128e-41
+      interval: -2.0336134777679153e-36
+      skewFactor: 5.009501880114789e-41
+      value: 0.0
+      numSteps: 2
+      isDiscrete: 1
+      isBoolean: 0
+      isOrientationInverted: 0
+      isAutomatable: 1
+      isMetaParameter: 0
+    parameter 1:
+      name: Algorithm
+      originalIndex: 5
+      minValue: -3.482782638675186e-13
+      maxValue: 4.591634678053128e-41
+      interval: -2.0336134777679153e-36
+      skewFactor: 5.009501880114789e-41
+      value: 1.0
+      numSteps: 2
+      isDiscrete: 1
+      isBoolean: 0
+      isOrientationInverted: 0
+      isAutomatable: 1
+      isMetaParameter: 0
+    parameter 2:
+      name: Latency Compensation
+      originalIndex: 6
+      minValue: -3.482782638675186e-13
+      maxValue: 4.591634678053128e-41
+      interval: -2.0336134777679153e-36
+      skewFactor: 5.009501880114789e-41
+      value: 0.5
+      numSteps: 3
+      isDiscrete: 1
+      isBoolean: 0
+      isOrientationInverted: 0
+      isAutomatable: 1
+      isMetaParameter: 0
+  lpindex 25
+    name: Bypass
+    minValue: -3.482782638675186e-13
+    maxValue: 4.591634678053128e-41
+    interval: -2.0336134777679153e-36
+    skewFactor: 5.009501880114789e-41
+    value: 0.0
+    numSteps: 2
+    isDiscrete: 1
+    isBoolean: 0
+    isOrientationInverted: 0
+    isAutomatable: 1
+    isMetaParameter: 0
+parameters data:
+i s M e t a P a r a m e t e r 
+    name: Timbre
+    minValue: -3.482782638675186e-13
+    maxValue: 4.591634678053128e-41
+    interval: -2.0336134777679153e-36
+    skewFactor: 5.009501880114789e-41
+    value: 0.0
+    numSteps: 2
+    isDiscrete: 1
+    isBoolean: 0
+    isOrientationInverted: 0
+    isAutomatable: 1
+    isMetaParameter: 0
+parameters data:
+i s M e t a P a r a m e t e r 
+  success=1 numParams=2 errmsg=''
+    parameter 0:
+      name: Bypass
+      originalIndex: 0
+      minValue: -3.482782638675186e-13
+      maxValue: 4.591634678053128e-41
+      interval: -2.0336134777679153e-36
+      skewFactor: 5.009501880114789e-41
+      value: 0.0
+      numSteps: 2
+      isDiscrete: 1
+      isBoolean: 0
+      isOrientationInverted: 0
+      isAutomatable: 1
+      isMetaParameter: 0
+    parameter 1:
+      name: Timbre
+      originalIndex: 4
+      minValue: -3.482782638675186e-13
+      maxValue: 4.591634678053128e-41
+      interval: -2.0336134777679153e-36
+      skewFactor: 5.009501880114789e-41
+      value: 0.0
+      numSteps: 2
+      isDiscrete: 1
+      isBoolean: 0
+      isOrientationInverted: 0
+      isAutomatable: 1
+      isMetaParameter: 0
+  lpindex 26
+    name: Bypass
+    minValue: -3.482782638675186e-13
+    maxValue: 4.591634678053128e-41
+    interval: -2.0336134777679153e-36
+    skewFactor: 5.009501880114789e-41
+    value: 0.0
+    numSteps: 2
+    isDiscrete: 1
+    isBoolean: 0
+    isOrientationInverted: 0
+    isAutomatable: 1
+    isMetaParameter: 0
+parameters data:
+i s M e t a P a r a m e t e r 
+  success=1 numParams=1 errmsg=''
+    parameter 0:
+      name: Bypass
+      originalIndex: 6
+      minValue: -3.482782638675186e-13
+      maxValue: 4.591634678053128e-41
+      interval: -2.0336134777679153e-36
+      skewFactor: 5.009501880114789e-41
+      value: 0.0
+      numSteps: 2
+      isDiscrete: 1
+      isBoolean: 0
+      isOrientationInverted: 0
+      isAutomatable: 1
+      isMetaParameter: 0
+  lpindex 27
+    name: Delay Time (steps)
+    minValue: -3.482782638675186e-13
+    maxValue: 4.591634678053128e-41
+    interval: -2.0336134777679153e-36
+    skewFactor: 5.009501880114789e-41
+    value: 0.0476190485060215
+    numSteps: 64
+    isDiscrete: 1
+    isBoolean: 0
+    isOrientationInverted: 0
+    isAutomatable: 1
+    isMetaParameter: 0
+parameters data:
+i s M e t a P a r a m e t e r 
+    name: Delay Denominator
+    minValue: -3.482782638675186e-13
+    maxValue: 4.591634678053128e-41
+    interval: -2.0336134777679153e-36
+    skewFactor: 5.009501880114789e-41
+    value: 0.6666666865348816
+    numSteps: 7
+    isDiscrete: 1
+    isBoolean: 0
+    isOrientationInverted: 0
+    isAutomatable: 1
+    isMetaParameter: 0
+parameters data:
+i s M e t a P a r a m e t e r 
+    name: Sync Mode
+    minValue: -3.482782638675186e-13
+    maxValue: 4.591634678053128e-41
+    interval: -2.0336134777679153e-36
+    skewFactor: 5.009501880114789e-41
+    value: 1.0
+    numSteps: 2
+    isDiscrete: 1
+    isBoolean: 0
+    isOrientationInverted: 0
+    isAutomatable: 1
+    isMetaParameter: 0
+parameters data:
+i s M e t a P a r a m e t e r 
+    name: Bypass
+    minValue: -3.482782638675186e-13
+    maxValue: 4.591634678053128e-41
+    interval: -2.0336134777679153e-36
+    skewFactor: 5.009501880114789e-41
+    value: 0.0
+    numSteps: 2
+    isDiscrete: 1
+    isBoolean: 0
+    isOrientationInverted: 0
+    isAutomatable: 1
+    isMetaParameter: 0
+parameters data:
+i s M e t a P a r a m e t e r 
+  success=1 numParams=4 errmsg=''
+    parameter 0:
+      name: Delay Time (steps)
+      originalIndex: 1
+      minValue: -3.482782638675186e-13
+      maxValue: 4.591634678053128e-41
+      interval: -2.0336134777679153e-36
+      skewFactor: 5.009501880114789e-41
+      value: 0.0476190485060215
+      numSteps: 64
+      isDiscrete: 1
+      isBoolean: 0
+      isOrientationInverted: 0
+      isAutomatable: 1
+      isMetaParameter: 0
+    parameter 1:
+      name: Delay Denominator
+      originalIndex: 2
+      minValue: -3.482782638675186e-13
+      maxValue: 4.591634678053128e-41
+      interval: -2.0336134777679153e-36
+      skewFactor: 5.009501880114789e-41
+      value: 0.6666666865348816
+      numSteps: 7
+      isDiscrete: 1
+      isBoolean: 0
+      isOrientationInverted: 0
+      isAutomatable: 1
+      isMetaParameter: 0
+    parameter 2:
+      name: Sync Mode
+      originalIndex: 3
+      minValue: -3.482782638675186e-13
+      maxValue: 4.591634678053128e-41
+      interval: -2.0336134777679153e-36
+      skewFactor: 5.009501880114789e-41
+      value: 1.0
+      numSteps: 2
+      isDiscrete: 1
+      isBoolean: 0
+      isOrientationInverted: 0
+      isAutomatable: 1
+      isMetaParameter: 0
+    parameter 3:
+      name: Bypass
+      originalIndex: 6
+      minValue: -3.482782638675186e-13
+      maxValue: 4.591634678053128e-41
+      interval: -2.0336134777679153e-36
+      skewFactor: 5.009501880114789e-41
+      value: 0.0
+      numSteps: 2
+      isDiscrete: 1
+      isBoolean: 0
+      isOrientationInverted: 0
+      isAutomatable: 1
+      isMetaParameter: 0
+  lpindex 28
+    name: Bypass
+    minValue: -3.482782638675186e-13
+    maxValue: 4.591634678053128e-41
+    interval: -2.0336134777679153e-36
+    skewFactor: 5.009501880114789e-41
+    value: 0.0
+    numSteps: 2
+    isDiscrete: 1
+    isBoolean: 0
+    isOrientationInverted: 0
+    isAutomatable: 1
+    isMetaParameter: 0
+parameters data:
+i s M e t a P a r a m e t e r 
+  success=1 numParams=1 errmsg=''
+    parameter 0:
+      name: Bypass
+      originalIndex: 0
+      minValue: -3.482782638675186e-13
+      maxValue: 4.591634678053128e-41
+      interval: -2.0336134777679153e-36
+      skewFactor: 5.009501880114789e-41
+      value: 0.0
+      numSteps: 2
+      isDiscrete: 1
+      isBoolean: 0
+      isOrientationInverted: 0
+      isAutomatable: 1
+      isMetaParameter: 0
+  lpindex 29
+    name: DC Filter
+    minValue: -3.482782638675186e-13
+    maxValue: 4.591634678053128e-41
+    interval: -2.0336134777679153e-36
+    skewFactor: 5.009501880114789e-41
+    value: 1.0
+    numSteps: 2
+    isDiscrete: 1
+    isBoolean: 0
+    isOrientationInverted: 0
+    isAutomatable: 1
+    isMetaParameter: 0
+parameters data:
+i s M e t a P a r a m e t e r 
+    name: Bypass
+    minValue: -3.482782638675186e-13
+    maxValue: 4.591634678053128e-41
+    interval: -2.0336134777679153e-36
+    skewFactor: 5.009501880114789e-41
+    value: 0.0
+    numSteps: 2
+    isDiscrete: 1
+    isBoolean: 0
+    isOrientationInverted: 0
+    isAutomatable: 1
+    isMetaParameter: 0
+parameters data:
+i s M e t a P a r a m e t e r 
+    name: Loop mode
+    minValue: -3.482782638675186e-13
+    maxValue: 4.591634678053128e-41
+    interval: -2.0336134777679153e-36
+    skewFactor: 5.009501880114789e-41
+    value: 0.0
+    numSteps: 3
+    isDiscrete: 1
+    isBoolean: 0
+    isOrientationInverted: 0
+    isAutomatable: 1
+    isMetaParameter: 0
+parameters data:
+i s M e t a P a r a m e t e r 
+  success=1 numParams=3 errmsg=''
+    parameter 0:
+      name: DC Filter
+      originalIndex: 2
+      minValue: -3.482782638675186e-13
+      maxValue: 4.591634678053128e-41
+      interval: -2.0336134777679153e-36
+      skewFactor: 5.009501880114789e-41
+      value: 1.0
+      numSteps: 2
+      isDiscrete: 1
+      isBoolean: 0
+      isOrientationInverted: 0
+      isAutomatable: 1
+      isMetaParameter: 0
+    parameter 1:
+      name: Bypass
+      originalIndex: 3
+      minValue: -3.482782638675186e-13
+      maxValue: 4.591634678053128e-41
+      interval: -2.0336134777679153e-36
+      skewFactor: 5.009501880114789e-41
+      value: 0.0
+      numSteps: 2
+      isDiscrete: 1
+      isBoolean: 0
+      isOrientationInverted: 0
+      isAutomatable: 1
+      isMetaParameter: 0
+    parameter 2:
+      name: Loop mode
+      originalIndex: 4
+      minValue: -3.482782638675186e-13
+      maxValue: 4.591634678053128e-41
+      interval: -2.0336134777679153e-36
+      skewFactor: 5.009501880114789e-41
+      value: 0.0
+      numSteps: 3
+      isDiscrete: 1
+      isBoolean: 0
+      isOrientationInverted: 0
+      isAutomatable: 1
+      isMetaParameter: 0
+  lpindex 30
+    name: Bypass
+    minValue: -3.482782638675186e-13
+    maxValue: 4.591634678053128e-41
+    interval: -2.0336134777679153e-36
+    skewFactor: 5.009501880114789e-41
+    value: 0.0
+    numSteps: 2
+    isDiscrete: 1
+    isBoolean: 0
+    isOrientationInverted: 0
+    isAutomatable: 1
+    isMetaParameter: 0
+parameters data:
+i s M e t a P a r a m e t e r 
+  success=1 numParams=1 errmsg=''
+    parameter 0:
+      name: Bypass
+      originalIndex: 0
+      minValue: -3.482782638675186e-13
+      maxValue: 4.591634678053128e-41
+      interval: -2.0336134777679153e-36
+      skewFactor: 5.009501880114789e-41
+      value: 0.0
+      numSteps: 2
+      isDiscrete: 1
+      isBoolean: 0
+      isOrientationInverted: 0
+      isAutomatable: 1
+      isMetaParameter: 0
+  lpindex 31
+    name: Play
+    minValue: -3.482782638675186e-13
+    maxValue: 4.591634678053128e-41
+    interval: -2.0336134777679153e-36
+    skewFactor: 5.009501880114789e-41
+    value: 1.0
+    numSteps: 2
+    isDiscrete: 1
+    isBoolean: 0
+    isOrientationInverted: 0
+    isAutomatable: 1
+    isMetaParameter: 0
+parameters data:
+i s M e t a P a r a m e t e r 
+    name: Bypass
+    minValue: -3.482782638675186e-13
+    maxValue: 4.591634678053128e-41
+    interval: -2.0336134777679153e-36
+    skewFactor: 5.009501880114789e-41
+    value: 0.0
+    numSteps: 2
+    isDiscrete: 1
+    isBoolean: 0
+    isOrientationInverted: 0
+    isAutomatable: 1
+    isMetaParameter: 0
+parameters data:
+i s M e t a P a r a m e t e r 
+  success=1 numParams=2 errmsg=''
+    parameter 0:
+      name: Play
+      originalIndex: 0
+      minValue: -3.482782638675186e-13
+      maxValue: 4.591634678053128e-41
+      interval: -2.0336134777679153e-36
+      skewFactor: 5.009501880114789e-41
+      value: 1.0
+      numSteps: 2
+      isDiscrete: 1
+      isBoolean: 0
+      isOrientationInverted: 0
+      isAutomatable: 1
+      isMetaParameter: 0
+    parameter 1:
+      name: Bypass
+      originalIndex: 3
+      minValue: -3.482782638675186e-13
+      maxValue: 4.591634678053128e-41
+      interval: -2.0336134777679153e-36
+      skewFactor: 5.009501880114789e-41
+      value: 0.0
+      numSteps: 2
+      isDiscrete: 1
+      isBoolean: 0
+      isOrientationInverted: 0
+      isAutomatable: 1
+      isMetaParameter: 0
+  lpindex 32
+    name: Bypass
+    minValue: -3.482782638675186e-13
+    maxValue: 4.591634678053128e-41
+    interval: -2.0336134777679153e-36
+    skewFactor: 5.009501880114789e-41
+    value: 0.0
+    numSteps: 2
+    isDiscrete: 1
+    isBoolean: 0
+    isOrientationInverted: 0
+    isAutomatable: 1
+    isMetaParameter: 0
+parameters data:
+i s M e t a P a r a m e t e r 
+    name: Resolution
+    minValue: -3.482782638675186e-13
+    maxValue: 4.591634678053128e-41
+    interval: -2.0336134777679153e-36
+    skewFactor: 5.009501880114789e-41
+    value: 0.6666666865348816
+    numSteps: 7
+    isDiscrete: 1
+    isBoolean: 0
+    isOrientationInverted: 0
+    isAutomatable: 1
+    isMetaParameter: 0
+parameters data:
+i s M e t a P a r a m e t e r 
+    name: Pattern
+    minValue: -3.482782638675186e-13
+    maxValue: 4.591634678053128e-41
+    interval: -2.0336134777679153e-36
+    skewFactor: 5.009501880114789e-41
+    value: 0.0
+    numSteps: 8
+    isDiscrete: 1
+    isBoolean: 0
+    isOrientationInverted: 0
+    isAutomatable: 1
+    isMetaParameter: 0
+parameters data:
+i s M e t a P a r a m e t e r 
+  success=1 numParams=3 errmsg=''
+    parameter 0:
+      name: Bypass
+      originalIndex: 0
+      minValue: -3.482782638675186e-13
+      maxValue: 4.591634678053128e-41
+      interval: -2.0336134777679153e-36
+      skewFactor: 5.009501880114789e-41
+      value: 0.0
+      numSteps: 2
+      isDiscrete: 1
+      isBoolean: 0
+      isOrientationInverted: 0
+      isAutomatable: 1
+      isMetaParameter: 0
+    parameter 1:
+      name: Resolution
+      originalIndex: 6
+      minValue: -3.482782638675186e-13
+      maxValue: 4.591634678053128e-41
+      interval: -2.0336134777679153e-36
+      skewFactor: 5.009501880114789e-41
+      value: 0.6666666865348816
+      numSteps: 7
+      isDiscrete: 1
+      isBoolean: 0
+      isOrientationInverted: 0
+      isAutomatable: 1
+      isMetaParameter: 0
+    parameter 2:
+      name: Pattern
+      originalIndex: 7
+      minValue: -3.482782638675186e-13
+      maxValue: 4.591634678053128e-41
+      interval: -2.0336134777679153e-36
+      skewFactor: 5.009501880114789e-41
+      value: 0.0
+      numSteps: 8
+      isDiscrete: 1
+      isBoolean: 0
+      isOrientationInverted: 0
+      isAutomatable: 1
+      isMetaParameter: 0
+  lpindex 33
+    name: Clip
+    minValue: -3.482782638675186e-13
+    maxValue: 4.591634678053128e-41
+    interval: -2.0336134777679153e-36
+    skewFactor: 5.009501880114789e-41
+    value: 0.0
+    numSteps: 2
+    isDiscrete: 1
+    isBoolean: 0
+    isOrientationInverted: 0
+    isAutomatable: 1
+    isMetaParameter: 0
+parameters data:
+i s M e t a P a r a m e t e r 
+    name: Bypass
+    minValue: -3.482782638675186e-13
+    maxValue: 4.591634678053128e-41
+    interval: -2.0336134777679153e-36
+    skewFactor: 5.009501880114789e-41
+    value: 0.0
+    numSteps: 2
+    isDiscrete: 1
+    isBoolean: 0
+    isOrientationInverted: 0
+    isAutomatable: 1
+    isMetaParameter: 0
+parameters data:
+i s M e t a P a r a m e t e r 
+  success=1 numParams=2 errmsg=''
+    parameter 0:
+      name: Clip
+      originalIndex: 4
+      minValue: -3.482782638675186e-13
+      maxValue: 4.591634678053128e-41
+      interval: -2.0336134777679153e-36
+      skewFactor: 5.009501880114789e-41
+      value: 0.0
+      numSteps: 2
+      isDiscrete: 1
+      isBoolean: 0
+      isOrientationInverted: 0
+      isAutomatable: 1
+      isMetaParameter: 0
+    parameter 1:
+      name: Bypass
+      originalIndex: 5
+      minValue: -3.482782638675186e-13
+      maxValue: 4.591634678053128e-41
+      interval: -2.0336134777679153e-36
+      skewFactor: 5.009501880114789e-41
+      value: 0.0
+      numSteps: 2
+      isDiscrete: 1
+      isBoolean: 0
+      isOrientationInverted: 0
+      isAutomatable: 1
+      isMetaParameter: 0
+  lpindex 34
+    name: Bypass
+    minValue: -3.482782638675186e-13
+    maxValue: 4.591634678053128e-41
+    interval: -2.0336134777679153e-36
+    skewFactor: 5.009501880114789e-41
+    value: 0.0
+    numSteps: 2
+    isDiscrete: 1
+    isBoolean: 0
+    isOrientationInverted: 0
+    isAutomatable: 1
+    isMetaParameter: 0
+parameters data:
+i s M e t a P a r a m e t e r 
+  success=1 numParams=1 errmsg=''
+    parameter 0:
+      name: Bypass
+      originalIndex: 0
+      minValue: -3.482782638675186e-13
+      maxValue: 4.591634678053128e-41
+      interval: -2.0336134777679153e-36
+      skewFactor: 5.009501880114789e-41
+      value: 0.0
+      numSteps: 2
+      isDiscrete: 1
+      isBoolean: 0
+      isOrientationInverted: 0
+      isAutomatable: 1
+      isMetaParameter: 0
+  lpindex 35
+    name: Bypass
+    minValue: -3.482782638675186e-13
+    maxValue: 4.591634678053128e-41
+    interval: -2.0336134777679153e-36
+    skewFactor: 5.009501880114789e-41
+    value: 0.0
+    numSteps: 2
+    isDiscrete: 1
+    isBoolean: 0
+    isOrientationInverted: 0
+    isAutomatable: 1
+    isMetaParameter: 0
+parameters data:
+i s M e t a P a r a m e t e r 
+  success=1 numParams=1 errmsg=''
+    parameter 0:
+      name: Bypass
+      originalIndex: 0
+      minValue: -3.482782638675186e-13
+      maxValue: 4.591634678053128e-41
+      interval: -2.0336134777679153e-36
+      skewFactor: 5.009501880114789e-41
+      value: 0.0
+      numSteps: 2
+      isDiscrete: 1
+      isBoolean: 0
+      isOrientationInverted: 0
+      isAutomatable: 1
+      isMetaParameter: 0
+  lpindex 36
+    name: Bypass
+    minValue: -3.482782638675186e-13
+    maxValue: 4.591634678053128e-41
+    interval: -2.0336134777679153e-36
+    skewFactor: 5.009501880114789e-41
+    value: 0.0
+    numSteps: 2
+    isDiscrete: 1
+    isBoolean: 0
+    isOrientationInverted: 0
+    isAutomatable: 1
+    isMetaParameter: 0
+parameters data:
+i s M e t a P a r a m e t e r 
+  success=1 numParams=1 errmsg=''
+    parameter 0:
+      name: Bypass
+      originalIndex: 0
+      minValue: -3.482782638675186e-13
+      maxValue: 4.591634678053128e-41
+      interval: -2.0336134777679153e-36
+      skewFactor: 5.009501880114789e-41
+      value: 0.0
+      numSteps: 2
+      isDiscrete: 1
+      isBoolean: 0
+      isOrientationInverted: 0
+      isAutomatable: 1
+      isMetaParameter: 0
+  lpindex 37
+    name: Bypass
+    minValue: -3.482782638675186e-13
+    maxValue: 4.591634678053128e-41
+    interval: -2.0336134777679153e-36
+    skewFactor: 5.009501880114789e-41
+    value: 0.0
+    numSteps: 2
+    isDiscrete: 1
+    isBoolean: 0
+    isOrientationInverted: 0
+    isAutomatable: 1
+    isMetaParameter: 0
+parameters data:
+i s M e t a P a r a m e t e r 
+  success=1 numParams=1 errmsg=''
+    parameter 0:
+      name: Bypass
+      originalIndex: 125
+      minValue: -3.482782638675186e-13
+      maxValue: 4.591634678053128e-41
+      interval: -2.0336134777679153e-36
+      skewFactor: 5.009501880114789e-41
+      value: 0.0
+      numSteps: 2
+      isDiscrete: 1
+      isBoolean: 0
+      isOrientationInverted: 0
+      isAutomatable: 1
+      isMetaParameter: 0
+channels info:
+  lpindex 0
+getChannelsInfo: lpindex=0 success=1 acceptsMidi=1 producesMidi=0
+finished reading input buses
+number of output buses for lpindex 0: 16
+reading input channel info for channel for bus 0 lpindex 0
+b.numChannels=2
+channel types size: 2
+b.channelTypes=('Left', 'Right')
+b.isEnabled=1
+b.mainBusLayout='Stereo'
+reading input channel info for channel for bus 1 lpindex 0
+b.numChannels=2
+channel types size: 2
+b.channelTypes=('Left', 'Right')
+b.isEnabled=1
+b.mainBusLayout='Stereo'
+reading input channel info for channel for bus 2 lpindex 0
+b.numChannels=2
+channel types size: 2
+b.channelTypes=('Left', 'Right')
+b.isEnabled=1
+b.mainBusLayout='Stereo'
+reading input channel info for channel for bus 3 lpindex 0
+b.numChannels=2
+channel types size: 2
+b.channelTypes=('Left', 'Right')
+b.isEnabled=1
+b.mainBusLayout='Stereo'
+reading input channel info for channel for bus 4 lpindex 0
+b.numChannels=2
+channel types size: 2
+b.channelTypes=('Left', 'Right')
+b.isEnabled=1
+b.mainBusLayout='Stereo'
+reading input channel info for channel for bus 5 lpindex 0
+b.numChannels=2
+channel types size: 2
+b.channelTypes=('Left', 'Right')
+b.isEnabled=1
+b.mainBusLayout='Stereo'
+reading input channel info for channel for bus 6 lpindex 0
+b.numChannels=2
+channel types size: 2
+b.channelTypes=('Left', 'Right')
+b.isEnabled=1
+b.mainBusLayout='Stereo'
+reading input channel info for channel for bus 7 lpindex 0
+b.numChannels=2
+channel types size: 2
+b.channelTypes=('Left', 'Right')
+b.isEnabled=1
+b.mainBusLayout='Stereo'
+reading input channel info for channel for bus 8 lpindex 0
+b.numChannels=2
+channel types size: 2
+b.channelTypes=('Left', 'Right')
+b.isEnabled=1
+b.mainBusLayout='Stereo'
+reading input channel info for channel for bus 9 lpindex 0
+b.numChannels=2
+channel types size: 2
+b.channelTypes=('Left', 'Right')
+b.isEnabled=1
+b.mainBusLayout='Stereo'
+reading input channel info for channel for bus 10 lpindex 0
+b.numChannels=2
+channel types size: 2
+b.channelTypes=('Left', 'Right')
+b.isEnabled=1
+b.mainBusLayout='Stereo'
+reading input channel info for channel for bus 11 lpindex 0
+b.numChannels=2
+channel types size: 2
+b.channelTypes=('Left', 'Right')
+b.isEnabled=1
+b.mainBusLayout='Stereo'
+reading input channel info for channel for bus 12 lpindex 0
+b.numChannels=2
+channel types size: 2
+b.channelTypes=('Left', 'Right')
+b.isEnabled=1
+b.mainBusLayout='Stereo'
+reading input channel info for channel for bus 13 lpindex 0
+b.numChannels=2
+channel types size: 2
+b.channelTypes=('Left', 'Right')
+b.isEnabled=1
+b.mainBusLayout='Stereo'
+reading input channel info for channel for bus 14 lpindex 0
+b.numChannels=2
+channel types size: 2
+b.channelTypes=('Left', 'Right')
+b.isEnabled=1
+b.mainBusLayout='Stereo'
+reading input channel info for channel for bus 15 lpindex 0
+b.numChannels=2
+channel types size: 2
+b.channelTypes=('Left', 'Right')
+b.isEnabled=1
+b.mainBusLayout='Stereo'
+finished reading output buses
+success=1 acceptsMidi=1 producesMidi=0
+    input buses:
+    output buses:
+      0: numChannels: 2
+      0: channelTypes: ('Left', 'Right')
+      0: isEnabled: 1
+      0: mainBusLayout: Stereo
+      1: numChannels: 2
+      1: channelTypes: ('Left', 'Right')
+      1: isEnabled: 1
+      1: mainBusLayout: Stereo
+      2: numChannels: 2
+      2: channelTypes: ('Left', 'Right')
+      2: isEnabled: 1
+      2: mainBusLayout: Stereo
+      3: numChannels: 2
+      3: channelTypes: ('Left', 'Right')
+      3: isEnabled: 1
+      3: mainBusLayout: Stereo
+      4: numChannels: 2
+      4: channelTypes: ('Left', 'Right')
+      4: isEnabled: 1
+      4: mainBusLayout: Stereo
+      5: numChannels: 2
+      5: channelTypes: ('Left', 'Right')
+      5: isEnabled: 1
+      5: mainBusLayout: Stereo
+      6: numChannels: 2
+      6: channelTypes: ('Left', 'Right')
+      6: isEnabled: 1
+      6: mainBusLayout: Stereo
+      7: numChannels: 2
+      7: channelTypes: ('Left', 'Right')
+      7: isEnabled: 1
+      7: mainBusLayout: Stereo
+      8: numChannels: 2
+      8: channelTypes: ('Left', 'Right')
+      8: isEnabled: 1
+      8: mainBusLayout: Stereo
+      9: numChannels: 2
+      9: channelTypes: ('Left', 'Right')
+      9: isEnabled: 1
+      9: mainBusLayout: Stereo
+      10: numChannels: 2
+      10: channelTypes: ('Left', 'Right')
+      10: isEnabled: 1
+      10: mainBusLayout: Stereo
+      11: numChannels: 2
+      11: channelTypes: ('Left', 'Right')
+      11: isEnabled: 1
+      11: mainBusLayout: Stereo
+      12: numChannels: 2
+      12: channelTypes: ('Left', 'Right')
+      12: isEnabled: 1
+      12: mainBusLayout: Stereo
+      13: numChannels: 2
+      13: channelTypes: ('Left', 'Right')
+      13: isEnabled: 1
+      13: mainBusLayout: Stereo
+      14: numChannels: 2
+      14: channelTypes: ('Left', 'Right')
+      14: isEnabled: 1
+      14: mainBusLayout: Stereo
+      15: numChannels: 2
+      15: channelTypes: ('Left', 'Right')
+      15: isEnabled: 1
+      15: mainBusLayout: Stereo
+  lpindex 1
+getChannelsInfo: lpindex=1 success=1 acceptsMidi=1 producesMidi=0
+finished reading input buses
+number of output buses for lpindex 1: 1
+reading input channel info for channel for bus 0 lpindex 1
+b.numChannels=2
+channel types size: 2
+b.channelTypes=('Left', 'Right')
+b.isEnabled=1
+b.mainBusLayout='Stereo'
+finished reading output buses
+success=1 acceptsMidi=1 producesMidi=0
+    input buses:
+      0: numChannels: 2
+      0: channelTypes: ('Left', 'Right')
+      0: isEnabled: 1
+      0: mainBusLayout: Stereo
+    output buses:
+      0: numChannels: 2
+      0: channelTypes: ('Left', 'Right')
+      0: isEnabled: 1
+      0: mainBusLayout: Stereo
+  lpindex 2
+getChannelsInfo: lpindex=2 success=1 acceptsMidi=1 producesMidi=0
+finished reading input buses
+number of output buses for lpindex 2: 1
+reading input channel info for channel for bus 0 lpindex 2
+b.numChannels=2
+channel types size: 2
+b.channelTypes=('Left', 'Right')
+b.isEnabled=1
+b.mainBusLayout='Stereo'
+finished reading output buses
+success=1 acceptsMidi=1 producesMidi=0
+    input buses:
+      0: numChannels: 2
+      0: channelTypes: ('Left', 'Right')
+      0: isEnabled: 1
+      0: mainBusLayout: Stereo
+    output buses:
+      0: numChannels: 2
+      0: channelTypes: ('Left', 'Right')
+      0: isEnabled: 1
+      0: mainBusLayout: Stereo
+  lpindex 3
+getChannelsInfo: lpindex=3 success=1 acceptsMidi=1 producesMidi=0
+finished reading input buses
+number of output buses for lpindex 3: 1
+reading input channel info for channel for bus 0 lpindex 3
+b.numChannels=2
+channel types size: 2
+b.channelTypes=('Left', 'Right')
+b.isEnabled=1
+b.mainBusLayout='Stereo'
+finished reading output buses
+success=1 acceptsMidi=1 producesMidi=0
+    input buses:
+      0: numChannels: 2
+      0: channelTypes: ('Left', 'Right')
+      0: isEnabled: 1
+      0: mainBusLayout: Stereo
+    output buses:
+      0: numChannels: 2
+      0: channelTypes: ('Left', 'Right')
+      0: isEnabled: 1
+      0: mainBusLayout: Stereo
+  lpindex 4
+getChannelsInfo: lpindex=4 success=1 acceptsMidi=1 producesMidi=0
+finished reading input buses
+number of output buses for lpindex 4: 1
+reading input channel info for channel for bus 0 lpindex 4
+b.numChannels=2
+channel types size: 2
+b.channelTypes=('Left', 'Right')
+b.isEnabled=1
+b.mainBusLayout='Stereo'
+finished reading output buses
+success=1 acceptsMidi=1 producesMidi=0
+    input buses:
+      0: numChannels: 2
+      0: channelTypes: ('Left', 'Right')
+      0: isEnabled: 1
+      0: mainBusLayout: Stereo
+    output buses:
+      0: numChannels: 2
+      0: channelTypes: ('Left', 'Right')
+      0: isEnabled: 1
+      0: mainBusLayout: Stereo
+  lpindex 5
+getChannelsInfo: lpindex=5 success=1 acceptsMidi=1 producesMidi=0
+finished reading input buses
+number of output buses for lpindex 5: 1
+reading input channel info for channel for bus 0 lpindex 5
+b.numChannels=2
+channel types size: 2
+b.channelTypes=('Left', 'Right')
+b.isEnabled=1
+b.mainBusLayout='Stereo'
+finished reading output buses
+success=1 acceptsMidi=1 producesMidi=0
+    input buses:
+      0: numChannels: 2
+      0: channelTypes: ('Left', 'Right')
+      0: isEnabled: 1
+      0: mainBusLayout: Stereo
+    output buses:
+      0: numChannels: 2
+      0: channelTypes: ('Left', 'Right')
+      0: isEnabled: 1
+      0: mainBusLayout: Stereo
+  lpindex 6
+getChannelsInfo: lpindex=6 success=1 acceptsMidi=1 producesMidi=0
+finished reading input buses
+number of output buses for lpindex 6: 1
+reading input channel info for channel for bus 0 lpindex 6
+b.numChannels=2
+channel types size: 2
+b.channelTypes=('Left', 'Right')
+b.isEnabled=1
+b.mainBusLayout='Stereo'
+finished reading output buses
+success=1 acceptsMidi=1 producesMidi=0
+    input buses:
+      0: numChannels: 2
+      0: channelTypes: ('Left', 'Right')
+      0: isEnabled: 1
+      0: mainBusLayout: Stereo
+      1: numChannels: 2
+      1: channelTypes: ('Left', 'Right')
+      1: isEnabled: 1
+      1: mainBusLayout: Stereo
+    output buses:
+      0: numChannels: 2
+      0: channelTypes: ('Left', 'Right')
+      0: isEnabled: 1
+      0: mainBusLayout: Stereo
+  lpindex 7
+getChannelsInfo: lpindex=7 success=1 acceptsMidi=1 producesMidi=0
+finished reading input buses
+number of output buses for lpindex 7: 1
+reading input channel info for channel for bus 0 lpindex 7
+b.numChannels=2
+channel types size: 2
+b.channelTypes=('Left', 'Right')
+b.isEnabled=1
+b.mainBusLayout='Stereo'
+finished reading output buses
+success=1 acceptsMidi=1 producesMidi=0
+    input buses:
+      0: numChannels: 2
+      0: channelTypes: ('Left', 'Right')
+      0: isEnabled: 1
+      0: mainBusLayout: Stereo
+    output buses:
+      0: numChannels: 2
+      0: channelTypes: ('Left', 'Right')
+      0: isEnabled: 1
+      0: mainBusLayout: Stereo
+  lpindex 8
+getChannelsInfo: lpindex=8 success=1 acceptsMidi=1 producesMidi=0
+finished reading input buses
+number of output buses for lpindex 8: 1
+reading input channel info for channel for bus 0 lpindex 8
+b.numChannels=2
+channel types size: 2
+b.channelTypes=('Left', 'Right')
+b.isEnabled=1
+b.mainBusLayout='Stereo'
+finished reading output buses
+success=1 acceptsMidi=1 producesMidi=0
+    input buses:
+      0: numChannels: 2
+      0: channelTypes: ('Left', 'Right')
+      0: isEnabled: 1
+      0: mainBusLayout: Stereo
+    output buses:
+      0: numChannels: 2
+      0: channelTypes: ('Left', 'Right')
+      0: isEnabled: 1
+      0: mainBusLayout: Stereo
+  lpindex 9
+getChannelsInfo: lpindex=9 success=1 acceptsMidi=1 producesMidi=0
+finished reading input buses
+number of output buses for lpindex 9: 1
+reading input channel info for channel for bus 0 lpindex 9
+b.numChannels=2
+channel types size: 2
+b.channelTypes=('Left', 'Right')
+b.isEnabled=1
+b.mainBusLayout='Stereo'
+finished reading output buses
+success=1 acceptsMidi=1 producesMidi=0
+    input buses:
+      0: numChannels: 2
+      0: channelTypes: ('Left', 'Right')
+      0: isEnabled: 1
+      0: mainBusLayout: Stereo
+    output buses:
+      0: numChannels: 2
+      0: channelTypes: ('Left', 'Right')
+      0: isEnabled: 1
+      0: mainBusLayout: Stereo
+  lpindex 10
+getChannelsInfo: lpindex=10 success=1 acceptsMidi=1 producesMidi=0
+finished reading input buses
+number of output buses for lpindex 10: 1
+reading input channel info for channel for bus 0 lpindex 10
+b.numChannels=2
+channel types size: 2
+b.channelTypes=('Left', 'Right')
+b.isEnabled=1
+b.mainBusLayout='Stereo'
+finished reading output buses
+success=1 acceptsMidi=1 producesMidi=0
+    input buses:
+      0: numChannels: 2
+      0: channelTypes: ('Left', 'Right')
+      0: isEnabled: 1
+      0: mainBusLayout: Stereo
+    output buses:
+      0: numChannels: 2
+      0: channelTypes: ('Left', 'Right')
+      0: isEnabled: 1
+      0: mainBusLayout: Stereo
+  lpindex 11
+getChannelsInfo: lpindex=11 success=1 acceptsMidi=1 producesMidi=0
+finished reading input buses
+number of output buses for lpindex 11: 1
+reading input channel info for channel for bus 0 lpindex 11
+b.numChannels=2
+channel types size: 2
+b.channelTypes=('Left', 'Right')
+b.isEnabled=1
+b.mainBusLayout='Stereo'
+finished reading output buses
+success=1 acceptsMidi=1 producesMidi=0
+    input buses:
+      0: numChannels: 2
+      0: channelTypes: ('Left', 'Right')
+      0: isEnabled: 1
+      0: mainBusLayout: Stereo
+    output buses:
+      0: numChannels: 2
+      0: channelTypes: ('Left', 'Right')
+      0: isEnabled: 1
+      0: mainBusLayout: Stereo
+  lpindex 12
+getChannelsInfo: lpindex=12 success=1 acceptsMidi=1 producesMidi=0
+finished reading input buses
+number of output buses for lpindex 12: 1
+reading input channel info for channel for bus 0 lpindex 12
+b.numChannels=2
+channel types size: 2
+b.channelTypes=('Left', 'Right')
+b.isEnabled=1
+b.mainBusLayout='Stereo'
+finished reading output buses
+success=1 acceptsMidi=1 producesMidi=0
+    input buses:
+      0: numChannels: 2
+      0: channelTypes: ('Left', 'Right')
+      0: isEnabled: 1
+      0: mainBusLayout: Stereo
+    output buses:
+      0: numChannels: 2
+      0: channelTypes: ('Left', 'Right')
+      0: isEnabled: 1
+      0: mainBusLayout: Stereo
+  lpindex 13
+getChannelsInfo: lpindex=13 success=1 acceptsMidi=1 producesMidi=0
+finished reading input buses
+number of output buses for lpindex 13: 1
+reading input channel info for channel for bus 0 lpindex 13
+b.numChannels=2
+channel types size: 2
+b.channelTypes=('Left', 'Right')
+b.isEnabled=1
+b.mainBusLayout='Stereo'
+finished reading output buses
+success=1 acceptsMidi=1 producesMidi=0
+    input buses:
+      0: numChannels: 2
+      0: channelTypes: ('Left', 'Right')
+      0: isEnabled: 1
+      0: mainBusLayout: Stereo
+    output buses:
+      0: numChannels: 2
+      0: channelTypes: ('Left', 'Right')
+      0: isEnabled: 1
+      0: mainBusLayout: Stereo
+  lpindex 14
+getChannelsInfo: lpindex=14 success=1 acceptsMidi=1 producesMidi=0
+finished reading input buses
+number of output buses for lpindex 14: 1
+reading input channel info for channel for bus 0 lpindex 14
+b.numChannels=2
+channel types size: 2
+b.channelTypes=('Left', 'Right')
+b.isEnabled=1
+b.mainBusLayout='Stereo'
+finished reading output buses
+success=1 acceptsMidi=1 producesMidi=0
+    input buses:
+      0: numChannels: 2
+      0: channelTypes: ('Left', 'Right')
+      0: isEnabled: 1
+      0: mainBusLayout: Stereo
+    output buses:
+      0: numChannels: 2
+      0: channelTypes: ('Left', 'Right')
+      0: isEnabled: 1
+      0: mainBusLayout: Stereo
+  lpindex 15
+getChannelsInfo: lpindex=15 success=1 acceptsMidi=1 producesMidi=0
+finished reading input buses
+number of output buses for lpindex 15: 1
+reading input channel info for channel for bus 0 lpindex 15
+b.numChannels=2
+channel types size: 2
+b.channelTypes=('Left', 'Right')
+b.isEnabled=1
+b.mainBusLayout='Stereo'
+finished reading output buses
+success=1 acceptsMidi=1 producesMidi=0
+    input buses:
+      0: numChannels: 2
+      0: channelTypes: ('Left', 'Right')
+      0: isEnabled: 1
+      0: mainBusLayout: Stereo
+    output buses:
+      0: numChannels: 2
+      0: channelTypes: ('Left', 'Right')
+      0: isEnabled: 1
+      0: mainBusLayout: Stereo
+  lpindex 16
+getChannelsInfo: lpindex=16 success=1 acceptsMidi=1 producesMidi=0
+finished reading input buses
+number of output buses for lpindex 16: 1
+reading input channel info for channel for bus 0 lpindex 16
+b.numChannels=2
+channel types size: 2
+b.channelTypes=('Left', 'Right')
+b.isEnabled=1
+b.mainBusLayout='Stereo'
+finished reading output buses
+success=1 acceptsMidi=1 producesMidi=0
+    input buses:
+      0: numChannels: 2
+      0: channelTypes: ('Left', 'Right')
+      0: isEnabled: 1
+      0: mainBusLayout: Stereo
+    output buses:
+      0: numChannels: 2
+      0: channelTypes: ('Left', 'Right')
+      0: isEnabled: 1
+      0: mainBusLayout: Stereo
+  lpindex 17
+getChannelsInfo: lpindex=17 success=1 acceptsMidi=1 producesMidi=0
+finished reading input buses
+number of output buses for lpindex 17: 1
+reading input channel info for channel for bus 0 lpindex 17
+b.numChannels=2
+channel types size: 2
+b.channelTypes=('Left', 'Right')
+b.isEnabled=1
+b.mainBusLayout='Stereo'
+finished reading output buses
+success=1 acceptsMidi=1 producesMidi=0
+    input buses:
+      0: numChannels: 2
+      0: channelTypes: ('Left', 'Right')
+      0: isEnabled: 1
+      0: mainBusLayout: Stereo
+      1: numChannels: 2
+      1: channelTypes: ('Left', 'Right')
+      1: isEnabled: 1
+      1: mainBusLayout: Stereo
+    output buses:
+      0: numChannels: 2
+      0: channelTypes: ('Left', 'Right')
+      0: isEnabled: 1
+      0: mainBusLayout: Stereo
+  lpindex 18
+getChannelsInfo: lpindex=18 success=1 acceptsMidi=1 producesMidi=0
+finished reading input buses
+number of output buses for lpindex 18: 1
+reading input channel info for channel for bus 0 lpindex 18
+b.numChannels=2
+channel types size: 2
+b.channelTypes=('Left', 'Right')
+b.isEnabled=1
+b.mainBusLayout='Stereo'
+finished reading output buses
+success=1 acceptsMidi=1 producesMidi=0
+    input buses:
+      0: numChannels: 2
+      0: channelTypes: ('Left', 'Right')
+      0: isEnabled: 1
+      0: mainBusLayout: Stereo
+    output buses:
+      0: numChannels: 2
+      0: channelTypes: ('Left', 'Right')
+      0: isEnabled: 1
+      0: mainBusLayout: Stereo
+  lpindex 19
+getChannelsInfo: lpindex=19 success=1 acceptsMidi=1 producesMidi=0
+finished reading input buses
+number of output buses for lpindex 19: 1
+reading input channel info for channel for bus 0 lpindex 19
+b.numChannels=2
+channel types size: 2
+b.channelTypes=('Left', 'Right')
+b.isEnabled=1
+b.mainBusLayout='Stereo'
+finished reading output buses
+success=1 acceptsMidi=1 producesMidi=0
+    input buses:
+      0: numChannels: 2
+      0: channelTypes: ('Left', 'Right')
+      0: isEnabled: 1
+      0: mainBusLayout: Stereo
+    output buses:
+      0: numChannels: 2
+      0: channelTypes: ('Left', 'Right')
+      0: isEnabled: 1
+      0: mainBusLayout: Stereo
+  lpindex 20
+getChannelsInfo: lpindex=20 success=1 acceptsMidi=1 producesMidi=0
+finished reading input buses
+number of output buses for lpindex 20: 1
+reading input channel info for channel for bus 0 lpindex 20
+b.numChannels=2
+channel types size: 2
+b.channelTypes=('Left', 'Right')
+b.isEnabled=1
+b.mainBusLayout='Stereo'
+finished reading output buses
+success=1 acceptsMidi=1 producesMidi=0
+    input buses:
+      0: numChannels: 2
+      0: channelTypes: ('Left', 'Right')
+      0: isEnabled: 1
+      0: mainBusLayout: Stereo
+    output buses:
+      0: numChannels: 2
+      0: channelTypes: ('Left', 'Right')
+      0: isEnabled: 1
+      0: mainBusLayout: Stereo
+  lpindex 21
+getChannelsInfo: lpindex=21 success=1 acceptsMidi=1 producesMidi=0
+finished reading input buses
+number of output buses for lpindex 21: 1
+reading input channel info for channel for bus 0 lpindex 21
+b.numChannels=2
+channel types size: 2
+b.channelTypes=('Left', 'Right')
+b.isEnabled=1
+b.mainBusLayout='Stereo'
+finished reading output buses
+success=1 acceptsMidi=1 producesMidi=0
+    input buses:
+      0: numChannels: 2
+      0: channelTypes: ('Left', 'Right')
+      0: isEnabled: 1
+      0: mainBusLayout: Stereo
+    output buses:
+      0: numChannels: 2
+      0: channelTypes: ('Left', 'Right')
+      0: isEnabled: 1
+      0: mainBusLayout: Stereo
+  lpindex 22
+getChannelsInfo: lpindex=22 success=1 acceptsMidi=1 producesMidi=0
+finished reading input buses
+number of output buses for lpindex 22: 1
+reading input channel info for channel for bus 0 lpindex 22
+b.numChannels=2
+channel types size: 2
+b.channelTypes=('Left', 'Right')
+b.isEnabled=1
+b.mainBusLayout='Stereo'
+finished reading output buses
+success=1 acceptsMidi=1 producesMidi=0
+    input buses:
+      0: numChannels: 2
+      0: channelTypes: ('Left', 'Right')
+      0: isEnabled: 1
+      0: mainBusLayout: Stereo
+      1: numChannels: 2
+      1: channelTypes: ('Left', 'Right')
+      1: isEnabled: 1
+      1: mainBusLayout: Stereo
+    output buses:
+      0: numChannels: 2
+      0: channelTypes: ('Left', 'Right')
+      0: isEnabled: 1
+      0: mainBusLayout: Stereo
+  lpindex 23
+getChannelsInfo: lpindex=23 success=1 acceptsMidi=1 producesMidi=0
+finished reading input buses
+number of output buses for lpindex 23: 1
+reading input channel info for channel for bus 0 lpindex 23
+b.numChannels=2
+channel types size: 2
+b.channelTypes=('Left', 'Right')
+b.isEnabled=1
+b.mainBusLayout='Stereo'
+finished reading output buses
+success=1 acceptsMidi=1 producesMidi=0
+    input buses:
+      0: numChannels: 2
+      0: channelTypes: ('Left', 'Right')
+      0: isEnabled: 1
+      0: mainBusLayout: Stereo
+    output buses:
+      0: numChannels: 2
+      0: channelTypes: ('Left', 'Right')
+      0: isEnabled: 1
+      0: mainBusLayout: Stereo
+  lpindex 24
+getChannelsInfo: lpindex=24 success=1 acceptsMidi=1 producesMidi=0
+finished reading input buses
+number of output buses for lpindex 24: 1
+reading input channel info for channel for bus 0 lpindex 24
+b.numChannels=2
+channel types size: 2
+b.channelTypes=('Left', 'Right')
+b.isEnabled=1
+b.mainBusLayout='Stereo'
+finished reading output buses
+success=1 acceptsMidi=1 producesMidi=0
+    input buses:
+      0: numChannels: 2
+      0: channelTypes: ('Left', 'Right')
+      0: isEnabled: 1
+      0: mainBusLayout: Stereo
+    output buses:
+      0: numChannels: 2
+      0: channelTypes: ('Left', 'Right')
+      0: isEnabled: 1
+      0: mainBusLayout: Stereo
+  lpindex 25
+getChannelsInfo: lpindex=25 success=1 acceptsMidi=1 producesMidi=0
+finished reading input buses
+number of output buses for lpindex 25: 1
+reading input channel info for channel for bus 0 lpindex 25
+b.numChannels=2
+channel types size: 2
+b.channelTypes=('Left', 'Right')
+b.isEnabled=1
+b.mainBusLayout='Stereo'
+finished reading output buses
+success=1 acceptsMidi=1 producesMidi=0
+    input buses:
+      0: numChannels: 2
+      0: channelTypes: ('Left', 'Right')
+      0: isEnabled: 1
+      0: mainBusLayout: Stereo
+    output buses:
+      0: numChannels: 2
+      0: channelTypes: ('Left', 'Right')
+      0: isEnabled: 1
+      0: mainBusLayout: Stereo
+  lpindex 26
+getChannelsInfo: lpindex=26 success=1 acceptsMidi=1 producesMidi=0
+finished reading input buses
+number of output buses for lpindex 26: 1
+reading input channel info for channel for bus 0 lpindex 26
+b.numChannels=2
+channel types size: 2
+b.channelTypes=('Left', 'Right')
+b.isEnabled=1
+b.mainBusLayout='Stereo'
+finished reading output buses
+success=1 acceptsMidi=1 producesMidi=0
+    input buses:
+      0: numChannels: 2
+      0: channelTypes: ('Left', 'Right')
+      0: isEnabled: 1
+      0: mainBusLayout: Stereo
+    output buses:
+      0: numChannels: 2
+      0: channelTypes: ('Left', 'Right')
+      0: isEnabled: 1
+      0: mainBusLayout: Stereo
+  lpindex 27
+getChannelsInfo: lpindex=27 success=1 acceptsMidi=1 producesMidi=0
+finished reading input buses
+number of output buses for lpindex 27: 1
+reading input channel info for channel for bus 0 lpindex 27
+b.numChannels=2
+channel types size: 2
+b.channelTypes=('Left', 'Right')
+b.isEnabled=1
+b.mainBusLayout='Stereo'
+finished reading output buses
+success=1 acceptsMidi=1 producesMidi=0
+    input buses:
+      0: numChannels: 2
+      0: channelTypes: ('Left', 'Right')
+      0: isEnabled: 1
+      0: mainBusLayout: Stereo
+    output buses:
+      0: numChannels: 2
+      0: channelTypes: ('Left', 'Right')
+      0: isEnabled: 1
+      0: mainBusLayout: Stereo
+  lpindex 28
+getChannelsInfo: lpindex=28 success=1 acceptsMidi=1 producesMidi=0
+finished reading input buses
+number of output buses for lpindex 28: 1
+reading input channel info for channel for bus 0 lpindex 28
+b.numChannels=2
+channel types size: 2
+b.channelTypes=('Left', 'Right')
+b.isEnabled=1
+b.mainBusLayout='Stereo'
+finished reading output buses
+success=1 acceptsMidi=1 producesMidi=0
+    input buses:
+      0: numChannels: 2
+      0: channelTypes: ('Left', 'Right')
+      0: isEnabled: 1
+      0: mainBusLayout: Stereo
+      1: numChannels: 2
+      1: channelTypes: ('Left', 'Right')
+      1: isEnabled: 1
+      1: mainBusLayout: Stereo
+    output buses:
+      0: numChannels: 2
+      0: channelTypes: ('Left', 'Right')
+      0: isEnabled: 1
+      0: mainBusLayout: Stereo
+  lpindex 29
+getChannelsInfo: lpindex=29 success=1 acceptsMidi=1 producesMidi=0
+finished reading input buses
+number of output buses for lpindex 29: 1
+reading input channel info for channel for bus 0 lpindex 29
+b.numChannels=2
+channel types size: 2
+b.channelTypes=('Left', 'Right')
+b.isEnabled=1
+b.mainBusLayout='Stereo'
+finished reading output buses
+success=1 acceptsMidi=1 producesMidi=0
+    input buses:
+      0: numChannels: 2
+      0: channelTypes: ('Left', 'Right')
+      0: isEnabled: 1
+      0: mainBusLayout: Stereo
+    output buses:
+      0: numChannels: 2
+      0: channelTypes: ('Left', 'Right')
+      0: isEnabled: 1
+      0: mainBusLayout: Stereo
+  lpindex 30
+getChannelsInfo: lpindex=30 success=1 acceptsMidi=1 producesMidi=0
+finished reading input buses
+number of output buses for lpindex 30: 1
+reading input channel info for channel for bus 0 lpindex 30
+b.numChannels=2
+channel types size: 2
+b.channelTypes=('Left', 'Right')
+b.isEnabled=1
+b.mainBusLayout='Stereo'
+finished reading output buses
+success=1 acceptsMidi=1 producesMidi=0
+    input buses:
+      0: numChannels: 2
+      0: channelTypes: ('Left', 'Right')
+      0: isEnabled: 1
+      0: mainBusLayout: Stereo
+    output buses:
+      0: numChannels: 2
+      0: channelTypes: ('Left', 'Right')
+      0: isEnabled: 1
+      0: mainBusLayout: Stereo
+  lpindex 31
+getChannelsInfo: lpindex=31 success=1 acceptsMidi=1 producesMidi=0
+finished reading input buses
+number of output buses for lpindex 31: 1
+reading input channel info for channel for bus 0 lpindex 31
+b.numChannels=2
+channel types size: 2
+b.channelTypes=('Left', 'Right')
+b.isEnabled=1
+b.mainBusLayout='Stereo'
+finished reading output buses
+success=1 acceptsMidi=1 producesMidi=0
+    input buses:
+      0: numChannels: 2
+      0: channelTypes: ('Left', 'Right')
+      0: isEnabled: 1
+      0: mainBusLayout: Stereo
+    output buses:
+      0: numChannels: 2
+      0: channelTypes: ('Left', 'Right')
+      0: isEnabled: 1
+      0: mainBusLayout: Stereo
+  lpindex 32
+getChannelsInfo: lpindex=32 success=1 acceptsMidi=1 producesMidi=0
+finished reading input buses
+number of output buses for lpindex 32: 1
+reading input channel info for channel for bus 0 lpindex 32
+b.numChannels=2
+channel types size: 2
+b.channelTypes=('Left', 'Right')
+b.isEnabled=1
+b.mainBusLayout='Stereo'
+finished reading output buses
+success=1 acceptsMidi=1 producesMidi=0
+    input buses:
+      0: numChannels: 2
+      0: channelTypes: ('Left', 'Right')
+      0: isEnabled: 1
+      0: mainBusLayout: Stereo
+    output buses:
+      0: numChannels: 2
+      0: channelTypes: ('Left', 'Right')
+      0: isEnabled: 1
+      0: mainBusLayout: Stereo
+  lpindex 33
+getChannelsInfo: lpindex=33 success=1 acceptsMidi=1 producesMidi=0
+finished reading input buses
+number of output buses for lpindex 33: 1
+reading input channel info for channel for bus 0 lpindex 33
+b.numChannels=2
+channel types size: 2
+b.channelTypes=('Left', 'Right')
+b.isEnabled=1
+b.mainBusLayout='Stereo'
+finished reading output buses
+success=1 acceptsMidi=1 producesMidi=0
+    input buses:
+      0: numChannels: 2
+      0: channelTypes: ('Left', 'Right')
+      0: isEnabled: 1
+      0: mainBusLayout: Stereo
+      1: numChannels: 2
+      1: channelTypes: ('Left', 'Right')
+      1: isEnabled: 1
+      1: mainBusLayout: Stereo
+    output buses:
+      0: numChannels: 2
+      0: channelTypes: ('Left', 'Right')
+      0: isEnabled: 1
+      0: mainBusLayout: Stereo
+  lpindex 34
+getChannelsInfo: lpindex=34 success=1 acceptsMidi=1 producesMidi=0
+finished reading input buses
+number of output buses for lpindex 34: 16
+reading input channel info for channel for bus 0 lpindex 34
+b.numChannels=2
+channel types size: 2
+b.channelTypes=('Left', 'Right')
+b.isEnabled=1
+b.mainBusLayout='Stereo'
+reading input channel info for channel for bus 1 lpindex 34
+b.numChannels=2
+channel types size: 2
+b.channelTypes=('Left', 'Right')
+b.isEnabled=1
+b.mainBusLayout='Stereo'
+reading input channel info for channel for bus 2 lpindex 34
+b.numChannels=2
+channel types size: 2
+b.channelTypes=('Left', 'Right')
+b.isEnabled=1
+b.mainBusLayout='Stereo'
+reading input channel info for channel for bus 3 lpindex 34
+b.numChannels=2
+channel types size: 2
+b.channelTypes=('Left', 'Right')
+b.isEnabled=1
+b.mainBusLayout='Stereo'
+reading input channel info for channel for bus 4 lpindex 34
+b.numChannels=2
+channel types size: 2
+b.channelTypes=('Left', 'Right')
+b.isEnabled=1
+b.mainBusLayout='Stereo'
+reading input channel info for channel for bus 5 lpindex 34
+b.numChannels=2
+channel types size: 2
+b.channelTypes=('Left', 'Right')
+b.isEnabled=1
+b.mainBusLayout='Stereo'
+reading input channel info for channel for bus 6 lpindex 34
+b.numChannels=2
+channel types size: 2
+b.channelTypes=('Left', 'Right')
+b.isEnabled=1
+b.mainBusLayout='Stereo'
+reading input channel info for channel for bus 7 lpindex 34
+b.numChannels=2
+channel types size: 2
+b.channelTypes=('Left', 'Right')
+b.isEnabled=1
+b.mainBusLayout='Stereo'
+reading input channel info for channel for bus 8 lpindex 34
+b.numChannels=2
+channel types size: 2
+b.channelTypes=('Left', 'Right')
+b.isEnabled=1
+b.mainBusLayout='Stereo'
+reading input channel info for channel for bus 9 lpindex 34
+b.numChannels=2
+channel types size: 2
+b.channelTypes=('Left', 'Right')
+b.isEnabled=1
+b.mainBusLayout='Stereo'
+reading input channel info for channel for bus 10 lpindex 34
+b.numChannels=2
+channel types size: 2
+b.channelTypes=('Left', 'Right')
+b.isEnabled=1
+b.mainBusLayout='Stereo'
+reading input channel info for channel for bus 11 lpindex 34
+b.numChannels=2
+channel types size: 2
+b.channelTypes=('Left', 'Right')
+b.isEnabled=1
+b.mainBusLayout='Stereo'
+reading input channel info for channel for bus 12 lpindex 34
+b.numChannels=2
+channel types size: 2
+b.channelTypes=('Left', 'Right')
+b.isEnabled=1
+b.mainBusLayout='Stereo'
+reading input channel info for channel for bus 13 lpindex 34
+b.numChannels=2
+channel types size: 2
+b.channelTypes=('Left', 'Right')
+b.isEnabled=1
+b.mainBusLayout='Stereo'
+reading input channel info for channel for bus 14 lpindex 34
+b.numChannels=2
+channel types size: 2
+b.channelTypes=('Left', 'Right')
+b.isEnabled=1
+b.mainBusLayout='Stereo'
+reading input channel info for channel for bus 15 lpindex 34
+b.numChannels=2
+channel types size: 2
+b.channelTypes=('Left', 'Right')
+b.isEnabled=1
+b.mainBusLayout='Stereo'
+finished reading output buses
+success=1 acceptsMidi=1 producesMidi=0
+    input buses:
+    output buses:
+      0: numChannels: 2
+      0: channelTypes: ('Left', 'Right')
+      0: isEnabled: 1
+      0: mainBusLayout: Stereo
+      1: numChannels: 2
+      1: channelTypes: ('Left', 'Right')
+      1: isEnabled: 1
+      1: mainBusLayout: Stereo
+      2: numChannels: 2
+      2: channelTypes: ('Left', 'Right')
+      2: isEnabled: 1
+      2: mainBusLayout: Stereo
+      3: numChannels: 2
+      3: channelTypes: ('Left', 'Right')
+      3: isEnabled: 1
+      3: mainBusLayout: Stereo
+      4: numChannels: 2
+      4: channelTypes: ('Left', 'Right')
+      4: isEnabled: 1
+      4: mainBusLayout: Stereo
+      5: numChannels: 2
+      5: channelTypes: ('Left', 'Right')
+      5: isEnabled: 1
+      5: mainBusLayout: Stereo
+      6: numChannels: 2
+      6: channelTypes: ('Left', 'Right')
+      6: isEnabled: 1
+      6: mainBusLayout: Stereo
+      7: numChannels: 2
+      7: channelTypes: ('Left', 'Right')
+      7: isEnabled: 1
+      7: mainBusLayout: Stereo
+      8: numChannels: 2
+      8: channelTypes: ('Left', 'Right')
+      8: isEnabled: 1
+      8: mainBusLayout: Stereo
+      9: numChannels: 2
+      9: channelTypes: ('Left', 'Right')
+      9: isEnabled: 1
+      9: mainBusLayout: Stereo
+      10: numChannels: 2
+      10: channelTypes: ('Left', 'Right')
+      10: isEnabled: 1
+      10: mainBusLayout: Stereo
+      11: numChannels: 2
+      11: channelTypes: ('Left', 'Right')
+      11: isEnabled: 1
+      11: mainBusLayout: Stereo
+      12: numChannels: 2
+      12: channelTypes: ('Left', 'Right')
+      12: isEnabled: 1
+      12: mainBusLayout: Stereo
+      13: numChannels: 2
+      13: channelTypes: ('Left', 'Right')
+      13: isEnabled: 1
+      13: mainBusLayout: Stereo
+      14: numChannels: 2
+      14: channelTypes: ('Left', 'Right')
+      14: isEnabled: 1
+      14: mainBusLayout: Stereo
+      15: numChannels: 2
+      15: channelTypes: ('Left', 'Right')
+      15: isEnabled: 1
+      15: mainBusLayout: Stereo
+  lpindex 35
+getChannelsInfo: lpindex=35 success=1 acceptsMidi=1 producesMidi=0
+finished reading input buses
+number of output buses for lpindex 35: 32
+reading input channel info for channel for bus 0 lpindex 35
+b.numChannels=2
+channel types size: 2
+b.channelTypes=('Left', 'Right')
+b.isEnabled=1
+b.mainBusLayout='Stereo'
+reading input channel info for channel for bus 1 lpindex 35
+b.numChannels=2
+channel types size: 2
+b.channelTypes=('Left', 'Right')
+b.isEnabled=1
+b.mainBusLayout='Stereo'
+reading input channel info for channel for bus 2 lpindex 35
+b.numChannels=2
+channel types size: 2
+b.channelTypes=('Left', 'Right')
+b.isEnabled=1
+b.mainBusLayout='Stereo'
+reading input channel info for channel for bus 3 lpindex 35
+b.numChannels=2
+channel types size: 2
+b.channelTypes=('Left', 'Right')
+b.isEnabled=1
+b.mainBusLayout='Stereo'
+reading input channel info for channel for bus 4 lpindex 35
+b.numChannels=2
+channel types size: 2
+b.channelTypes=('Left', 'Right')
+b.isEnabled=1
+b.mainBusLayout='Stereo'
+reading input channel info for channel for bus 5 lpindex 35
+b.numChannels=2
+channel types size: 2
+b.channelTypes=('Left', 'Right')
+b.isEnabled=1
+b.mainBusLayout='Stereo'
+reading input channel info for channel for bus 6 lpindex 35
+b.numChannels=2
+channel types size: 2
+b.channelTypes=('Left', 'Right')
+b.isEnabled=1
+b.mainBusLayout='Stereo'
+reading input channel info for channel for bus 7 lpindex 35
+b.numChannels=2
+channel types size: 2
+b.channelTypes=('Left', 'Right')
+b.isEnabled=1
+b.mainBusLayout='Stereo'
+reading input channel info for channel for bus 8 lpindex 35
+b.numChannels=2
+channel types size: 2
+b.channelTypes=('Left', 'Right')
+b.isEnabled=1
+b.mainBusLayout='Stereo'
+reading input channel info for channel for bus 9 lpindex 35
+b.numChannels=2
+channel types size: 2
+b.channelTypes=('Left', 'Right')
+b.isEnabled=1
+b.mainBusLayout='Stereo'
+reading input channel info for channel for bus 10 lpindex 35
+b.numChannels=2
+channel types size: 2
+b.channelTypes=('Left', 'Right')
+b.isEnabled=1
+b.mainBusLayout='Stereo'
+reading input channel info for channel for bus 11 lpindex 35
+b.numChannels=2
+channel types size: 2
+b.channelTypes=('Left', 'Right')
+b.isEnabled=1
+b.mainBusLayout='Stereo'
+reading input channel info for channel for bus 12 lpindex 35
+b.numChannels=2
+channel types size: 2
+b.channelTypes=('Left', 'Right')
+b.isEnabled=1
+b.mainBusLayout='Stereo'
+reading input channel info for channel for bus 13 lpindex 35
+b.numChannels=2
+channel types size: 2
+b.channelTypes=('Left', 'Right')
+b.isEnabled=1
+b.mainBusLayout='Stereo'
+reading input channel info for channel for bus 14 lpindex 35
+b.numChannels=2
+channel types size: 2
+b.channelTypes=('Left', 'Right')
+b.isEnabled=1
+b.mainBusLayout='Stereo'
+reading input channel info for channel for bus 15 lpindex 35
+b.numChannels=2
+channel types size: 2
+b.channelTypes=('Left', 'Right')
+b.isEnabled=1
+b.mainBusLayout='Stereo'
+reading input channel info for channel for bus 16 lpindex 35
+b.numChannels=1
+channel types size: 1
+b.channelTypes=('Centre',)
+b.isEnabled=1
+b.mainBusLayout='Mono'
+reading input channel info for channel for bus 17 lpindex 35
+b.numChannels=1
+channel types size: 1
+b.channelTypes=('Centre',)
+b.isEnabled=1
+b.mainBusLayout='Mono'
+reading input channel info for channel for bus 18 lpindex 35
+b.numChannels=1
+channel types size: 1
+b.channelTypes=('Centre',)
+b.isEnabled=1
+b.mainBusLayout='Mono'
+reading input channel info for channel for bus 19 lpindex 35
+b.numChannels=1
+channel types size: 1
+b.channelTypes=('Centre',)
+b.isEnabled=1
+b.mainBusLayout='Mono'
+reading input channel info for channel for bus 20 lpindex 35
+b.numChannels=1
+channel types size: 1
+b.channelTypes=('Centre',)
+b.isEnabled=1
+b.mainBusLayout='Mono'
+reading input channel info for channel for bus 21 lpindex 35
+b.numChannels=1
+channel types size: 1
+b.channelTypes=('Centre',)
+b.isEnabled=1
+b.mainBusLayout='Mono'
+reading input channel info for channel for bus 22 lpindex 35
+b.numChannels=1
+channel types size: 1
+b.channelTypes=('Centre',)
+b.isEnabled=1
+b.mainBusLayout='Mono'
+reading input channel info for channel for bus 23 lpindex 35
+b.numChannels=1
+channel types size: 1
+b.channelTypes=('Centre',)
+b.isEnabled=1
+b.mainBusLayout='Mono'
+reading input channel info for channel for bus 24 lpindex 35
+b.numChannels=1
+channel types size: 1
+b.channelTypes=('Centre',)
+b.isEnabled=1
+b.mainBusLayout='Mono'
+reading input channel info for channel for bus 25 lpindex 35
+b.numChannels=1
+channel types size: 1
+b.channelTypes=('Centre',)
+b.isEnabled=1
+b.mainBusLayout='Mono'
+reading input channel info for channel for bus 26 lpindex 35
+b.numChannels=1
+channel types size: 1
+b.channelTypes=('Centre',)
+b.isEnabled=1
+b.mainBusLayout='Mono'
+reading input channel info for channel for bus 27 lpindex 35
+b.numChannels=1
+channel types size: 1
+b.channelTypes=('Centre',)
+b.isEnabled=1
+b.mainBusLayout='Mono'
+reading input channel info for channel for bus 28 lpindex 35
+b.numChannels=1
+channel types size: 1
+b.channelTypes=('Centre',)
+b.isEnabled=1
+b.mainBusLayout='Mono'
+reading input channel info for channel for bus 29 lpindex 35
+b.numChannels=1
+channel types size: 1
+b.channelTypes=('Centre',)
+b.isEnabled=1
+b.mainBusLayout='Mono'
+reading input channel info for channel for bus 30 lpindex 35
+b.numChannels=1
+channel types size: 1
+b.channelTypes=('Centre',)
+b.isEnabled=1
+b.mainBusLayout='Mono'
+reading input channel info for channel for bus 31 lpindex 35
+b.numChannels=1
+channel types size: 1
+b.channelTypes=('Centre',)
+b.isEnabled=1
+b.mainBusLayout='Mono'
+finished reading output buses
+success=1 acceptsMidi=1 producesMidi=0
+    input buses:
+    output buses:
+      0: numChannels: 2
+      0: channelTypes: ('Left', 'Right')
+      0: isEnabled: 1
+      0: mainBusLayout: Stereo
+      1: numChannels: 2
+      1: channelTypes: ('Left', 'Right')
+      1: isEnabled: 1
+      1: mainBusLayout: Stereo
+      2: numChannels: 2
+      2: channelTypes: ('Left', 'Right')
+      2: isEnabled: 1
+      2: mainBusLayout: Stereo
+      3: numChannels: 2
+      3: channelTypes: ('Left', 'Right')
+      3: isEnabled: 1
+      3: mainBusLayout: Stereo
+      4: numChannels: 2
+      4: channelTypes: ('Left', 'Right')
+      4: isEnabled: 1
+      4: mainBusLayout: Stereo
+      5: numChannels: 2
+      5: channelTypes: ('Left', 'Right')
+      5: isEnabled: 1
+      5: mainBusLayout: Stereo
+      6: numChannels: 2
+      6: channelTypes: ('Left', 'Right')
+      6: isEnabled: 1
+      6: mainBusLayout: Stereo
+      7: numChannels: 2
+      7: channelTypes: ('Left', 'Right')
+      7: isEnabled: 1
+      7: mainBusLayout: Stereo
+      8: numChannels: 2
+      8: channelTypes: ('Left', 'Right')
+      8: isEnabled: 1
+      8: mainBusLayout: Stereo
+      9: numChannels: 2
+      9: channelTypes: ('Left', 'Right')
+      9: isEnabled: 1
+      9: mainBusLayout: Stereo
+      10: numChannels: 2
+      10: channelTypes: ('Left', 'Right')
+      10: isEnabled: 1
+      10: mainBusLayout: Stereo
+      11: numChannels: 2
+      11: channelTypes: ('Left', 'Right')
+      11: isEnabled: 1
+      11: mainBusLayout: Stereo
+      12: numChannels: 2
+      12: channelTypes: ('Left', 'Right')
+      12: isEnabled: 1
+      12: mainBusLayout: Stereo
+      13: numChannels: 2
+      13: channelTypes: ('Left', 'Right')
+      13: isEnabled: 1
+      13: mainBusLayout: Stereo
+      14: numChannels: 2
+      14: channelTypes: ('Left', 'Right')
+      14: isEnabled: 1
+      14: mainBusLayout: Stereo
+      15: numChannels: 2
+      15: channelTypes: ('Left', 'Right')
+      15: isEnabled: 1
+      15: mainBusLayout: Stereo
+      16: numChannels: 1
+      16: channelTypes: ('Centre',)
+      16: isEnabled: 1
+      16: mainBusLayout: Mono
+      17: numChannels: 1
+      17: channelTypes: ('Centre',)
+      17: isEnabled: 1
+      17: mainBusLayout: Mono
+      18: numChannels: 1
+      18: channelTypes: ('Centre',)
+      18: isEnabled: 1
+      18: mainBusLayout: Mono
+      19: numChannels: 1
+      19: channelTypes: ('Centre',)
+      19: isEnabled: 1
+      19: mainBusLayout: Mono
+      20: numChannels: 1
+      20: channelTypes: ('Centre',)
+      20: isEnabled: 1
+      20: mainBusLayout: Mono
+      21: numChannels: 1
+      21: channelTypes: ('Centre',)
+      21: isEnabled: 1
+      21: mainBusLayout: Mono
+      22: numChannels: 1
+      22: channelTypes: ('Centre',)
+      22: isEnabled: 1
+      22: mainBusLayout: Mono
+      23: numChannels: 1
+      23: channelTypes: ('Centre',)
+      23: isEnabled: 1
+      23: mainBusLayout: Mono
+      24: numChannels: 1
+      24: channelTypes: ('Centre',)
+      24: isEnabled: 1
+      24: mainBusLayout: Mono
+      25: numChannels: 1
+      25: channelTypes: ('Centre',)
+      25: isEnabled: 1
+      25: mainBusLayout: Mono
+      26: numChannels: 1
+      26: channelTypes: ('Centre',)
+      26: isEnabled: 1
+      26: mainBusLayout: Mono
+      27: numChannels: 1
+      27: channelTypes: ('Centre',)
+      27: isEnabled: 1
+      27: mainBusLayout: Mono
+      28: numChannels: 1
+      28: channelTypes: ('Centre',)
+      28: isEnabled: 1
+      28: mainBusLayout: Mono
+      29: numChannels: 1
+      29: channelTypes: ('Centre',)
+      29: isEnabled: 1
+      29: mainBusLayout: Mono
+      30: numChannels: 1
+      30: channelTypes: ('Centre',)
+      30: isEnabled: 1
+      30: mainBusLayout: Mono
+      31: numChannels: 1
+      31: channelTypes: ('Centre',)
+      31: isEnabled: 1
+      31: mainBusLayout: Mono
+  lpindex 36
+getChannelsInfo: lpindex=36 success=1 acceptsMidi=1 producesMidi=1
+finished reading input buses
+number of output buses for lpindex 36: 1
+reading input channel info for channel for bus 0 lpindex 36
+b.numChannels=2
+channel types size: 2
+b.channelTypes=('Left', 'Right')
+b.isEnabled=1
+b.mainBusLayout='Stereo'
+finished reading output buses
+success=1 acceptsMidi=1 producesMidi=1
+    input buses:
+      0: numChannels: 2
+      0: channelTypes: ('Left', 'Right')
+      0: isEnabled: 1
+      0: mainBusLayout: Stereo
+      1: numChannels: 2
+      1: channelTypes: ('Left', 'Right')
+      1: isEnabled: 1
+      1: mainBusLayout: Stereo
+    output buses:
+      0: numChannels: 2
+      0: channelTypes: ('Left', 'Right')
+      0: isEnabled: 1
+      0: mainBusLayout: Stereo
+  lpindex 37
+getChannelsInfo: lpindex=37 success=1 acceptsMidi=1 producesMidi=1
+finished reading input buses
+number of output buses for lpindex 37: 1
+reading input channel info for channel for bus 0 lpindex 37
+b.numChannels=2
+channel types size: 2
+b.channelTypes=('Left', 'Right')
+b.isEnabled=1
+b.mainBusLayout='Stereo'
+finished reading output buses
+success=1 acceptsMidi=1 producesMidi=1
+    input buses:
+      0: numChannels: 2
+      0: channelTypes: ('Left', 'Right')
+      0: isEnabled: 1
+      0: mainBusLayout: Stereo
+    output buses:
+      0: numChannels: 2
+      0: channelTypes: ('Left', 'Right')
+      0: isEnabled: 1
+      0: mainBusLayout: Stereo
+disconnected

@@ -1,0 +1,169 @@
+cmake_minimum_required(VERSION 3.15)
+project(JuceGuiServer VERSION 1.0.0)
+
+# Set C++ standard
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+# Add JUCE subdirectory (assuming JUCE is in a subdirectory)
+add_subdirectory(JUCE)
+
+# Define the GUI application using JUCE's helper
+juce_add_gui_app(juce_gui_server
+    PRODUCT_NAME "JUCE GUI Server"
+    COMPANY_NAME "YourCompany"
+    BUNDLE_ID "com.yourcompany.juceguiserver"
+    ICON_BIG ""
+    MICROPHONE_PERMISSION_ENABLED TRUE
+    CAMERA_PERMISSION_ENABLED FALSE
+    BLUETOOTH_PERMISSION_ENABLED FALSE
+)
+
+# Add source files
+target_sources(juce_gui_server
+    PRIVATE
+        juce_gui_server.cpp
+)
+
+# Compile definitions
+target_compile_definitions(juce_gui_server
+    PRIVATE
+        JUCE_WEB_BROWSER=0
+        JUCE_USE_CURL=0
+        JUCE_VST3_CAN_REPLACE_VST2=1
+        JUCE_DISPLAY_SPLASH_SCREEN=0
+        JUCE_REPORT_APP_USAGE=0
+        JUCE_MODAL_LOOPS_PERMITTED=1
+        JUCE_USE_FLAC=1
+        JUCE_USE_OGGVORBIS=1
+)
+
+# Platform-specific definitions
+if(WIN32)
+    target_compile_definitions(juce_gui_server PRIVATE
+        JUCE_PLUGINHOST_VST3=1
+    )
+elseif(APPLE)
+    target_compile_definitions(juce_gui_server PRIVATE
+        JUCE_PLUGINHOST_VST3=1
+        JUCE_PLUGINHOST_AU=1
+    )
+elseif(UNIX)
+    target_compile_definitions(juce_gui_server PRIVATE
+        JUCE_PLUGINHOST_VST3=1
+        JUCE_PLUGINHOST_LADSPA=1
+        JUCE_PLUGINHOST_LV2=1
+    )
+endif()
+
+# Link with JUCE modules using PUBLIC keyword
+target_link_libraries(juce_gui_server
+    PUBLIC
+        juce::juce_audio_basics
+        juce::juce_audio_devices
+        juce::juce_audio_formats
+        juce::juce_audio_plugin_client
+        juce::juce_audio_processors
+        juce::juce_audio_utils
+        juce::juce_core
+        juce::juce_data_structures
+        juce::juce_events
+        juce::juce_graphics
+        juce::juce_gui_basics
+        juce::juce_gui_extra
+    PUBLIC
+        juce::juce_recommended_config_flags
+        juce::juce_recommended_lto_flags
+        juce::juce_recommended_warning_flags
+)
+
+# Platform-specific settings
+if(WIN32)
+    # Windows-specific libraries
+    target_link_libraries(juce_gui_server
+        PUBLIC
+            winmm
+            ws2_32
+            wininet
+            version
+            ole32
+            oleaut32
+            imm32
+            comdlg32
+            shlwapi
+            rpcrt4
+            winhttp
+    )
+    
+    # Set Windows subsystem
+    set_target_properties(juce_gui_server PROPERTIES
+        WIN32_EXECUTABLE TRUE
+    )
+elseif(APPLE)
+    # macOS-specific settings
+    find_library(COCOA_FRAMEWORK Cocoa)
+    find_library(IOKIT_FRAMEWORK IOKit)
+    find_library(COREAUDIO_FRAMEWORK CoreAudio)
+    find_library(COREMIDI_FRAMEWORK CoreMIDI)
+    find_library(QUARTZCORE_FRAMEWORK QuartzCore)
+    find_library(ACCELERATE_FRAMEWORK Accelerate)
+    find_library(AUDIOTOOLBOX_FRAMEWORK AudioToolbox)
+    find_library(AUDIOUNIT_FRAMEWORK AudioUnit)
+    
+    target_link_libraries(juce_gui_server
+        PUBLIC
+            ${COCOA_FRAMEWORK}
+            ${IOKIT_FRAMEWORK}
+            ${COREAUDIO_FRAMEWORK}
+            ${COREMIDI_FRAMEWORK}
+            ${QUARTZCORE_FRAMEWORK}
+            ${ACCELERATE_FRAMEWORK}
+            ${AUDIOTOOLBOX_FRAMEWORK}
+            ${AUDIOUNIT_FRAMEWORK}
+    )
+elseif(UNIX AND NOT APPLE)
+    # Linux-specific settings
+    find_package(PkgConfig REQUIRED)
+    pkg_check_modules(ALSA REQUIRED alsa)
+    pkg_check_modules(FREETYPE2 REQUIRED freetype2)
+    pkg_check_modules(LIBCURL REQUIRED libcurl)
+    pkg_check_modules(WEBKIT2GTK webkit2gtk-4.0)
+    pkg_check_modules(GTK3 REQUIRED gtk+-3.0)
+    
+    target_link_libraries(juce_gui_server
+        PUBLIC
+            ${ALSA_LIBRARIES}
+            ${FREETYPE2_LIBRARIES}
+            ${LIBCURL_LIBRARIES}
+            ${WEBKIT2GTK_LIBRARIES}
+            ${GTK3_LIBRARIES}
+            pthread
+            dl
+            rt
+            X11
+            Xext
+    )
+    
+    target_include_directories(juce_gui_server
+        PUBLIC
+            ${ALSA_INCLUDE_DIRS}
+            ${FREETYPE2_INCLUDE_DIRS}
+            ${LIBCURL_INCLUDE_DIRS}
+            ${WEBKIT2GTK_INCLUDE_DIRS}
+            ${GTK3_INCLUDE_DIRS}
+    )
+endif()
+
+# Set output directory
+set_target_properties(juce_gui_server PROPERTIES
+    RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
+)
+
+# Copy to a location accessible by Python if needed
+if(WIN32)
+    add_custom_command(TARGET juce_gui_server POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different
+        $<TARGET_FILE:juce_gui_server>
+        ${CMAKE_CURRENT_SOURCE_DIR}/../python_bindings/juce_gui_server.exe
+    )
+endif()

@@ -1,0 +1,15 @@
+from juce_client import JuceAudioClient
+#client = JuceAudioClient("testing4")
+client = JuceAudioClient()
+if not client.connect():
+    print("Failed to connect.")
+else:
+    #plugindirs = [r"d:\music creation\free vsts\instruments", r"d:\music creation\free vsts\effects", r"d:\music creation\free vsts"]
+    plugindirs = defaultDirs   
+    numfound = client.scanplugins(plugindirs)
+    print(f"Plugins found: {numfound}")
+    ids = []
+    for n in range(numfound):
+      ids.append(client.loadpluginbyindex(n))
+    for n in ids:
+      client.showpluginui(n)

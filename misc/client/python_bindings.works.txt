@@ -1,0 +1,292 @@
+#include <pybind11/pybind11.h>
+#include <pybind11/stl.h>
+#include <windows.h>
+#include <string>
+#include <vector>
+#include <iostream>
+#include <memory>
+
+namespace py = pybind11;
+
+class JuceAudioHost
+{
+public:
+    JuceAudioHost() : pipeHandle(INVALID_HANDLE_VALUE), guiProcessHandle(nullptr)
+    {
+        startGuiProcess();
+        connectToGuiProcess();
+        
+        // Test connection
+        if (sendCommand("PING") != "PONG")
+        {
+            throw std::runtime_error("Failed to establish connection with GUI process");
+        }
+    }
+    
+    ~JuceAudioHost()
+    {
+        cleanup();
+    }
+    
+    std::string getJuceVersion() const
+    {
+        return "JUCE 8.0.8 (via GUI process)";
+    }
+    
+    std::vector<std::string> scanForPlugins()
+    {
+        std::string response = sendCommand("SCAN_PLUGINS");
+        return parsePluginList(response);
+    }
+    
+    int loadPlugin(const std::string& pluginName)
+    {
+        std::string response = sendCommand("LOAD_PLUGIN|" + pluginName);
+        
+        if (response.substr(0, 7) == "LOADED:")
+        {
+            return std::stoi(response.substr(7));
+        }
+        else
+        {
+            throw std::runtime_error("Failed to load plugin: " + response);
+        }
+    }
+    
+    void showPluginEditor(int pluginId)
+    {
+        std::string response = sendCommand("SHOW_EDITOR|" + std::to_string(pluginId));
+        if (response != "OK")
+        {
+            throw std::runtime_error("Failed to show editor: " + response);
+        }
+    }
+    
+    void hidePluginEditor(int pluginId)
+    {
+        std::string response = sendCommand("HIDE_EDITOR|" + std::to_string(pluginId));
+        if (response != "OK")
+        {
+            throw std::runtime_error("Failed to hide editor: " + response);
+        }
+    }
+    
+    void setParameter(int pluginId, int paramIndex, float value)
+    {
+        std::string cmd = "SET_PARAMETER|" + std::to_string(pluginId) + "|" + 
+                         std::to_string(paramIndex) + "|" + std::to_string(value);
+        std::string response = sendCommand(cmd);
+        
+        if (response != "OK")
+        {
+            throw std::runtime_error("Failed to set parameter: " + response);
+        }
+    }
+    
+    std::vector<std::map<std::string, std::string>> getPluginParameters(int pluginId)
+    {
+        std::string response = sendCommand("GET_PARAMETERS|" + std::to_string(pluginId));
+        return parseParameters(response);
+    }
+    
+    bool isGuiProcessRunning() const
+    {
+        if (!guiProcessHandle) return false;
+        
+        DWORD exitCode;
+        if (GetExitCodeProcess(guiProcessHandle, &exitCode))
+        {
+            return exitCode == STILL_ACTIVE;
+        }
+        return false;
+    }
+
+private:
+    HANDLE pipeHandle;
+    PROCESS_INFORMATION guiProcessInfo;
+    HANDLE guiProcessHandle;
+    std::string pipeName = "juce_audio_pipe";
+
+    void startGuiProcess()
+    {
+        // Create unique pipe name
+        DWORD processId = GetCurrentProcessId();
+        pipeName = "juce_audio_pipe_" + std::to_string(processId);
+        
+        // Construct command line for GUI process
+        std::string exePath = "juce_gui_server.exe";  // Adjust path as needed
+        std::string cmdLine = exePath + " " + pipeName;
+        
+        STARTUPINFOA si = {};
+        si.cb = sizeof(si);
+        
+        if (!CreateProcessA(
+            nullptr,
+            const_cast<char*>(cmdLine.c_str()),
+            nullptr, nullptr, FALSE, 0, nullptr, nullptr, &si, &guiProcessInfo))
+        {
+            throw std::runtime_error("Failed to start GUI process. Make sure juce_gui_server.exe is in PATH or current directory.");
+        }
+        
+        guiProcessHandle = guiProcessInfo.hProcess;
+        
+        // Give GUI process time to start
+        Sleep(1000);
+    }
+    
+    void connectToGuiProcess()
+    {
+        std::string fullPipeName = "\\\\.\\pipe\\" + pipeName;
+        
+        // Try to connect for up to 5 seconds
+        for (int attempts = 0; attempts < 50; ++attempts)
+        {
+            pipeHandle = CreateFileA(
+                fullPipeName.c_str(),
+                GENERIC_READ | GENERIC_WRITE,
+                0, nullptr, OPEN_EXISTING, 0, nullptr
+            );
+            
+            if (pipeHandle != INVALID_HANDLE_VALUE)
+            {
+                DWORD mode = PIPE_READMODE_MESSAGE;
+                SetNamedPipeHandleState(pipeHandle, &mode, nullptr, nullptr);
+                return;
+            }
+            
+            if (GetLastError() != ERROR_PIPE_BUSY)
+                break;
+                
+            Sleep(100);
+        }
+        
+        throw std::runtime_error("Failed to connect to GUI process pipe");
+    }
+    
+    std::string sendCommand(const std::string& command)
+    {
+        if (pipeHandle == INVALID_HANDLE_VALUE)
+            return "ERROR:No connection";
+        
+        // Send command
+        DWORD bytesWritten;
+        if (!WriteFile(pipeHandle, command.c_str(), command.length(), &bytesWritten, nullptr))
+            return "ERROR:Write failed";
+        
+        FlushFileBuffers(pipeHandle);
+        
+        // Read response
+        char buffer[4096];
+        DWORD bytesRead;
+        
+        if (!ReadFile(pipeHandle, buffer, sizeof(buffer) - 1, &bytesRead, nullptr))
+            return "ERROR:Read failed";
+        
+        buffer[bytesRead] = '\0';
+        std::string response(buffer);
+        
+        // Remove trailing newline
+        if (!response.empty() && response.back() == '\n')
+            response.pop_back();
+        
+        return response;
+    }
+    
+    std::vector<std::string> parsePluginList(const std::string& response)
+    {
+        std::vector<std::string> plugins;
+        
+        if (response.substr(0, 8) == "PLUGINS:")
+        {
+            std::string pluginData = response.substr(8);
+            
+            size_t pos = 0;
+            while (pos < pluginData.length())
+            {
+                size_t nextSemi = pluginData.find(';', pos);
+                if (nextSemi == std::string::npos)
+                {
+                    if (pos < pluginData.length())
+                        plugins.push_back(pluginData.substr(pos));
+                    break;
+                }
+                
+                plugins.push_back(pluginData.substr(pos, nextSemi - pos));
+                pos = nextSemi + 1;
+            }
+        }
+        
+        return plugins;
+    }
+    
+    std::vector<std::map<std::string, std::string>> parseParameters(const std::string& response)
+    {
+        std::vector<std::map<std::string, std::string>> parameters;
+        
+        if (response.substr(0, 11) == "PARAMETERS:")
+        {
+            std::string paramData = response.substr(11);
+            
+            size_t pos = 0;
+            while (pos < paramData.length())
+            {
+                size_t nextSemi = paramData.find(';', pos);
+                std::string paramInfo = (nextSemi == std::string::npos) ? 
+                    paramData.substr(pos) : paramData.substr(pos, nextSemi - pos);
+                
+                // Parse "index:name:value"
+                size_t colon1 = paramInfo.find(':');
+                size_t colon2 = paramInfo.find(':', colon1 + 1);
+                
+                if (colon1 != std::string::npos && colon2 != std::string::npos)
+                {
+                    std::map<std::string, std::string> param;
+                    param["index"] = paramInfo.substr(0, colon1);
+                    param["name"] = paramInfo.substr(colon1 + 1, colon2 - colon1 - 1);
+                    param["value"] = paramInfo.substr(colon2 + 1);
+                    parameters.push_back(param);
+                }
+                
+                if (nextSemi == std::string::npos)
+                    break;
+                pos = nextSemi + 1;
+            }
+        }
+        
+        return parameters;
+    }
+    
+    void cleanup()
+    {
+        if (pipeHandle != INVALID_HANDLE_VALUE)
+        {
+            CloseHandle(pipeHandle);
+            pipeHandle = INVALID_HANDLE_VALUE;
+        }
+        
+        if (guiProcessHandle)
+        {
+            // Gracefully terminate the GUI process
+            TerminateProcess(guiProcessHandle, 0);
+            WaitForSingleObject(guiProcessHandle, 5000);
+            CloseHandle(guiProcessHandle);
+            CloseHandle(guiProcessInfo.hThread);
+            guiProcessHandle = nullptr;
+        }
+    }
+};
+
+PYBIND11_MODULE(juce_audio, m) {
+    m.doc() = "JUCE Audio Plugin Host (Inter-Process)";
+    
+    py::class_<JuceAudioHost>(m, "JuceAudioHost")
+        .def(py::init<>())
+        .def("get_juce_version", &JuceAudioHost::getJuceVersion)
+        .def("scan_for_plugins", &JuceAudioHost::scanForPlugins)
+        .def("load_plugin", &JuceAudioHost::loadPlugin)
+        .def("show_plugin_editor", &JuceAudioHost::showPluginEditor)
+        .def("hide_plugin_editor", &JuceAudioHost::hidePluginEditor)
+        .def("set_parameter", &JuceAudioHost::setParameter)
+        .def("get_plugin_parameters", &JuceAudioHost::getPluginParameters)
+        .def("is_gui_process_running", &JuceAudioHost::isGuiProcessRunning);
+}
