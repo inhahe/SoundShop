@@ -23,6 +23,7 @@ To do:
   - Add minor scales to notes_manipulation.py
   - Fix detection of special scales in note sequences
   - Make detection of major keys and modes output in the same format that detection of special keys and minor keys and modes will
+  - Add a button to send the current time/block/sample number during playback to the client for storage in the song data for using it as a marker for manipulating the song programmatically
   - Test it to see how much if it actually works
   
 ------
