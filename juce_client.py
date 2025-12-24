@@ -4,6 +4,7 @@
 #todo: change getinfo1 to get1info and readstr1 to read1str?
 #todo: make camelCase more consistent
 #todo: i think i changed some return values to signed int in the server that are still unsigned int here
+#todo: provide a way to click a button at a certain time during playback and have the client save that time in the song info, for later manipulating the song programmatically
 
 #key is distinct from uid because more than one instance of a plugin can exist in the graph.
 
