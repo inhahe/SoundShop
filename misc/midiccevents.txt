@@ -1,0 +1,20 @@
+#key is distinct from uid because more than one instance of a plugin can exist in the graph.
+
+#CC 1: Modulation wheel (vibrato, usually)
+#CC 7: Channel volume
+#CC 10: Pan
+#CC 11: Expression (fine volume control)
+#CC 64: Sustain pedal (on/off)
+#CC 74: Filter cutoff (brightness)
+#
+#The Values
+#Each CC sends a value from 0-127:
+#
+#CC 7 (volume) = 0 means silent
+#CC 7 (volume) = 127 means full volume
+#CC 10 (pan) = 0 means hard left
+#CC 10 (pan) = 64 means center
+#CC 10 (pan) = 127 means hard right
+
+#Special MIDI notes outside the playable range trigger articulation changes
+#For example, C0 might switch to legato, C#0 to staccato, D0 to pizzicato

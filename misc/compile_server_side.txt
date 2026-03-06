@@ -1,0 +1,133 @@
+Step A — Compile each track to an internal mini-graph (plugins only)
+
+For each track, you produce:
+
+plugin nodes (instrument/effects) with stable node_uid
+
+internal edges (audio/midi) between those plugins
+
+published port map: ("out", "in", "midi", etc.) -> Endpoint(s)
+
+Output per track:
+
+@dataclass
+class TrackIR:
+    node_uids: list[int]
+    plugin_specs: dict[int, PluginSpec]          # node_uid -> plugin descriptor
+    internal_edges: list[ResolvedEdge]           # edges already resolved to node_uid+channel
+    published_in: dict[str, list[Endpoint]]      # allow multi-channel bundles
+    published_out: dict[str, list[Endpoint]]
+
+Why list[Endpoint]? Because stereo is two endpoints (L/R), and a single authoring port "out" is often a bundle.
+
+Example:
+
+"out" → [(node, audio, ch0), (node, audio, ch1)]
+
+"in" → [(node, audio, ch0), (node, audio, ch1)]
+
+"midi" → [(node, midi)]
+
+Step B — Resolve project-level connections into concrete endpoints
+
+Each project connection:
+
+(src_track, src_port) -> (dst_track, dst_port) with optional gain_db
+
+gets expanded into one or more channel-wise connections by matching bundles.
+
+Rules:
+
+MIDI connects only to MIDI
+
+Audio bundles must have same channel count (or you define up/down-mix rules)
+
+So "out"(stereo) to "in"(stereo) becomes 2 channel edges.
+
+Step C — Insert Gain nodes when gain_db is specified
+
+For each resolved audio channel edge that has gain_db:
+
+Replace:
+
+A(chX) -> B(chY)
+
+with:
+
+A(chX) -> GainNode.in(ch0)
+GainNode.out(ch0) -> B(chY)
+
+Typically you need one Gain node per connection (or per channel). If you want stereo gain with one knob, insert one stereo gain node and connect both channels through it:
+
+Gain node has 2 ins/outs (0 and 1)
+
+connect A ch0→gain ch0, A ch1→gain ch1, etc.
+
+That’s usually what you want for “send level”.
+
+Step D — Handle summing (fan-in) explicitly if JUCE requires it
+
+JUCE AudioProcessorGraph does allow multiple connections into the same input channel, but whether that mixes for you depends on how you implement/process the graph and what processors expect. In practice, many people insert mixer/summing nodes to be explicit and avoid surprises.
+
+Safer compile rule:
+
+If an input endpoint (node_uid, channel) has more than 1 upstream source, insert a Summing/Mixer node per channel (or a stereo mixer for both channels).
+
+So if three children connect to parent "in" stereo:
+
+insert a stereo mixer node
+
+wire all child L into mixer L, all child R into mixer R
+
+mixer outputs go to parent’s first plugin input L/R
+
+This makes behavior unambiguous and DAW-like.
+
+Step E — Build JUCE graph: instantiate nodes, connect edges
+
+Create juce::AudioProcessorGraph graph;
+
+For each node_uid in PluginSpec, create the JUCE AudioProcessor instance and graph.addNode(...)
+
+Create any utility nodes needed by compilation:
+
+Gain nodes (AudioProcessor you provide)
+
+Mixer nodes (AudioProcessor you provide)
+
+Add connections:
+
+audio: AudioProcessorGraph::Connection { {srcNodeId, srcChannel}, {dstNodeId, dstChannel} }
+
+midi: channel index is AudioProcessorGraph::midiChannelIndex
+
+Step F — Return a RenderPlan to the renderer
+
+Return:
+
+list of nodes (with node_uid and plugin identity)
+
+list of JUCE connections
+
+mapping node_uid -> JUCE NodeID
+
+event routing information:
+
+instrument node_uids that accept MIDI
+
+param addressing (node_uid, param_id) for automation events
+
+
+About Gain and Mixer nodes in JUCE
+
+You’ll typically implement utility processors as lightweight juce::AudioProcessor:
+
+GainProcessor with N channels, param “gain” (linear or dB)
+
+MixerProcessor that sums multiple inputs
+
+Easiest: represent mixers as nodes with one input bus and let multiple upstream connections feed it (and the mixer just passes through).
+
+If you want strictness, you can implement a mixer with a fixed number of input busses, but JUCE graph wiring gets more complex.
+
+In practice: explicit gain nodes are the big win; explicit mixers are optional if your graph evaluation already sums multiple connections predictably.

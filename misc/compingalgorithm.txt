@@ -1,0 +1,23 @@
+3) How comping actually produces audio clips to render
+
+At render/schedule time, compile the comp into an “effective lane” of clips:
+
+Algorithm sketch
+
+For each CompSegment:
+
+Find the take lane
+
+Find what clip(s) in that take lane cover the segment time range
+
+For each overlap, create a new AudioClip referencing the same file but:
+
+start_sample = segment start (on timeline)
+
+length_samples = overlap length
+
+file_offset_samples adjusted so you read the correct part of the file
+
+Apply crossfades at boundaries
+
+This keeps everything non-destructive.

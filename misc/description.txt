@@ -1,0 +1,239 @@
+What you now have
+
+Audio files referenced by AudioFileRef
+
+Clips (AudioClip) that place file regions onto timeline (start, length, slip offset, fades, gain)
+
+Take lanes (take_lanes) used for comping
+
+Comp segments that select which take lane is audible during each time region
+
+Take alignment by AudioLane.time_offset_samples
+
+Crossfades between comp segments implemented as overlapping rendered regions with fade-in/out, which will naturally sum in your audio graph (fan-in mixer logic will handle it)
+
+Detailed explanation of all the code we’ve built so far
+
+Copy/paste this section into a new chat when you want another AI (or me) to have full context.
+
+A) Overall architecture
+
+You’re building a programming music library, not a DAW UI. The “renderer” has no concept of tracks. The scheduler/compiler must output:
+
+A plugin graph (VST3 instruments/effects) and audio connections for JUCE AudioProcessorGraph
+
+A time-ordered list of MIDI notes and MIDI CC events targeted at instruments/plugins
+
+A list of parameter changes (float values) over time, typically block-based
+
+(New) A list of audio file playback regions (file slices scheduled on a timeline), derived from audio clips and comping
+
+Tracks are authoring-time structure that eventually compile away.
+
+B) Signal system (automation/control curves)
+Goal
+
+Provide reusable, shareable control curves (“signals”) that can drive:
+
+tempo modulation (optional)
+
+microtuning
+
+filter cutoff
+
+any plugin parameter
+
+Signal API
+
+A Signal is evaluated as:
+
+signal.at(sample, ctx, cache) -> float
+
+Where:
+
+sample is an integer sample index
+
+ctx includes sample_rate, block_size, optionally a beat_at_sample callback
+
+cache is a block cache so multiple consumers can share evaluation results in the same block
+
+Signals can be composed with operators:
+
+Add, Sub, Mul, Neg, etc.
+
+Leaf signals include:
+
+Const
+
+TimeFn(fn) (non-serializable lambda function of time)
+
+BeatFn(fn) (non-serializable function of beat)
+
+WavetableOsc and WavetableOverTime (serializable curve sources)
+
+Caching
+
+BlockCache caches values per (signal_id, block_index), making repeated use of a shared curve efficient.
+
+Wavetable oscillator includes a PhaseCache to speed random access and prevent re-integrating phase from 0 each time.
+
+Cross-track sharing and compilation optimizations
+
+You discussed cross-track CSE (common subexpression elimination) so identical subgraphs can be canonicalized and shared. (Policy B: always do cross-track CSE; also avoid deduping stateful nodes like Smooth unless you accept its semantic changes.)
+
+C) Tempo mapping and beat/sample conversion
+Goal
+
+Allow beat-based note arrangements and scheduled (sample-based) arrangements, with tempo changes.
+
+Pieces
+
+Note types:
+
+BeatNote(start: Fraction, dur: Fraction, pitch, vel, origin_id)
+
+ScheduledNote(start_sample, dur_samples, pitch, vel, origin_id)
+
+TempoMap is piecewise-defined by segments:
+
+ConstBpmByBeat
+
+LinearBpmByBeat
+
+LambdaBpmByBeat (requires numeric integration)
+
+Beat↔sample conversion uses:
+
+numeric integration (midpoint method) for lambda segments
+
+anchor cache to speed mapping and reduce drift
+
+optional inverse refinement via binary search
+
+Optional tempo modulation by a Signal was discussed with cycle detection rules:
+
+tempo modulation signal must not depend on beat (avoids beat↔tempo circular dependency)
+
+D) Routing graph (processors + connections)
+Goal
+
+Model audio routing as a pure graph of processors and explicit connections; no special DAW “return/bus/fader/sidechain” entities baked in.
+
+You have:
+
+Processor(uid, key, name, ...)
+
+ProcessorConnection(processor1, channel1, processor2, channel2, gain_db?, group_id?)
+
+Key design points:
+
+group_id groups multiple channel edges created by one logical “connect call” (e.g., stereo pair)
+
+Gain insertion is done at compile time:
+
+if a connection group has gain_db, compilation inserts one gain processor per group and wires all channels through it
+
+Fan-in mixer insertion:
+
+if multiple connections feed the same (dst_processor, dst_channel), compilation inserts a mixer node to make summing explicit and deterministic
+
+Also:
+
+disconnect(group_id) removes all edges in that group.
+
+E) Scheduling “everything else” (MIDI + params)
+Goal
+
+Produce:
+
+midi_notes: (midiIndex, note, vel, start_sample, dur_samples, channel)
+
+midi_ccs: (pluginKey, controller, value, time_sample, channel) (instrument-targeted only)
+
+param_changes: (pluginKey, paramIndex, float_value, atBlock) (block-based)
+
+Important distinction:
+
+MidiToParamConnection is not used for internal CC automation.
+
+It maps keyboard/controller input CC events (a global stream you store) to parameter automation events (floats 0..1 by default).
+
+Param automation sources:
+
+Signal lanes: sample signals at block midpoints and emit param changes
+
+Keyboard CC mappings: convert CC(0..127) to float and schedule param changes
+
+F) Persistence (YAML) + signals + lambdas
+
+You can save projects to YAML, but you should not dump raw Python objects. Instead:
+
+Song.to_dict() / Song.from_dict()
+
+Use yaml.safe_dump / yaml.safe_load
+
+For signals:
+
+Serialize as a DAG:
+
+nodes: {node_id: node_spec}
+
+roots: {name: node_id}
+
+shared nodes preserved by references
+
+For lambdas:
+
+Not directly serializable.
+
+Options:
+
+Prefer declarative signals (wavetables, segments)
+
+Store importable function references (module:function)
+
+Bake function to sampled tables at save time
+
+G) Audio files + comping (this message)
+Goal
+
+Give tracks support for:
+
+Audio files + clips + lanes
+
+Takes + comp segments
+
+Take alignment offsets
+
+Crossfades between comp segments
+
+Model:
+
+AudioFileRef describes a file
+
+AudioClip places a file slice on timeline (with slip offset, fades, gain)
+
+AudioLane holds clips and a lane-level time offset
+
+AudioTrack has:
+
+take_lanes (for comping)
+
+lanes (regular audio lanes)
+
+comp (segments selecting which take lane is audible where)
+
+Compilation output:
+
+RenderAudioRegion(file_id, timeline_start, length, file_offset, gain_db, fade_in, fade_out)
+This is trackless and can be handed to the renderer.
+
+Crossfades:
+
+comp boundaries create overlapping regions:
+
+outgoing region gets fade-out
+
+incoming region gets fade-in
+
+overlaps are limited by segment lengths

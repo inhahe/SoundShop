@@ -53,3 +53,163 @@ class ProcessorGraph(dict):
     if type(arg) is dict or type(arg) is ProcessorGraph:
       super().__init__(arg)
     elif type(arg) is Processor:
+
+ def add_audio_track(self, audioTrack):
+    self.audioTracks.append(audioTrack)
+  def del_audio_track(self, audioTrack):
+    self.audioTracks.remove(audioTrack)
+  def add_midi_schedule(self, midischedule):
+    self.midiSchedules.append(midischedule)
+  def del_midi_schedule(self, midischedule):
+    self.midiSchedules.remove(midischedule)
+  def add_midi_cc_schedule(self, midiccschedule):
+    self.midiCcSchedules.append(midiccschedule)
+  def del_midi_cc_schedule(self, midiccschedule):
+    self.midiCcSchedules.remove(midiccschedule)
+  def add_param_schedule(self, paramschedule):
+    self.paramSchedules.append(paramschedule)
+  def del_param_schedule(self, paramschedule):
+    self.paramSchedules.remove(paramschedule)
+  def add_track(self, track):
+    self.tracks.append(track)
+  def del_track(self, track):
+    self.tracks.remove(track)
+
+  def remove(self, *items): #todo: reverse merge instead of just remove? but that would practically require a single list of each type rather than multiple
+    for item in items:
+      if type(item) is ParamSchedule:
+        self.paramSchedules.remove(item)
+      elif type(item) is MidiSchedule:
+        self.midiSchedules.remove(item)
+      elif type(item) is MidiCcSchedule:
+        self.midiCcSchedules.remove(item)
+      #elif type(item) is Notes:
+      elif type(item) is AudioTrack:
+        self.audioTracks.remove(item)
+      elif type(item) is Processors:
+        self.processors = None
+      elif type(item) is Processor:
+        self.processors.remove(item)
+  
+
+@dataclass
+class Track:
+    id: TrackId
+    name: str
+    parent_id: Optional[TrackId] = None
+    children: List[TrackId] = field(default_factory=list)
+    graph: PortGraph = field(default_factory=SimplePortGraph)
+
+
+class Project:
+    def __init__(self, *, auto_declare_ports: bool = True):
+        self.auto_declare_ports = auto_declare_ports
+
+        self._next_track_id = 1
+        self._next_conn_id = 1
+
+        self.tracks: Dict[TrackId, Track] = {}
+        self.track_order: List[TrackId] = []
+
+        self.connections: Dict[int, Connection] = {}
+        self._out_index: Dict[Tuple[TrackId, Port], Set[int]] = {}
+        self._in_index: Dict[Tuple[TrackId, Port], Set[int]] = {}
+
+    def compile(
+            self,
+            *,
+            strict_ports: bool = True,
+            detect_cycles: bool = True,
+            freeze_ports: bool = True,
+            auto_create_missing_ports: bool = False,
+    ) -> CompiledProject:
+        """
+        Compile project routing for rendering.
+
+        Args:
+          strict_ports:
+              If True, missing ports referenced by connections raise PortValidationError.
+          detect_cycles:
+              If True, detect audio routing cycles and raise AudioGraphCycleError.
+          freeze_ports:
+              If True, disable auto port declaration before compiling (recommended).
+          auto_create_missing_ports:
+              If True, missing ports will be created during compile (equivalent to strict_ports=False
+              for port creation), and port_report will record what got created.
+
+        Typical safe usage:
+          compile(strict_ports=True, freeze_ports=True, detect_cycles=True)
+
+        Typical prototyping usage:
+          compile(strict_ports=False, freeze_ports=False, auto_create_missing_ports=True)
+        """
+        was_auto = self.auto_declare_ports
+
+        ports_frozen = False
+        if freeze_ports:
+            self.auto_declare_ports = False
+            ports_frozen = True
+
+        # 1) Validate ports (and optionally auto-create them)
+        if auto_create_missing_ports:
+            # This explicitly creates missing ports regardless of auto_declare_ports.
+            port_report = validate_ports(self, strict=False)
+            if strict_ports:
+                # If they asked strict_ports but also auto_create_missing_ports, treat
+                # strict_ports as "after creation, ensure nothing missing".
+                port_report2 = validate_ports(self, strict=True)
+                # if strict=True passes, port_report2 won't raise; we keep the created report
+            else:
+                # Non-strict: we're done
+                pass
+        else:
+            # No auto-creation: just validate according to strict_ports
+            port_report = validate_ports(self, strict=strict_ports)
+
+        # 2) Compile audio routing (topo order + optional cycle error)
+        audio = None
+        if detect_cycles:
+            renderPlan = compile_project_to_render_plan(project)
+        else:
+            # If cycles aren't checked, you can still produce an order attempt.
+            # But most renderers need DAG. We'll still run it because it also gives the order.
+            renderPlan = compile_project_to_render_plan(project)
+
+        # NOTE: if you want to compile MIDI/control graphs too, add them here.
+
+        # Leave ports frozen if freeze_ports=True (intended)
+        # Restore if not freezing
+        if not freeze_ports:
+            self.auto_declare_ports = was_auto
+
+        return CompiledProject(audio=audio, port_report=port_report, ports_frozen=ports_frozen)
+
+    def add_track(
+        self,
+        name: str,
+        *,
+        parent: Optional[Union[Track, TrackId]] = None,
+        auto_sum: bool = True,
+        child_out_port: str = "out",
+        parent_in_port: str = "in",
+    ) -> Track:
+        tid = self._next_track_id
+        self._next_track_id += 1
+
+        parent_id = parent.id if isinstance(parent, Track) else parent
+        t = Track(id=tid, name=name, parent_id=parent_id)
+
+        self.tracks[tid] = t
+        self.track_order.append(tid)
+
+        if parent_id is not None:
+            if parent_id not in self.tracks:
+                raise ValueError(f"Unknown parent track id {parent_id}")
+            self.tracks[parent_id].children.append(tid)
+
+            if auto_sum:
+                # This will obey auto_declare_ports
+                self.connect(tid, child_out_port, parent_id, parent_in_port, auto=True)
+
+        return t
+

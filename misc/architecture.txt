@@ -1,0 +1,20 @@
+Project
+├─ tracks: [Track]                (ordered)
+├─ track_by_name: {name → Track}   (lookup)
+├─ tempo_map: TempoMap             (beat↔sample, may use bpm_mod_signal)
+├─ signal_registry: SignalRegistry (exports: "A.mod.vibe" → Signal)
+└─ signal_engine: SignalEngine     (compiled DAG + global BlockCache)
+
+Track
+├─ name
+├─ note_graph / midi_graph         (event transforms; beat-domain usually)
+├─ audio_graph                     (buffer DSP)
+└─ ports
+   ├─ exports:  {port → key}       (e.g. "vibe" → "A.mod.vibe")
+   └─ imports:  {alias → RefSignal} (optional convenience)
+
+Signal graph (global, compiled from all roots)
+    [Signal nodes: Const, TimeFn, WavetableOsc, Add/Mul, RefSignal, ...]
+          ▲                  ▲
+          │                  │
+   exported by Track A   consumed by Track B (via RefSignal)

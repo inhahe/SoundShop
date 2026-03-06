@@ -1,0 +1,105 @@
+class InterpMode:
+    NEAREST = "nearest"
+    LINEAR = "linear"
+
+def _wrap01(x: float) -> float:
+    # wrap to [0,1)
+    return x - math.floor(x)
+
+def _clamp01(x: float) -> float:
+    return 0.0 if x < 0.0 else (1.0 if x > 1.0 else x)
+
+def _wavetable_lookup(table: Sequence[float], phase01: float, interp: str) -> float:
+    """
+    phase01: expected in [0,1) for looping lookup (caller can wrap/clamp).
+    """
+    n = len(table)
+    if n == 0:
+        raise ValueError("Wavetable cannot be empty")
+    if n == 1:
+        return float(table[0])
+
+    # scale phase into [0, n)
+    pos = phase01 * n
+
+    if interp == InterpMode.NEAREST:
+        i = int(pos) % n
+        return float(table[i])
+
+    if interp == InterpMode.LINEAR:
+        i0 = int(pos)  # floor
+        frac = pos - i0
+        i0 = i0 % n
+        i1 = (i0 + 1) % n
+        return float(table[i0]) * (1.0 - frac) + float(table[i1]) * frac
+
+    raise ValueError(f"Unknown interp mode: {interp}")
+
+
+class WavetableOsc(Signal):
+    """
+    Classic wavetable oscillator:
+      value(sample) = table[ phase(t) ]
+    where phase(t) = wrap01(phase0 + ∫ freq(t) dt)
+
+    We support:
+      - freq as constant number (fast, exact): phase = wrap01(phase0 + t*freq)
+      - freq as Signal (time-varying): we approximate phase using block-rate integration
+        (still pure/deterministic because it depends only on sample index + ctx)
+
+    Note: if freq is a Signal, this oscillator is accurate at the cache/block rate, which is usually fine for LFO/modulation.
+    """
+    def __init__(
+        self,
+        table: Sequence[float],
+        freq_hz: Union[Signal, Number],
+        *,
+        phase0: float = 0.0,
+        interp: str = InterpMode.LINEAR,
+        loop: bool = True,
+    ):
+        super().__init__()
+        self.table = list(map(float, table))
+        self.freq = as_signal(freq_hz)
+        self.phase0 = float(phase0)
+        self.interp = interp
+        self.loop = loop
+
+        if len(self.table) == 0:
+            raise ValueError("WavetableOsc table cannot be empty")
+
+    def _eval(self, sample: int, ctx: EvalContext, cache: Optional[BlockCache]) -> float:
+        t = sample / ctx.sample_rate
+
+        # Fast path: constant frequency -> exact phase
+        if isinstance(self.freq, Const):
+            phase = self.phase0 + t * self.freq.value
+            phase01 = _wrap01(phase) if self.loop else _clamp01(phase)
+            return _wavetable_lookup(self.table, phase01, self.interp)
+
+        # Time-varying frequency: approximate ∫freq dt at block rate.
+        # We compute phase at the *start of the current block* deterministically.
+        block = sample // ctx.block_size
+        block_start_sample = block * ctx.block_size
+        tb = block_start_sample / ctx.sample_rate
+
+        # Integrate from 0 to tb in block steps. This is O(block_index),
+        # which is not great if called for late samples *without caching*.
+        #
+        # The intended usage is with BlockCache: this oscillator's value is cached per block,
+        # so the integration is done once per block and reused.
+        #
+        # If you want it faster, we can add a dedicated PhaseCache later (same idea as AnchorCache).
+        phase = self.phase0
+        dt = ctx.block_size / ctx.sample_rate
+
+        # Integrate frequency at block midpoints
+        for bi in range(block):
+            s_mid = (bi * ctx.block_size) + (ctx.block_size // 2)
+            f_mid = float(self.freq.at(s_mid, ctx, cache))
+            phase += f_mid * dt
+
+        phase01 = _wrap01(phase) if self.loop else _clamp01(phase)
+        return _wavetable_lookup(self.table, phase01, self.interp)
+
+

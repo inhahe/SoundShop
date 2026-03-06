@@ -1,0 +1,6 @@
+One LFO, envelope follower, macro, or automation curve drives multiple targets across tracks.
+
+Sidechain envelope from kick controls bass compressor + synth filter + reverb ducking.
+
+A master “build-up” curve controls tempo modulation + risers + brightness + stereo width.
+

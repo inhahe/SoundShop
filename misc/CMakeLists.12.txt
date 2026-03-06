@@ -40,20 +40,7 @@ juce_add_gui_app(juce_gui_server
 # Add source files
 target_sources(juce_gui_server
     PRIVATE
-        src/main.cpp
-        src/host/PluginHostService.cpp
-        src/services/IpcService.cpp
-        src/services/AudioService.cpp
-        src/services/UiService.cpp
-        src/services/ServerServices.cpp
-        src/audio/RecordingAudioCallback.cpp
-        src/gui/Listeners.cpp
-)
-
-# Add include directories
-target_include_directories(juce_gui_server
-    PRIVATE
-        ${CMAKE_CURRENT_SOURCE_DIR}/include
+        juce_gui_server.cpp
 )
 
 # Compile definitions
@@ -198,3 +185,5 @@ if(WIN32)
         ${CMAKE_CURRENT_SOURCE_DIR}/../python_bindings/juce_gui_server.exe
     )
 endif()
+add_executable(new_target juce_gui_server.cpp
+        juce_gui_server.cpp)
