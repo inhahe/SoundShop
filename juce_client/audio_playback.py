@@ -7,13 +7,13 @@ class AudioPlaybackAPI:
 
     def connectaudio(self, sourceId: int, sourceChannel: int, destId: int, destChannel: int) -> int:
         self.sendcmd(send_cmd.connect_audio)
-        self.sendinfo("IIII", int(sourceId), int(sourceChannel), int(destId), int(destChannel))
+        self.sendinfo("iiii", int(sourceId), int(sourceChannel), int(destId), int(destChannel))
         self.commands_pipe_handle_flush()
         return int(self.readinfo1c("I"))
 
     def connectmidi(self, sourceId: int, destId: int) -> int:
         self.sendcmd(send_cmd.connect_midi)
-        self.sendinfo("II", int(sourceId), int(destId))
+        self.sendinfo("ii", int(sourceId), int(destId))
         self.commands_pipe_handle_flush()
         return int(self.readinfo1c("I"))
 
@@ -79,5 +79,27 @@ class AudioPlaybackAPI:
         """Remove a MIDI CC to parameter mapping."""
         self.sendcmd(send_cmd.unroute_cc_to_param)
         self.sendinfo("III", int(pluginKey), int(paramIndex), int(ccController))
+        self.commands_pipe_handle_flush()
+        return int(self.readinfo1c("I"))
+
+    def getpluginstate(self, pluginKey: int) -> bytes:
+        """Return the plugin's opaque state blob (getStateInformation).
+
+        Captures a full patch, including routing not exposed as host-automatable
+        parameters (e.g. Vital's modulation matrix). Returns b"" on failure.
+        """
+        self.sendcmd(send_cmd.get_plugin_state)
+        self.sendinfo("I", int(pluginKey))
+        self.commands_pipe_handle_flush()
+        success = int(self.readinfo1c("I"))
+        blob = self.readbytes1()
+        return blob if success else b""
+
+    def setpluginstate(self, pluginKey: int, data: bytes) -> int:
+        """Restore a plugin's state from a blob from getpluginstate
+        (setStateInformation). Returns 1 on success, 0 on failure."""
+        self.sendcmd(send_cmd.set_plugin_state)
+        self.sendinfo("I", int(pluginKey))
+        self.sendbytes(data)
         self.commands_pipe_handle_flush()
         return int(self.readinfo1c("I"))

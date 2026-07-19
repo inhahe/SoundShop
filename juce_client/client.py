@@ -36,6 +36,8 @@ class JuceAudioClient(PipeIO):
         self.pluginDirectories = list(pluginDirectories) if pluginDirectories is not None else None
         self.badPluginPaths = list(badPluginPaths) if badPluginPaths is not None else []
 
+        self._pending_server_error: Optional[str] = None
+
     def start_server(self) -> bool:
         """Launch the JUCE server process if not already running."""
         import subprocess
@@ -59,6 +61,20 @@ class JuceAudioClient(PipeIO):
     def connect(self, auto_start: bool = True, max_retries: int = 5, retry_delay: float = 1.0) -> bool:
         """Connect to the JUCE server pipes, optionally auto-starting the server."""
         for attempt in range(max_retries):
+            # Check if the server process died
+            if self.server_process is not None:
+                rc = self.server_process.poll()
+                if rc is not None:
+                    print(f"Server process exited with code {rc}")
+                    self.server_process = None
+                    if auto_start:
+                        print("Restarting server...")
+                        if not self.start_server():
+                            print("Failed to restart server")
+                            return False
+                        time.sleep(retry_delay)
+                        continue
+
             try:
                 print(f"Connecting to {self.pipe_name}... (attempt {attempt + 1}/{max_retries})")
                 self.commands_pipe_handle = open(self.commands_pipe_path, "w+b", buffering=0)
@@ -141,13 +157,24 @@ class JuceAudioClient(PipeIO):
     def _read_notification_bytes(self, n):
         return read_exact(self.notifications_pipe_handle, n)
 
+    def __del__(self):
+        try:
+            self.disconnect(shutdown_server=True)
+        except Exception:
+            pass
+
     def _notification_loop(self):
         import struct
         while self._notification_running and self.notifications_connected:
             try:
                 cmd_byte = self._read_notification_bytes(1)
+                if not cmd_byte:
+                    break  # pipe closed
                 cmd = struct.unpack("<B", cmd_byte)[0]
                 data = self._parse_notification(cmd)
+                # Store server errors so the next command raises
+                if cmd == recv_cmd.server_error:
+                    self._pending_server_error = data.get("message", "Unknown server error")
                 if self._notification_callback:
                     try:
                         self._notification_callback(cmd, data)
@@ -247,5 +274,9 @@ class JuceAudioClient(PipeIO):
         elif cmd == recv_cmd.ordered_playback_stopped:
             (samplePosition,) = _read("Q")
             return {"samplePosition": samplePosition}
+
+        elif cmd == recv_cmd.server_error:
+            message = _read_str()
+            return {"message": message}
 
         return {"raw_cmd": cmd}

@@ -24,6 +24,17 @@ AudioService::RealtimeConfig AudioService::ensureRealtimeInitialised(juce::Audio
     cfg.error = deviceManager_.initialise(2, 2, nullptr, true, {}, &setup);
     if (cfg.error.isNotEmpty())
     {
+        std::cerr << "Audio input init failed: " << cfg.error.toStdString()
+                  << " -- retrying output-only." << std::endl;
+        auto retryErr = deviceManager_.initialise(0, 2, nullptr, true, {}, &setup);
+        if (retryErr.isEmpty())
+        {
+            cfg.error = {};
+            std::cerr << "Audio initialized successfully (output-only, no input/recording)." << std::endl;
+        }
+    }
+    if (cfg.error.isNotEmpty())
+    {
         // Still continue; device might partially initialise depending on backend.
         std::cerr << "Audio initialization error: " << cfg.error.toStdString() << std::endl;
     }

@@ -8,6 +8,7 @@ class RecordingAudioCallback : public juce::AudioIODeviceCallback
 private:
   juce::AudioIODeviceCallback* wrappedCallback;  // The actual callback (graphPlayer)
   PluginHostService* host;
+  std::atomic<bool> crashed_{false};
 
 public:
   RecordingAudioCallback(juce::AudioIODeviceCallback* callback, PluginHostService* h)

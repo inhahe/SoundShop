@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import os
 import platform
 
 class send_cmd:
@@ -13,8 +14,10 @@ class send_cmd:
         load_audio_file, control_audio_playback,
         schedule_ordered_notes, start_ordered_playback, stop_ordered_playback, clear_ordered_notes,
         clear_midi_cc_schedule, clear_param_schedule, clear_all_plugins,
-        stop_playback_cmd
-    ) = range(41)
+        stop_playback_cmd,
+        get_plugin_state, set_plugin_state,
+        schedule_pitch_bend
+    ) = range(44)
 
 class recv_cmd:
     (
@@ -23,8 +26,9 @@ class recv_cmd:
         midi_keyboard_routed, virtual_keyboard_routed,
         recording_started, recording_stopped, monitoring_changed,
         audio_file_loaded, audio_playback_started, audio_playback_stopped,
-        ordered_note_triggered, ordered_playback_started, ordered_playback_stopped
-    ) = range(18)
+        ordered_note_triggered, ordered_playback_started, ordered_playback_stopped,
+        server_error
+    ) = range(19)
 
 pipe_name = "juceclientserver"
 
@@ -38,14 +42,16 @@ outputIndex = -1
 leftChannel = 0
 rightChannel = 1
 
-if platform.system() == "Windows":  # VST3 only
+if platform.system() == "Windows":
     defaultDirs = (
         r"C:\Program Files\Steinberg\VSTPlugins",
         r"C:\Program Files\Common Files\VST3",
         r"C:\Program Files\Vstplugins",
         r"C:\Program Files (x86)\Steinberg\VSTPlugins",
+        r"C:\Program Files (x86)\Common Files\VST3",
         r"C:\Program Files (x86)\VstPlugins",
         r"C:\VstPlugins",
+        os.path.join(os.environ.get("LOCALAPPDATA", ""), "Programs", "Common", "VST3"),
     )
 elif platform.system() == "Linux":
     defaultDirs = (
@@ -59,6 +65,9 @@ else:  # Darwin / macOS
         "/Library/Audio/Plug-Ins/VST",
         "/Library/Audio/Plug-Ins/VST3",
         "/Library/Audio/Plug-Ins/Components",
+        "/Library/Audio/Plug-Ins/LV2",
         "~/Library/Audio/Plug-Ins/VST",
         "~/Library/Audio/Plug-Ins/VST3",
+        "~/Library/Audio/Plug-Ins/Components",
+        "~/Library/Audio/Plug-Ins/LV2",
     )

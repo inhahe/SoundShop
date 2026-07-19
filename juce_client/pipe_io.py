@@ -3,6 +3,12 @@ from __future__ import annotations
 import struct
 from typing import Tuple
 
+
+class ServerError(RuntimeError):
+    """Raised when the JUCE server reports an error during command processing."""
+    pass
+
+
 def read_exact(pipe_handle, n: int) -> bytes:
     """Read exactly n bytes, blocking until all are received."""
     data = b""
@@ -23,12 +29,42 @@ class PipeIO:
 
     # ---- flushing ----
 
-    def commands_pipe_handle_flush(self) -> None:
+    def _raw_flush(self) -> None:
+        """Flush the write buffer without reading a response status."""
         try:
             if self.commands_pipe_handle:
                 self.commands_pipe_handle.flush()
         except Exception:
             pass
+
+    def commands_pipe_handle_flush(self) -> None:
+        """Flush writes and read the server's response status byte."""
+        self._raw_flush()
+        self._check_response_status()
+
+    def _check_response_status(self) -> None:
+        """Read the 1-byte response status. If 0xFF, read error string and raise."""
+        if not self.commands_connected or not self.commands_pipe_handle:
+            return
+        # Check for async server errors (e.g. audio callback crash)
+        pending = getattr(self, '_pending_server_error', None)
+        if pending is not None:
+            self._pending_server_error = None
+            raise ServerError(pending)
+        status_byte = read_exact(self.commands_pipe_handle, 1)
+        if status_byte == b'\xff':
+            # Error frame: read length-prefixed error message
+            length_bytes = read_exact(self.commands_pipe_handle, 4)
+            length = struct.unpack("<I", length_bytes)[0]
+            msg = read_exact(self.commands_pipe_handle, length).decode("utf-8", errors="ignore") if length > 0 else "Unknown server error"
+            raise ServerError(msg)
+        # 0x00 = success, continue reading normal response data
+
+    def _flush_and_check_n(self, n: int) -> None:
+        """Flush writes and read N response status bytes (for bulk commands)."""
+        self._raw_flush()
+        for _ in range(n):
+            self._check_response_status()
 
     # ---- packing/unpacking ----
 
@@ -75,6 +111,20 @@ class PipeIO:
     def sendstrs(self, ss) -> None:
         for s in ss:
             self.sendstr(str(s))
+
+    # ---- raw bytes (binary-safe, length-prefixed; matches C++
+    # write2c_string / readFromPipe<std::string>) ----
+
+    def sendbytes(self, b: bytes) -> None:
+        if not self.commands_connected:
+            raise IOError("not connected")
+        self.commands_pipe_handle.write(struct.pack("<I", len(b)) + bytes(b))
+
+    def readbytes1(self) -> bytes:
+        size = int(self.readinfo1c("I"))
+        if size == 0:
+            return b""
+        return read_exact(self.commands_pipe_handle, size)
 
     # ---- command byte ----
 

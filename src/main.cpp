@@ -35,11 +35,11 @@ extern "C" int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPST
 
         juce::initialiseJuce_GUI();
 
-        ServerState state;
+        auto state = std::make_unique<ServerState>();
         if (lpCmdLine && !isAllWhitespace(lpCmdLine))
-            state.config.pipeName = std::string(lpCmdLine);
+            state->config.pipeName = std::string(lpCmdLine);
 
-        ServerServices services(state);
+        ServerServices services(*state);
         services.start(juce::String(lpCmdLine ? lpCmdLine : ""));
 
         juce::MessageManager::getInstance()->runDispatchLoop();
@@ -68,11 +68,11 @@ int main(int argc, char* argv[])
         commandLine << argv[i];
     }
 
-    ServerState state;
+    auto state = std::make_unique<ServerState>();
     if (commandLine.isNotEmpty())
-        state.config.pipeName = commandLine.toStdString();
+        state->config.pipeName = commandLine.toStdString();
 
-    ServerServices services(state);
+    ServerServices services(*state);
     services.start(commandLine);
 
     juce::MessageManager::getInstance()->runDispatchLoop();

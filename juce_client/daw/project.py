@@ -1324,13 +1324,13 @@ class Song:
     """
     self.sendcmd(send_cmd.route_cc_to_param)
     self.sendinfo("IIIi", pluginId, param_index, cc_controller, midi_channel)
-    self.commands_pipe_handle.flush()
+    self.commands_pipe_handle_flush()
     return self.readinfo1c("I")
   def unroutecctoparam(self, pluginId, param_index, cc_controller):
     """Remove a MIDI CC to parameter mapping"""
     self.sendcmd(send_cmd.unroute_cc_to_param)
     self.sendinfo("III", pluginId, param_index, cc_controller)
-    self.commands_pipe_handle.flush()
+    self.commands_pipe_handle_flush()
     return self.readinfo1c("I")
   def save(self, filePath=None):
     filePath = filePath or self.filePath or "song"
@@ -1505,7 +1505,6 @@ def main():
 
   client.startplayback(15*sampleRate, False, "")
   x = input()
-  client.commands_pipe_handle.flush()  
   client.disconnect()  
 
 if __name__ == "__main__":

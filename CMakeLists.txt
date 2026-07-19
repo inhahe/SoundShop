@@ -29,7 +29,7 @@ add_subdirectory(${JUCE_DIR} ${CMAKE_BINARY_DIR}/JUCE)
 
 # Define the GUI application using JUCE's helper
 juce_add_gui_app(juce_gui_server
-    PRODUCT_NAME "JUCE GUI Server"
+    PRODUCT_NAME "juce_gui_server"
     COMPANY_NAME "YourCompany"
     BUNDLE_ID "com.yourcompany.juceguiserver"
     MICROPHONE_PERMISSION_ENABLED TRUE

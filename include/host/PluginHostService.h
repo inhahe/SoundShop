@@ -70,6 +70,7 @@ LockFreeMidiQueue<MidiCCEvent>& virtualKeyboardCCQueue;
     formatManager.addFormat(new juce::VST3PluginFormat()); 
     //cout << "Added VST3 format" << endl;
     processorGraph = std::make_unique<juce::AudioProcessorGraph>();
+    setupAudioIO();  // Create I/O nodes immediately so connectAudio works
 
 // IPC transport (named pipes/FIFOs) is owned by IpcService.
 
@@ -116,8 +117,13 @@ LockFreeMidiQueue<MidiCCEvent>& virtualKeyboardCCQueue;
     processorGraph = nullptr;
   }
 
-  unordered_map<int, juce::AudioProcessorGraph::NodeID> loadedPlugins; 
+  unordered_map<int, juce::AudioProcessorGraph::NodeID> loadedPlugins;
   atomic<bool> running = true;
+
+  // Response buffering — command responses are buffered so that on error
+  // we can discard partial data and send an error frame instead.
+  bool bufferingResponse_ = false;
+  std::vector<char> responseBuffer_;
 
 #define WRITEALLC(...) writeAllc(__VA_ARGS__)
 #define WRITEALLN(...) writeAlln(__VA_ARGS__)
@@ -248,6 +254,21 @@ void sendQueuedParameterNotifications()
 
   void setupAudioIO()
   {
+    // The graph must know it has a stereo main bus BEFORE any connections are
+    // made, otherwise its AudioGraphIOProcessor nodes report 0 channels and
+    // every connectAudio() to the output node silently fails (=> silence).
+    // In real-time this is done by AudioProcessorPlayer, but for offline
+    // rendering (and to let connectAudio succeed before playback) we set it
+    // here. Real-time will re-apply the device's real config later.
+    processorGraph->setPlayConfigDetails(
+      2, 2,
+      sampleRate > 0 ? sampleRate : 44100,
+      blockSize > 0 ? blockSize : 64);
+
+    // Only create I/O nodes once
+    if (loadedPlugins.count(outputIndex) && loadedPlugins.count(inputIndex))
+      return;
+
     // Add audio output node (required for hearing anything)
     audioOutputNode = processorGraph->addNode(
       std::make_unique<juce::AudioProcessorGraph::AudioGraphIOProcessor>(
@@ -282,11 +303,10 @@ void sendQueuedParameterNotifications()
 
 
 
-  void setPluginParameter(int key, int parameterIndex, float value) 
+  void setPluginParameter(int key, int parameterIndex, float value)
   {
-    auto it = loadedPlugins.begin();
-    advance(it, key);  // Move iterator to key position
-    if (it != loadedPlugins.end()) 
+    auto it = loadedPlugins.find(key);
+    if (it != loadedPlugins.end())
     {
       auto node = processorGraph->getNodeForId(it->second);
       if (node && node->getProcessor()) 
@@ -595,6 +615,13 @@ void sendQueuedParameterNotifications()
     audioWriter->writeFromAudioSampleBuffer(tempBuffer, 0, numSamples);
   }
 
+  void sendErrorNotification(const std::string& msg)
+  {
+    if (!ipc_ || !ipc_->isNotificationReady()) return;
+    WRITEALLN(server_error);
+    write2n_string(msg);
+  }
+
   void updateAudioFilePlayerTimeline()
   {
     const int64_t t = paramScheduler.getTimelineSample();
@@ -841,52 +868,63 @@ void sendQueuedParameterNotifications()
       ccEvent.atSample = currentSamplePosition;
       midiCCQueue.push(ccEvent);
 
-      // Apply CC to parameter mappings
-      for (const auto& mapping : ccMappings)
-      {
-        if (mapping.ccController == cc &&
-            (mapping.midiChannel == -1 || mapping.midiChannel == channel))
-        {
-          auto it = loadedPlugins.find(mapping.key);
-          if (it != loadedPlugins.end())
-          {
-            auto node = processorGraph->getNodeForId(it->second);
-            if (node && node->getProcessor())
-            {
-              auto* processor = node->getProcessor();
-              const auto& params = processor->getParameters();
-
-              if (mapping.parameterIndex >= 0 && mapping.parameterIndex < params.size())
-              {
-                auto* param = params[mapping.parameterIndex];
-
-                // Normalize CC value (0-127) to 0.0-1.0
-                float normalizedValue = value / 127.0f;
-
-                // If it's a RangedAudioParameter, we can use the range
-                if (auto* rangedParam = dynamic_cast<juce::RangedAudioParameter*>(param))
-                {
-                  auto range = rangedParam->getNormalisableRange();
-                  // Convert normalized value to actual parameter value using the range
-                  float actualValue = range.convertFrom0to1(normalizedValue);
-                  // Set the parameter (setValue expects normalized 0-1 value)
-                  param->setValue(normalizedValue);
-                }
-                else
-                {
-                  // For non-ranged parameters, just use the normalized value
-                  param->setValue(normalizedValue);
-                }
-              }
-            }
-          }
-        }
-      }
+      // Apply any host CC->parameter mappings for this controller.
+      applyCcToMappings(cc, value, channel);
     }
 
     // Always route to midiCollector for general MIDI handling
     if (audio_ && audio_->midiCollector())
       audio_->midiCollector()->addMessageToQueue(message);
+  }
+
+  // Apply every host CC->parameter mapping that matches this controller/channel.
+  // Shared by the live-input path (handleIncomingMidiMessage) and the scheduled
+  // path (applyScheduledCcMappings) so both behave identically. setValue()
+  // takes a normalised [0,1] value, which is exactly CC/127.
+  void applyCcToMappings(int cc, int value, int channel)
+  {
+    for (const auto& mapping : ccMappings)
+    {
+      if (mapping.ccController != cc ||
+          (mapping.midiChannel != -1 && mapping.midiChannel != channel))
+        continue;
+
+      auto it = loadedPlugins.find(mapping.key);
+      if (it == loadedPlugins.end())
+        continue;
+
+      auto node = processorGraph->getNodeForId(it->second);
+      if (!node || !node->getProcessor())
+        continue;
+
+      const auto& params = node->getProcessor()->getParameters();
+      if (mapping.parameterIndex >= 0 && mapping.parameterIndex < params.size())
+        params[mapping.parameterIndex]->setValue(value / 127.0f);
+    }
+  }
+
+  // Apply CC->parameter mappings for any CCs scheduled within the current
+  // block. This makes scheduled CCs drive host-mapped parameters exactly like
+  // live controller input. Must be called once per audio block, after the MIDI
+  // scheduler cursor has been aligned to the timeline (syncMidiSchedulerToTimeline).
+  void applyScheduledCcMappings(int numSamples)
+  {
+    if (!midiScheduler || ccMappings.empty())
+      return;
+    midiScheduler->forEachCcInBlock(numSamples,
+      [this](int /*srcKey*/, int cc, int value, int channel)
+      {
+        applyCcToMappings(cc, value, channel);
+      });
+  }
+
+  // Align the MIDI scheduler's playback cursor with the authoritative param
+  // timeline so each MidiSourceNode emits the events for the current block.
+  // Must be called once per audio block, before the graph renders.
+  void syncMidiSchedulerToTimeline()
+  {
+    if (midiScheduler)
+      midiScheduler->setCurrentPosition(paramScheduler.getTimelineSample());
   }
 
   void processScheduledEvents(int numSamples) // pass numSamples in!
@@ -932,8 +970,17 @@ int write4n(void* buff, int n)
   {
     int l1 = static_cast<int>(s.length());
     int l2 = 4 + l1;  // 4 bytes for length + string content
-    int tosend = l2;
 
+    if (bufferingResponse_)
+    {
+      size_t off = responseBuffer_.size();
+      responseBuffer_.resize(off + l2);
+      memcpy(responseBuffer_.data() + off, &l1, 4);
+      memcpy(responseBuffer_.data() + off + 4, s.c_str(), l1);
+      return;
+    }
+
+    int tosend = l2;
     char* buff = new char[l2];
 
     // Copy length as first 4 bytes
@@ -949,7 +996,7 @@ int write4n(void* buff, int n)
         tosend -= byteswritten;
         current_pos += byteswritten;
       }
-      else 
+      else
       {
 #ifdef _WIN32
         throw runtime_error("Error writing to pipe (Windows error: " + to_string(GetLastError()) + ")");
@@ -967,6 +1014,14 @@ int write4n(void* buff, int n)
   template<typename T>
   void write2c_binary(T n)
   {
+    if (bufferingResponse_)
+    {
+      size_t off = responseBuffer_.size();
+      responseBuffer_.resize(off + sizeof(T));
+      memcpy(responseBuffer_.data() + off, &n, sizeof(T));
+      return;
+    }
+
     int tosend = sizeof(T);
     char* current_pos = reinterpret_cast<char*>(&n);
 
@@ -976,7 +1031,7 @@ int write4n(void* buff, int n)
         tosend -= byteswritten;
         current_pos += byteswritten;
       }
-      else 
+      else
       {
 #ifdef _WIN32
         throw runtime_error("Error writing to pipe (Windows error: " + to_string(GetLastError()) + ")");
@@ -1107,7 +1162,8 @@ std::string readFromPipe<std::string>() {
 }
 #define READFROMPIPE(type) readFromPipe<type>()
 
-  void renderToFile(uint64_t endBlock, string outputFile)
+  // endSample: the timeline position (in samples) at which rendering stops.
+  void renderToFile(uint64_t endSample, string outputFile)
   {
     juce::File file(outputFile);
     juce::WavAudioFormat wavFormat;
@@ -1125,18 +1181,31 @@ std::string readFromPipe<std::string>() {
     juce::AudioBuffer<float> buffer(2, samplesPerBlock);
     juce::MidiBuffer midiBuffer;
 
-    // Calculate total samples needed
-    uint64_t totalBlocks = endBlock;
+    // Convert the requested end sample into a whole number of blocks (round up).
+    uint64_t totalBlocks = (endSample + samplesPerBlock - 1) / samplesPerBlock;
+
+    // Start both schedulers from the beginning of the timeline.
+    paramScheduler.reset(0);
+    if (midiScheduler)
+      midiScheduler->reset();
 
     for (uint64_t block = 0; block < totalBlocks; ++block)
     {
         buffer.clear();
         midiBuffer.clear();
 
+        // Align the MIDI scheduler cursor with the timeline so each
+        // MidiSourceNode injects this block's events into its plugin.
         int64_t blockStart = paramScheduler.getTimelineSample();
-        paramScheduler.processBlock(samplesPerBlock);
+        if (midiScheduler)
+          midiScheduler->setCurrentPosition(blockStart);
 
-        midiScheduler->processBlock(midiBuffer, blockStart, samplesPerBlock);
+        paramScheduler.processBlock(samplesPerBlock);
+        // Drive host CC->parameter mappings from scheduled CCs in this block.
+        applyScheduledCcMappings(samplesPerBlock);
+
+        // MIDI is delivered to plugins through their MidiSourceNodes inside the
+        // graph (keyed per plugin); the graph-level midiBuffer stays empty.
         processorGraph->processBlock(buffer, midiBuffer);
         // Write
         if (audioFileWriter)
@@ -1149,11 +1218,22 @@ std::string readFromPipe<std::string>() {
     }
     // Flush and close file
     audioFileWriter.reset();
+
+    // Return the timeline/scheduler cursor to 0 now that playback is over.
+    // MIDI events are scheduled relative to the scheduler's current position
+    // (scheduleNote: startSample = currentSamplePosition + time*sr), so leaving
+    // the cursor at the end would make the *next* batch of scheduled events
+    // land past the following render's window. Resetting here makes every
+    // offline render deterministic: "time t" always means t from playback start.
+    paramScheduler.reset(0);
+    if (midiScheduler)
+      midiScheduler->reset();
+    currentSamplePosition.store(0);
     ////cout << "Offline rendering complete" << endl;
   }
 
   unordered_map<int, juce::AudioProcessorGraph::NodeID> midiSourceNodes;  // key -> MIDI source node
-  unique_ptr<MidiScheduler> midiScheduler;
+  unique_ptr<MidiScheduler> midiScheduler = std::make_unique<MidiScheduler>(44100.0);
   juce::AudioPluginFormatManager formatManager;
   unordered_map<int, juce::AudioProcessorGraph::NodeID> midiRouterNodes;
   juce::AudioProcessorGraph::NodeID audioOutputNode;
@@ -1172,20 +1252,24 @@ std::string readFromPipe<std::string>() {
   // processCommands() removed - now owned by IpcService
   struct paramInfo
   {
-    uint32_t originalIndex;
-    string name; 
-    float minValue; //todo: I'm not really sure which ones of these should be integers.
-    float maxValue;
-    float interval;
-    float skewFactor;
-    float defaultValue;
-    float value;
-    uint32_t numSteps;
-    uint32_t isDiscrete;
-    uint32_t isBoolean;
-    uint32_t isOrientationInverted;
-    uint32_t isAutomatable;
-    uint32_t isMetaParameter;
+    uint32_t originalIndex = 0;
+    string name;
+    // Defaults describe a plain normalised (0..1) parameter. These are used
+    // when a parameter is not a juce::RangedAudioParameter and therefore
+    // exposes no explicit range - without them the fields would be
+    // uninitialised and could serialise as NaN/garbage to the client.
+    float minValue = 0.0f;
+    float maxValue = 1.0f;
+    float interval = 0.0f;
+    float skewFactor = 1.0f;
+    float defaultValue = 0.0f;
+    float value = 0.0f;
+    uint32_t numSteps = 0;
+    uint32_t isDiscrete = 0;
+    uint32_t isBoolean = 0;
+    uint32_t isOrientationInverted = 0;
+    uint32_t isAutomatable = 0;
+    uint32_t isMetaParameter = 0;
   };
 
   struct getParamsInfoR {
@@ -1245,7 +1329,14 @@ std::string readFromPipe<std::string>() {
           bool isValid = true;
           if (paramR.minValue == paramR.maxValue) isValid = false;
           if (paramR.name.find("MIDI") != string::npos) isValid = false;
-          if (paramR.numSteps == INT_MAX) isValid = false;
+          // NOTE: do NOT filter numSteps == INT_MAX. In JUCE a *continuous*
+          // (non-stepped) parameter reports getNumSteps() ==
+          // AudioProcessor::getDefaultNumParameterSteps() == 0x7fffffff ==
+          // INT_MAX. Filtering it dropped every continuous param (cutoff,
+          // level, resonance, ...) and left only discrete switches/enums,
+          // which made hosted synths like Vital look as if they exposed no
+          // automatable knobs. Continuous params are the most useful ones to
+          // automate; report them (isDiscrete is false to distinguish them).
 
           // If you have RangedAudioParameter (more specific type)
           if (auto* rangedParam = dynamic_cast<juce::RangedAudioParameter*>(param)) 
@@ -1544,11 +1635,39 @@ std::string readFromPipe<std::string>() {
 
   void getPluginInfo()
   {
-    int key = READFROMPIPE(uint32_t);
-    auto plugin = availablePlugins[key];
-    WRITEALLC(uint32_t(plugin.desc.isInstrument), uint32_t(plugin.desc.uniqueId), uint32_t(plugin.desc.numInputChannels), uint32_t(plugin.desc.numOutputChannels), plugin.desc.name.toStdString(),
-        plugin.desc.descriptiveName.toStdString(), plugin.desc.pluginFormatName.toStdString(), plugin.desc.category.toStdString(), plugin.desc.manufacturerName.toStdString(), plugin.desc.version.toStdString(),
-        plugin.desc.fileOrIdentifier.toStdString(), plugin.desc.lastFileModTime.toString(true, true).toStdString(), plugin.path);
+    // The client passes the same identifier listPlugins() exposes as
+    // "pluginId": the plugin's uniqueId. Look it up by uniqueId instead of
+    // blindly indexing availablePlugins[key] (which is an unchecked
+    // std::vector::operator[] -> out-of-bounds crash for any id that isn't a
+    // valid array index, e.g. a loaded-plugin key or an actual uniqueId).
+    uint32_t pluginId = READFROMPIPE(uint32_t);
+
+    const availablePlugin* match = nullptr;
+    for (const auto& plugin : availablePlugins)
+    {
+      if (static_cast<uint32_t>(plugin.desc.uniqueId) == pluginId)
+      {
+        match = &plugin;
+        break;
+      }
+    }
+
+    if (match != nullptr)
+    {
+      const auto& plugin = *match;
+      WRITEALLC(uint32_t(plugin.desc.isInstrument), uint32_t(plugin.desc.uniqueId), uint32_t(plugin.desc.numInputChannels), uint32_t(plugin.desc.numOutputChannels), plugin.desc.name.toStdString(),
+          plugin.desc.descriptiveName.toStdString(), plugin.desc.pluginFormatName.toStdString(), plugin.desc.category.toStdString(), plugin.desc.manufacturerName.toStdString(), plugin.desc.version.toStdString(),
+          plugin.desc.fileOrIdentifier.toStdString(), plugin.desc.lastFileModTime.toString(true, true).toStdString(), plugin.path);
+    }
+    else
+    {
+      // Not found: write a well-formed empty record (same field layout) so the
+      // client's fixed-size read never desyncs the pipe. A blank name signals
+      // "unknown plugin id".
+      WRITEALLC(uint32_t(0), pluginId, uint32_t(0), uint32_t(0), std::string(),
+          std::string(), std::string(), std::string(), std::string(), std::string(),
+          std::string(), std::string(), std::string());
+    }
   }
 
   void listBadPaths()
@@ -1635,23 +1754,26 @@ std::string readFromPipe<std::string>() {
       resp.errmsg = "uid not found";
       return resp;
     }
+    // Reached only when the uid WAS found but the plugin failed to instantiate
+    // or the node failed to be added: resp already holds success=false and an
+    // errmsg. Previously the function fell off the end here without returning
+    // (undefined behaviour, MSVC C4715) so a load failure returned garbage.
+    return resp;
   }
-    
+
   struct loadPluginR {uint32_t success = false; string errmsg; string name; uint32_t uid = -3;}; //todo: change uint to int for key in pipe communication
 
   loadPluginR loadPlugin(const string& path, int key)
   {
     loadPluginR resp;
 
-    // Acquire lock to run on message thread
-    const juce::MessageManagerLock mml;
-
-    // Check if we got the lock
-    if (!mml.lockWasGained()) {
-      resp.success = false;
-      resp.errmsg = "Could not acquire message manager lock";
-      return resp;
-    }
+    // NOTE: do NOT take a MessageManagerLock here. Commands are processed on a
+    // background IPC thread; the synchronous formatManager.createPluginInstance
+    // below dispatches plugin construction to the message thread and blocks
+    // until it completes. Holding the MML would prevent the message thread from
+    // ever running that work -> deadlock (the whole server hangs on the first
+    // load-by-path). loadPluginByUid takes no lock and works fine, so this
+    // path must match it.
 
     juce::OwnedArray<juce::PluginDescription> descriptions;
 
@@ -1678,6 +1800,9 @@ std::string readFromPipe<std::string>() {
 
       if (instance)
       {
+        if (realtime)
+          instance->addListener(&paramListener);
+
         auto* rawPointer = instance.release();
         auto node = processorGraph->addNode(
           unique_ptr<juce::AudioProcessor>(rawPointer)
@@ -1687,6 +1812,24 @@ std::string readFromPipe<std::string>() {
         {
           loadedPlugins[key] = node->nodeID;
           processorToKey[rawPointer] = key;  // Track reverse mapping
+
+          // Create a MIDI source node for this plugin and connect it, so a
+          // plugin loaded by path can receive scheduled MIDI exactly like one
+          // loaded by uid (loadPluginByUid does the same). Without this a
+          // by-path plugin would be silent to the scheduler.
+          if (midiScheduler)
+          {
+            auto midiSource = std::make_unique<MidiSourceNode>(midiScheduler.get(), key);
+            auto sourceNode = processorGraph->addNode(std::move(midiSource));
+            if (sourceNode)
+            {
+              midiSourceNodes[key] = sourceNode->nodeID;
+              processorGraph->addConnection({
+                {sourceNode->nodeID, juce::AudioProcessorGraph::midiChannelIndex},
+                {node->nodeID, juce::AudioProcessorGraph::midiChannelIndex}
+                });
+            }
+          }
 
           resp.success = true;
           resp.name = desc.name.toStdString();
@@ -1901,7 +2044,7 @@ std::string readFromPipe<std::string>() {
     return resp;
   }
 
-  struct getParameterR {uint32_t success; float value; string errmsg;};
+  struct getParameterR {uint32_t success = 0; float value = 0.0f; string errmsg;};
   getParameterR getParameter(int id, int paramIndex)
   {
     getParameterR resp;
@@ -1934,17 +2077,37 @@ std::string readFromPipe<std::string>() {
     return resp;
   }
 
+  // Resolve a connection id to a graph NodeID. An id may refer either to a
+  // loaded plugin (loadedPlugins) or to an audio-file-player node
+  // (audioFilePlayerNodes). Player ids live in a distinct high range
+  // (see nextAudioPlayerId) so the two id spaces never collide. Returns false
+  // if the id matches neither map.
+  bool resolveNodeId(int id, juce::AudioProcessorGraph::NodeID& out)
+  {
+    auto pluginIt = loadedPlugins.find(id);
+    if (pluginIt != loadedPlugins.end())
+    {
+      out = pluginIt->second;
+      return true;
+    }
+    auto playerIt = audioFilePlayerNodes.find(id);
+    if (playerIt != audioFilePlayerNodes.end())
+    {
+      out = playerIt->second;
+      return true;
+    }
+    return false;
+  }
+
   uint32_t connectAudio(const int sourceId, int sourceChannel,
     const int destId, int destChannel)
   {
-
-    auto sourceIt = loadedPlugins.find(sourceId);
-    auto destIt = loadedPlugins.find(destId);
-    if (sourceIt != loadedPlugins.end() && destIt != loadedPlugins.end())
+    juce::AudioProcessorGraph::NodeID sourceNode, destNode;
+    if (resolveNodeId(sourceId, sourceNode) && resolveNodeId(destId, destNode))
     {
       processorGraph->addConnection({
-        {sourceIt->second, sourceChannel},
-        {destIt->second, destChannel}
+        {sourceNode, sourceChannel},
+        {destNode, destChannel}
         });
       return true;
     }
@@ -1953,14 +2116,12 @@ std::string readFromPipe<std::string>() {
 
   uint32_t connectMidi(int sourceId, int destId)
   {
-    auto sourceIt = loadedPlugins.find(sourceId);
-    auto destIt = loadedPlugins.find(destId);
-
-    if (sourceIt != loadedPlugins.end() && destIt != loadedPlugins.end())
+    juce::AudioProcessorGraph::NodeID sourceNode, destNode;
+    if (resolveNodeId(sourceId, sourceNode) && resolveNodeId(destId, destNode))
     {
       processorGraph->addConnection({
-        {sourceIt->second, juce::AudioProcessorGraph::midiChannelIndex},
-        {destIt->second, juce::AudioProcessorGraph::midiChannelIndex}
+        {sourceNode, juce::AudioProcessorGraph::midiChannelIndex},
+        {destNode, juce::AudioProcessorGraph::midiChannelIndex}
         });
       return true;
     }
@@ -1973,12 +2134,20 @@ std::string readFromPipe<std::string>() {
     if (!audioInitialized) 
     {
       // Initialize audio system on first playback
-      if (toFile) 
+      if (toFile)
       {
-        // No hardware needed for file rendering
-        processorGraph->prepareToPlay(sampleRate, blockSize);
+        // No hardware needed for file rendering.
+        // The graph must be told it has a stereo main bus, otherwise the
+        // AudioGraphIOProcessor output node has 0 channels and renders silence.
+        // (In real-time this is done for us by AudioProcessorPlayer.)
         setupAudioIO();
-        midiScheduler = std::make_unique<MidiScheduler>(sampleRate);
+        processorGraph->setPlayConfigDetails(2, 2, sampleRate, blockSize);
+        processorGraph->setNonRealtime(true);
+        processorGraph->prepareToPlay(sampleRate, blockSize);
+        // Keep the existing scheduler (it holds the scheduled notes and is
+        // referenced by every MidiSourceNode); just sync its sample rate.
+        if (midiScheduler)
+          midiScheduler->setSampleRate(sampleRate);
       }
       else 
       {
@@ -2010,7 +2179,10 @@ std::string readFromPipe<std::string>() {
         blockSize = (int) setup.bufferSize;
 
         setupAudioIO();
-        midiScheduler = std::make_unique<MidiScheduler>(setup.sampleRate);
+        // Keep the existing scheduler (it holds the scheduled notes and is
+        // referenced by every MidiSourceNode); just sync its sample rate.
+        if (midiScheduler)
+          midiScheduler->setSampleRate(setup.sampleRate);
       }
       audioInitialized = true;
     }
@@ -2022,6 +2194,12 @@ std::string readFromPipe<std::string>() {
     }
     else
     {
+      // Start the timeline (and MIDI cursor) from the beginning so scheduled
+      // notes/automation play from t=0.
+      paramScheduler.reset(0);
+      if (midiScheduler)
+        midiScheduler->reset();
+
       isPlaying = true;
       playbackEndSample = endBlock;
 
@@ -2041,6 +2219,14 @@ std::string readFromPipe<std::string>() {
     {
       isPlaying = false;
       orderedPlaybackActive = false;
+
+      // Return the cursor to 0 so the next batch of scheduled MIDI (which is
+      // scheduled relative to the scheduler's current position) plays from the
+      // start of the next playback. setCurrentPosition is lock-free, so this is
+      // safe even when stopPlayback is reached from the audio thread.
+      if (midiScheduler)
+        midiScheduler->setCurrentPosition(0);
+      currentSamplePosition.store(0);
 
       // Send stop_playback notification to Python
       if (ipc_ && ipc_->isNotificationReady())
@@ -2081,27 +2267,70 @@ std::string readFromPipe<std::string>() {
     processorGraph->clear();
   }
 
+public:
+  // Flush the buffered response to the pipe with a success status byte.
+  void flushResponseBuffer()
+  {
+    uint8_t status = 0x00;  // success
+    write4c(&status, 1);
+    if (!responseBuffer_.empty())
+      write4c(responseBuffer_.data(), (int)responseBuffer_.size());
+  }
+
+  // Send an error frame: 0xFF status byte + error message string.
+  void writeErrorResponse(const string& msg)
+  {
+    uint8_t status = 0xFF;  // error
+    write4c(&status, 1);
+    // Write error message as length-prefixed string
+    int l1 = static_cast<int>(msg.length());
+    write4c(&l1, 4);
+    if (l1 > 0)
+      write4c((void*)msg.c_str(), l1);
+  }
+
   void processCommand(char command)
   {
     auto commandtype = (recv_cmd)command;
-    // Command dispatch table (replaces the large switch).
-const auto idx = static_cast<size_t>(commandtype);
-const auto& tbl = commandHandlers();
-if (idx < tbl.size() && tbl[idx] != nullptr)
-{
-  (this->*tbl[idx])();
-  return;
-}
-// Unknown/unhandled command: ignore safely.
-
+    const auto idx = static_cast<size_t>(commandtype);
+    const auto& tbl = commandHandlers();
+    if (idx < tbl.size() && tbl[idx] != nullptr)
+    {
+      // Buffer the response so we can discard it on error
+      bufferingResponse_ = true;
+      responseBuffer_.clear();
+      try
+      {
+        (this->*tbl[idx])();
+        bufferingResponse_ = false;
+        flushResponseBuffer();
+      }
+      catch (const std::exception& e)
+      {
+        bufferingResponse_ = false;
+        responseBuffer_.clear();
+        std::cerr << "Command " << (int)command << " error: " << e.what() << std::endl;
+        writeErrorResponse(std::string("Command ") + std::to_string((int)command) + " error: " + e.what());
+      }
+      catch (...)
+      {
+        bufferingResponse_ = false;
+        responseBuffer_.clear();
+        std::cerr << "Command " << (int)command << " unknown error" << std::endl;
+        writeErrorResponse(std::string("Command ") + std::to_string((int)command) + " unknown error");
+      }
+      return;
+    }
+    // Unknown/unhandled command: send error
+    writeErrorResponse(std::string("Unknown command: ") + std::to_string((int)command));
   }
 
   // --- Command dispatcher helpers ---
   using CommandHandler = void (PluginHostService::*)();
 
-static const std::array<CommandHandler, static_cast<size_t>(stop_playback_cmd) + 1>& commandHandlers()
+static const std::array<CommandHandler, static_cast<size_t>(schedule_pitch_bend) + 1>& commandHandlers()
 {
-  static const std::array<CommandHandler, static_cast<size_t>(stop_playback_cmd) + 1> tbl = {
+  static const std::array<CommandHandler, static_cast<size_t>(schedule_pitch_bend) + 1> tbl = {
     &PluginHostService::cmd_load_plugin,         // 0: load_plugin
     &PluginHostService::cmd_load_plugin_by_uid,  // 1: load_plugin_by_uid
     &PluginHostService::cmd_scan_plugins,         // 2: scan_plugins
@@ -2143,6 +2372,9 @@ static const std::array<CommandHandler, static_cast<size_t>(stop_playback_cmd) +
     &PluginHostService::cmd_clear_param_schedule, // clear_param_schedule
     &PluginHostService::cmd_clear_all_plugins, // clear_all_plugins
     &PluginHostService::cmd_stop_playback_cmd, // stop_playback_cmd
+    &PluginHostService::cmd_get_plugin_state, // get_plugin_state
+    &PluginHostService::cmd_set_plugin_state, // set_plugin_state
+    &PluginHostService::cmd_schedule_pitch_bend, // schedule_pitch_bend
   };
   return tbl;
 }
@@ -2159,6 +2391,7 @@ static const std::array<CommandHandler, static_cast<size_t>(stop_playback_cmd) +
   void cmd_remove_plugin()
   {
     removePlugin(READFROMPIPE(uint32_t));
+    WRITEALLC(uint32_t(1));
   }
 
   void cmd_load_plugin_by_uid()
@@ -2203,32 +2436,85 @@ static const std::array<CommandHandler, static_cast<size_t>(stop_playback_cmd) +
 
   void cmd_set_parameter()
   {
-    //probably won't be used.
-          {
-            auto response = setParameter(READFROMPIPE(uint32_t), READFROMPIPE(uint32_t), READFROMPIPE(float));
-            WRITEALLC(response.success, response.errmsg);
-          }
+    uint32_t key = READFROMPIPE(uint32_t);
+    uint32_t paramIdx = READFROMPIPE(uint32_t);
+    float value = READFROMPIPE(float);
+    auto response = setParameter(key, paramIdx, value);
+    WRITEALLC(response.success);
+    if (!response.success)
+      WRITEALLC(response.errmsg);
   }
 
   void cmd_get_parameter()
   {
-    //probably won't be used.
-          {
-            auto response = getParameter(READFROMPIPE(uint32_t), READFROMPIPE(uint32_t));
-            WRITEALLC(response.success, response.value, response.errmsg);
-            if(response.success) WRITEALLC(response.value);
-            else WRITEALLC(response.errmsg);
-          }
+    uint32_t key = READFROMPIPE(uint32_t);
+    uint32_t paramIdx = READFROMPIPE(uint32_t);
+    auto response = getParameter(key, paramIdx);
+    WRITEALLC(response.success);
+    WRITEALLC(response.value);
+  }
+
+  // Return the plugin's opaque state blob (getStateInformation) as a
+  // length-prefixed binary string. success flag first, then the blob (empty
+  // on failure). Lets a client save/restore a full patch — including routing
+  // that isn't exposed as host-automatable params (e.g. Vital's mod matrix).
+  void cmd_get_plugin_state()
+  {
+    uint32_t key = READFROMPIPE(uint32_t);
+    std::string blob;
+    bool success = false;
+
+    auto it = loadedPlugins.find(key);
+    if (it != loadedPlugins.end())
+    {
+      auto node = processorGraph->getNodeForId(it->second);
+      if (node && node->getProcessor())
+      {
+        juce::MemoryBlock mem;
+        node->getProcessor()->getStateInformation(mem);
+        blob.assign(static_cast<const char*>(mem.getData()), mem.getSize());
+        success = true;
+      }
+    }
+    WRITEALLC(uint32_t(success ? 1 : 0), blob);
+  }
+
+  // Restore a plugin's state from a blob previously produced by
+  // cmd_get_plugin_state (setStateInformation). Replies with a success flag.
+  void cmd_set_plugin_state()
+  {
+    uint32_t key = READFROMPIPE(uint32_t);
+    std::string blob = READFROMPIPE(string);
+    bool success = false;
+
+    auto it = loadedPlugins.find(key);
+    if (it != loadedPlugins.end())
+    {
+      auto node = processorGraph->getNodeForId(it->second);
+      if (node && node->getProcessor() && !blob.empty())
+      {
+        node->getProcessor()->setStateInformation(blob.data(),
+                                                  static_cast<int>(blob.size()));
+        success = true;
+      }
+    }
+    WRITEALLC(uint32_t(success ? 1 : 0));
   }
 
   void cmd_connect_audio()
   {
-    WRITEALLC(connectAudio(READFROMPIPE(uint32_t), READFROMPIPE(uint32_t), READFROMPIPE(uint32_t), READFROMPIPE(uint32_t)));
+    int32_t sourceId = READFROMPIPE(int32_t);
+    int32_t sourceCh = READFROMPIPE(int32_t);
+    int32_t destId   = READFROMPIPE(int32_t);
+    int32_t destCh   = READFROMPIPE(int32_t);
+    WRITEALLC(connectAudio(sourceId, sourceCh, destId, destCh));
   }
 
   void cmd_connect_midi()
   {
-    WRITEALLC(connectMidi(READFROMPIPE(uint32_t), READFROMPIPE(uint32_t)));
+    int32_t sourceId = READFROMPIPE(int32_t);
+    int32_t destId   = READFROMPIPE(int32_t);
+    WRITEALLC(connectMidi(sourceId, destId));
   }
 
   void cmd_start_playback()
@@ -2337,6 +2623,19 @@ static const std::array<CommandHandler, static_cast<size_t>(stop_playback_cmd) +
     double time = READFROMPIPE(double);
     int channel = READFROMPIPE(uint32_t);
     midiScheduler->scheduleCC(key, controller, value, time, channel);
+  }
+
+  // Schedule a 14-bit pitch-bend event (value 0..16383, centre 8192). Pitch
+  // bend is handled natively by every instrument, so it is a clean vehicle for
+  // continuous per-note modulation (e.g. vibrato) without needing a
+  // host-exposed continuous parameter.
+  void cmd_schedule_pitch_bend()
+  {
+    int key = READFROMPIPE(uint32_t);
+    int value = READFROMPIPE(uint32_t);
+    double time = READFROMPIPE(double);
+    int channel = READFROMPIPE(uint32_t);
+    midiScheduler->schedulePitchBend(key, value, time, channel);
   }
 
   void cmd_clear_midi_schedule()
@@ -2638,12 +2937,13 @@ static const std::array<CommandHandler, static_cast<size_t>(stop_playback_cmd) +
   void cmd_clear_all_plugins()
   {
     clearAllPlugins();
+    WRITEALLC(uint32_t(1));
   }
 
   void cmd_stop_playback_cmd()
   {
     stopPlayback();
-    WRITEALLC(uint32_t, 1); // success
+    WRITEALLC(uint32_t(1)); // success
   }
 
   // --- End command dispatcher helpers ---
@@ -2845,7 +3145,11 @@ private:
 
   // Audio file playback (using processor graph nodes)
   unordered_map<int, juce::AudioProcessorGraph::NodeID> audioFilePlayerNodes;  // player ID -> node ID
-  int nextAudioPlayerId = 0;
+  // Audio-file-player ids live in a distinct high range so they never collide
+  // with user-supplied plugin keys (small ints) or the IO node ids (-1/-2).
+  // This lets connectAudio/connectMidi resolve either node type unambiguously
+  // via resolveNodeId().
+  int nextAudioPlayerId = 1000000;
 
   // Ordered note playback - triggered by any MIDI keyboard key press
   struct OrderedNote

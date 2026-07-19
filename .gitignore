@@ -1,0 +1,27 @@
+# Build output
+build/
+cmake-build-*/
+out/
+bin/
+*.exe
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+env/
+
+# IDE
+.vs/
+.idea/
+.vscode/
+
+# Render / debug artifacts
+*.wav
+debug_log.txt
+build_errors.txt
+*_debug.txt
+ipc_error.txt
+
+# Machine-specific plugin scan cache
+badpaths.json

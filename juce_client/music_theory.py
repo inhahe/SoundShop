@@ -12,7 +12,7 @@ noteoro_re = re.compile(r"([a-zA-Z](?:♯|♯♯|♭|♭♭|#|##|b|bb|)(?:-1|[0-
 letters = "CDEFGAB"
 intervals = [2, 2, 1, 2, 2, 2, 1]
 start_dict = {
-    'A': '', 'Ab': 'b', 'B': '', 'Bb': 'b', 'C#': '#', 'Cb': 'b',
+    'A': '', 'Ab': 'b', 'B': '', 'Bb': 'b', 'C': '', 'C#': '#', 'Cb': 'b',
     'D': '', 'D#': '#', 'Db': 'b', 'E': '', 'Eb': 'b', "F#": '#',
     'F': '', 'G': '', 'Gb': 'b',
 }
@@ -182,8 +182,19 @@ class Note:
         if note is None:
             if key is None or degree is None:
                 raise ValueError("Can't infer note because key and/or degree isn't set")
-            self.midi = key_tables[convert_accidental(key, False)][mode][degree] + self.octave * 4
-            self.letter = Note(self.midi, key=key, mode=mode).letter
+            keyname = convert_accidental(key, False)
+            m = modes_dict[mode] if isinstance(mode, str) else mode
+            # build_table gives the scale's pitch classes in degree order;
+            # place the requested degree in the requested octave (C4 == 60).
+            pitch_class = build_table(keyname, m)[degree]
+            self.midi = pitch_class + (self.octave + 1) * 12
+            # Spell the note (letter/accidental) using the key's note table.
+            key_modes = key_tables.get(keyname)
+            if key_modes is not None:
+                spelled = key_modes[m].get(pitch_class)
+                if spelled is not None:
+                    self.letter = spelled.letter
+                    self.accidental = spelled.accidental
 
         if self.letter is not None:
             self.note = self.letter + self.accidental + str(self.octave)
@@ -259,7 +270,11 @@ def merge_notes(*notess):
 
 
 def make_tables():
-    semi = -2
+    # Start one semitone lower than the letter grid so C naturals land on
+    # multiples of 12 (C-1=0, C4=60). This also aligns the octave-label
+    # formula (semi-12)//12, which is designed to increment at C, matching
+    # scientific pitch notation (the octave number changes between B and C).
+    semi = -3
     i = -2
     while semi < 129:
         interval = intervals[i % 7]
@@ -404,8 +419,9 @@ def change_key(notes, key1=None, mode1=None, key2=None, mode2=None):
         key2 = key2.letter + key2.accidental
     semis2 = []
     if key1 is not None:
-        table1 = key_tables[key1][mode1]
-        table2 = key_tables[key2][mode2]
+        # Degree-ordered pitch classes for each key/mode (0..11).
+        table1 = build_table(key1, mode1 or 0)
+        table2 = build_table(key2, mode2 or 0)
         for note in notes:
             if isinstance(note, Note):
                 semi = note.midi

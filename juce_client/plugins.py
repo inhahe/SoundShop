@@ -171,8 +171,7 @@ class PluginAPI:
         self.sendinfo("I", int(pluginId))
         self.commands_pipe_handle_flush()
         success = int(self.readinfo1c("I"))
-        errmsg = self.readstr1()
-        return success, errmsg
+        return success, ""
 
     def setparameter(self, pluginKey: int, parameterIndex: int, value: float):
         self.sendcmd(send_cmd.set_parameter)

@@ -56,7 +56,9 @@ enum recv_cmd
   load_audio_file, control_audio_playback,
   schedule_ordered_notes, start_ordered_playback, stop_ordered_playback, clear_ordered_notes,
   clear_midi_cc_schedule, clear_param_schedule, clear_all_plugins,
-  stop_playback_cmd
+  stop_playback_cmd,
+  get_plugin_state, set_plugin_state,
+  schedule_pitch_bend
 };
 
 enum send_cmd : uint8_t
@@ -66,5 +68,6 @@ enum send_cmd : uint8_t
   midi_keyboard_routed, virtual_keyboard_routed,
   recording_started, recording_stopped, monitoring_changed,
   audio_file_loaded, audio_playback_started, audio_playback_stopped,
-  ordered_note_triggered, ordered_playback_started, ordered_playback_stopped
+  ordered_note_triggered, ordered_playback_started, ordered_playback_stopped,
+  server_error
 };

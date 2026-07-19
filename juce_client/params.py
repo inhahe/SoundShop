@@ -20,10 +20,12 @@ class ParamAutomationAPI:
 
     def scheduleparamchanges(self, changes: Iterable[Tuple[int, int, float, int]], *, epsilon: float = 0.0):
         changes2 = coalesce_param_changes(list(changes), epsilon=epsilon)
+        count = 0
         for pluginKey, parameterIndex, value, atSample in changes2:
             self.sendcmd(send_cmd.schedule_param_change)
             self.sendinfo("IIfQ", int(pluginKey), int(parameterIndex), float(value), int(atSample))
-        self.commands_pipe_handle_flush()
+            count += 1
+        self._flush_and_check_n(count)
 
     def clearparamschedule(self):
         self.sendcmd(send_cmd.clear_param_schedule)

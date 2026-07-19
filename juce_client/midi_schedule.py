@@ -14,10 +14,12 @@ class MidiScheduleAPI:
 
     def schedulemidinotes(self, notes):
         """Schedule multiple MIDI notes. Each entry is (pluginId, note, velocity, startTime, duration, channel)."""
+        count = 0
         for pluginId, note, velocity, startTime, duration, channel in notes:
             self.sendcmd(send_cmd.schedule_midi_note)
             self.sendinfo("IIfddI", int(pluginId), int(note), float(velocity), float(startTime), float(duration), int(channel))
-        self.commands_pipe_handle_flush()
+            count += 1
+        self._flush_and_check_n(count)
 
     def schedulemidicc(self, pluginId: int, controller: int, value: int, time_s: float, channel: int):
         self.sendcmd(send_cmd.schedule_midi_cc)
@@ -25,10 +27,27 @@ class MidiScheduleAPI:
         self.commands_pipe_handle_flush()
 
     def schedulemidiccs(self, ccs: Iterable[Tuple[int, int, int, float, int]]):
+        count = 0
         for key, controller, value, time_s, ch in ccs:
             self.sendcmd(send_cmd.schedule_midi_cc)
             self.sendinfo("IIIdI", int(key), int(controller), int(value), float(time_s), int(ch))
+            count += 1
+        self._flush_and_check_n(count)
+
+    def schedulepitchbend(self, pluginId: int, value: int, time_s: float, channel: int = 1):
+        """Schedule a 14-bit pitch-bend (value 0..16383, centre 8192)."""
+        self.sendcmd(send_cmd.schedule_pitch_bend)
+        self.sendinfo("IIdI", int(pluginId), int(value), float(time_s), int(channel))
         self.commands_pipe_handle_flush()
+
+    def schedulepitchbends(self, bends: Iterable[Tuple[int, int, float, int]]):
+        """Schedule multiple pitch-bends. Each entry is (pluginId, value, time_s, channel)."""
+        count = 0
+        for key, value, time_s, ch in bends:
+            self.sendcmd(send_cmd.schedule_pitch_bend)
+            self.sendinfo("IIdI", int(key), int(value), float(time_s), int(ch))
+            count += 1
+        self._flush_and_check_n(count)
 
     def clearmidischedule(self):
         self.sendcmd(send_cmd.clear_midi_schedule)

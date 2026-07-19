@@ -138,6 +138,30 @@ public:
     }
   }
 
+  // Invoke fn(key, controller, value, channel) for every controller (CC)
+  // event scheduled within the current block window
+  // [currentSamplePosition, currentSamplePosition + blockSize). Unlike
+  // getEventsForPlugin this does not depend on / advance nextEventIndex and
+  // does not consume events, so it can run alongside the per-plugin
+  // MidiSourceNode reads. Used by the host to apply CC->parameter mappings to
+  // scheduled CCs, mirroring the live-input path.
+  template <typename Fn>
+  void forEachCcInBlock(int blockSize, Fn&& fn)
+  {
+    const int64_t blockStart = currentSamplePosition;
+    const int64_t blockEnd = blockStart + blockSize;
+    for (size_t i = 0; i < scheduledEvents.size(); ++i)
+    {
+      const auto& e = scheduledEvents[i];
+      if (e.samplePosition >= blockEnd) break;  // sorted by samplePosition
+      if (e.samplePosition >= blockStart && e.message.isController())
+        fn(e.key,
+           e.message.getControllerNumber(),
+           e.message.getControllerValue(),
+           e.message.getChannel());
+    }
+  }
+
   void clearSchedule()
   {
     std::lock_guard<std::mutex> lock(schedulerMutex);
@@ -166,10 +190,18 @@ public:
     nextEventIndex = 0;
   }
 
-  void setSampleRate(double sr) 
+  void setSampleRate(double sr)
   {
     std::lock_guard<std::mutex> lock(schedulerMutex);
     sampleRate = sr;
+  }
+
+  // Set the scheduler's playback cursor to an absolute sample position.
+  // MidiSourceNode::processBlock reads events relative to this position, so the
+  // host must advance it (once per audio block) from the authoritative timeline.
+  void setCurrentPosition(int64_t pos)
+  {
+    currentSamplePosition = pos;
   }
 
   void cleanupProcessedEvents() 

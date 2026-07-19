@@ -153,84 +153,24 @@ bool IpcService::writeNotification(const void* src, size_t n)
 #endif
 }
 
-#ifdef _WIN32
-// SEH wrapper — no C++ objects with destructors allowed here
-static int processCommandSEH(PluginHostService& host, char cmd)
-{
-    __try
-    {
-        host.processCommand(cmd);
-        return 0;
-    }
-    __except(EXCEPTION_EXECUTE_HANDLER)
-    {
-        return (int)GetExceptionCode();
-    }
-}
-#endif
-
 void IpcService::commandLoop()
 {
-    while (running_)
+    try
     {
-        try
+        acceptConnectionsIfNeeded();
+
+        while (running_)
         {
-            acceptConnectionsIfNeeded();
+            char cmd = 0;
+            if (!readCommandExact(&cmd, 1))
+                break;
 
-            while (running_)
-            {
-                char cmd = 0;
-                if (!readCommandExact(&cmd, 1))
-                    break;  // client disconnected
-
-#ifdef _WIN32
-                int sehResult = processCommandSEH(host_, cmd);
-                if (sehResult != 0)
-                {
-                    std::cerr << "SEH exception processing command " << (int)cmd
-                              << ", code=0x" << std::hex << sehResult << std::dec << std::endl;
-                    {
-                        std::ofstream errlog("ipc_error.txt", std::ios::app);
-                        errlog << "SEH exception in processCommand(cmd=" << (int)cmd
-                               << ") code=0x" << std::hex << sehResult << std::dec << std::endl;
-                    }
-                    break;  // break out of command loop on crash
-                }
-#else
-                host_.processCommand(cmd);
-#endif
-            }
-
-            // Client disconnected — shut down the server
-            std::cerr << "Client disconnected, shutting down server." << std::endl;
-            running_ = false;
-#ifdef _WIN32
-            if (hCommandPipe_ != INVALID_HANDLE_VALUE)
-                DisconnectNamedPipe(hCommandPipe_);
-            if (hNotificationPipe_ != INVALID_HANDLE_VALUE)
-                DisconnectNamedPipe(hNotificationPipe_);
-            connected_ = false;
-#endif
-            // Quit the JUCE message loop so the process exits
-            juce::MessageManager::callAsync([]() {
-                juce::JUCEApplicationBase::quit();
-            });
+            host_.processCommand(cmd);
         }
-        catch (const std::exception& e)
-        {
-            std::cerr << "Command error: " << e.what() << std::endl;
-            running_ = false;
-#ifdef _WIN32
-            if (hCommandPipe_ != INVALID_HANDLE_VALUE)
-                DisconnectNamedPipe(hCommandPipe_);
-            if (hNotificationPipe_ != INVALID_HANDLE_VALUE)
-                DisconnectNamedPipe(hNotificationPipe_);
-            connected_ = false;
-#endif
-            juce::MessageManager::callAsync([]() {
-                juce::JUCEApplicationBase::quit();
-            });
-        }
+    }
+    catch (...)
+    {
+        // swallow; host will shut down
     }
     running_ = false;
 }
