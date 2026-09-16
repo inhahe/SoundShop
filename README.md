@@ -107,3 +107,15 @@ manual/cross-platform builds.
 
 VST3 on all platforms; AU on macOS; LV2/LADSPA on Linux. Primary/tested platform
 is Windows. Default sample rate 44100 Hz, block size 64 samples.
+
+
+## License
+
+The code in this repository is MIT licensed - see [LICENSE](LICENSE).
+
+**Distributing binaries is a separate question.** This project links JUCE,
+which is offered under either the GPL or a paid commercial licence. The MIT
+grant above covers *this* source code; it does not and cannot relicense JUCE.
+If you distribute a compiled build, that combined work must satisfy JUCE's
+terms - in practice either releasing the binary under the GPL, or holding a
+JUCE commercial licence. Building it yourself for your own use is unaffected.
