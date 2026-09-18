@@ -25,3 +25,32 @@ ipc_error.txt
 
 # Machine-specific plugin scan cache
 badpaths.json
+
+# Local-only. We publish straight from this directory now instead of copying a
+# subset into D:\github.
+CLAUDE.md
+copy_to_github.bat
+todo.txt
+todo2.txt
+morefeatures.txt
+soundshop-vs-soundshop2-capabilities.md
+badpaths.json
+# Build output, venv and run artefacts
+build/
+out/
+env/
+.venv/
+.idea/
+cmake-build-debug-visual-studio/
+__pycache__/
+*.pyc
+*.exe
+*.wav
+build_errors.txt
+debug_log.txt
+ipc_error.txt
+midi_debug.txt
+render_debug.txt
+
+# Claude Code local settings (machine-specific permissions)
+.claude/
